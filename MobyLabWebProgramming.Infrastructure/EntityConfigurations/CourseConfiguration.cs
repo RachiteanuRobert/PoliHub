@@ -16,24 +16,6 @@ public class CourseConfiguration : IEntityTypeConfiguration<Course>
         builder.Property(e => e.Id) // This specifies which property is configured.
             .IsRequired(); // Here it is specified if the property is required, meaning it cannot be null in the database.
         builder.HasKey(x => x.Id); // Here it is specifies that the property Id is the primary key.
-        builder.Property(e => e.Name)
-            .HasMaxLength(255) // This specifies the maximum length for varchar type in the database.
-            .IsRequired();
-        builder.Property(e => e.Year)
-            .HasMaxLength(5)
-            .IsRequired();
-        builder.Property(e => e.Professor)
-            .HasMaxLength(255)
-            .IsRequired();
-        builder.Property(e => e.Department)
-            .HasMaxLength(255)
-            .IsRequired();
-        builder.Property(e => e.CreditsNo)
-            .HasMaxLength(5)
-            .IsRequired();
-        builder.Property(e => e.Description)
-            .HasMaxLength(4095)
-            .IsRequired(false); // This specifies that this column can be null in the database.
         builder.Property(e => e.StartTime)
             .HasMaxLength(255)
             .IsRequired();
@@ -47,5 +29,9 @@ public class CourseConfiguration : IEntityTypeConfiguration<Course>
             .IsRequired();
         builder.Property(e => e.UpdatedAt)
             .IsRequired();
+
+        builder.HasMany(e => e.Students)
+            .WithMany(l => l.Courses)
+            .UsingEntity(j => j.ToTable("CourseStudents"));
     }
 }

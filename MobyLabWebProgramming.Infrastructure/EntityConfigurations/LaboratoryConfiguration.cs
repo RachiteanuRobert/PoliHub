@@ -16,24 +16,6 @@ public class LaboratoryConfiguration : IEntityTypeConfiguration<Laboratory>
         builder.Property(e => e.Id) // This specifies which property is configured.
             .IsRequired(); // Here it is specified if the property is required, meaning it cannot be null in the database.
         builder.HasKey(x => x.Id); // Here it is specifies that the property Id is the primary key.
-        builder.Property(e => e.Name)
-            .HasMaxLength(255) // This specifies the maximum length for varchar type in the database.
-            .IsRequired();
-        builder.Property(e => e.Year)
-            .HasMaxLength(5)
-            .IsRequired();
-        builder.Property(e => e.Professor)
-            .HasMaxLength(255)
-            .IsRequired();
-        builder.Property(e => e.Department)
-            .HasMaxLength(255)
-            .IsRequired();
-        builder.Property(e => e.CreditsNo)
-            .HasMaxLength(5)
-            .IsRequired();
-        builder.Property(e => e.Description)
-            .HasMaxLength(4095)
-            .IsRequired(false); // This specifies that this column can be null in the database.
         builder.Property(e => e.StartTime)
             .HasMaxLength(255)
             .IsRequired();
@@ -53,9 +35,13 @@ public class LaboratoryConfiguration : IEntityTypeConfiguration<Laboratory>
 
         builder.HasOne(e => e.Subject) // This specifies a one-to-many relation.
             .WithMany(e => e.Laboratories) // This provides the reverse mapping for the one-to-many relation. 
-            .HasForeignKey(e => e.LaboratoryId) // Here the foreign key column is specified.
+            .HasForeignKey(e => e.SubjectId) // Here the foreign key column is specified.
             .HasPrincipalKey(e => e.Id) // This specifies the referenced key in the referenced table.
             .IsRequired()
             .OnDelete(DeleteBehavior.NoAction); // This specifies the delete behavior when the referenced entity is removed.
+
+        builder.HasMany(e => e.Students)
+            .WithMany(l => l.Laboratories)
+            .UsingEntity(j => j.ToTable("LaboratoriesStudents"));
     }
 }

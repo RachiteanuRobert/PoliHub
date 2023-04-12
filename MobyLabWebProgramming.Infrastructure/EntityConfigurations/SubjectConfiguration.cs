@@ -13,7 +13,7 @@ public class SubjectConfiguration : IEntityTypeConfiguration<Subject>
     {
         builder.Property(e => e.Id)
             .IsRequired();
-        builder.HasKey(x => x.Id);          // ??to be changed
+        builder.HasKey(x => x.Id);         
         builder.Property(e => e.Name)
             .HasMaxLength(255)
             .IsRequired();
@@ -35,6 +35,11 @@ public class SubjectConfiguration : IEntityTypeConfiguration<Subject>
         builder.Property(e => e.CreatedAt)
             .IsRequired();
         builder.Property(e => e.UpdatedAt)
+            .IsRequired();
+
+        builder.HasOne(e => e.Course)
+            .WithOne(s => s.Subject)
+            .HasForeignKey<Course>(s => s.SubjectId)
             .IsRequired();
 
         /*

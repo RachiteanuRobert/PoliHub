@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\F\\A4\\S2\\PWeb\\dotnetbackend-main\\MobyLabWebProgramming.Core\\MobyLabWebProgramming.Core.csproj": {}
+    "D:\\F\\A4\\S2\\PWeb\\PoliHub\\MobyLabWebProgramming.Core\\MobyLabWebProgramming.Core.csproj": {}
   },
   "projects": {
-    "D:\\F\\A4\\S2\\PWeb\\dotnetbackend-main\\MobyLabWebProgramming.Core\\MobyLabWebProgramming.Core.csproj": {
+    "D:\\F\\A4\\S2\\PWeb\\PoliHub\\MobyLabWebProgramming.Core\\MobyLabWebProgramming.Core.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\F\\A4\\S2\\PWeb\\dotnetbackend-main\\MobyLabWebProgramming.Core\\MobyLabWebProgramming.Core.csproj",
+        "projectUniqueName": "D:\\F\\A4\\S2\\PWeb\\PoliHub\\MobyLabWebProgramming.Core\\MobyLabWebProgramming.Core.csproj",
         "projectName": "MobyLabWebProgramming.Core",
-        "projectPath": "D:\\F\\A4\\S2\\PWeb\\dotnetbackend-main\\MobyLabWebProgramming.Core\\MobyLabWebProgramming.Core.csproj",
+        "projectPath": "D:\\F\\A4\\S2\\PWeb\\PoliHub\\MobyLabWebProgramming.Core\\MobyLabWebProgramming.Core.csproj",
         "packagesPath": "C:\\Users\\rober\\.nuget\\packages\\",
-        "outputPath": "D:\\F\\A4\\S2\\PWeb\\dotnetbackend-main\\MobyLabWebProgramming.Core\\obj\\",
+        "outputPath": "D:\\F\\A4\\S2\\PWeb\\PoliHub\\MobyLabWebProgramming.Core\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

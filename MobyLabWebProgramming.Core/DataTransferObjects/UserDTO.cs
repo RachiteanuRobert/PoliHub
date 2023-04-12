@@ -1,4 +1,5 @@
-﻿using MobyLabWebProgramming.Core.Enums;
+﻿using MobyLabWebProgramming.Core.Entities;
+using MobyLabWebProgramming.Core.Enums;
 
 namespace MobyLabWebProgramming.Core.DataTransferObjects;
 
@@ -12,4 +13,8 @@ public class UserDTO
     public string Name { get; set; } = default!;
     public string Email { get; set; } = default!;
     public UserRoleEnum Role { get; set; } = default!;
+    public ICollection<Course> Courses { get; set; } = default!;
+    public ICollection<Laboratory> Laboratories { get; set; } = default!;
+    public ICollection<LaboratoryInstance> LaboratoryInstances { get; set; } = default!;
+    public ICollection<CourseInstance> CourseInstances { get; set; } = default!;
 }

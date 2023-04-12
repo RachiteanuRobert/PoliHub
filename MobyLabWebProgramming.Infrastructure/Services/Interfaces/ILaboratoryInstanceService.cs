@@ -1,0 +1,13 @@
+﻿using MobyLabWebProgramming.Core.DataTransferObjects;
+using MobyLabWebProgramming.Core.Requests;
+using MobyLabWebProgramming.Core.Responses;
+
+namespace MobyLabWebProgramming.Infrastructure.Services.Interfaces;
+
+public interface ILaboratoryInstanceService
+{
+    public Task<ServiceResponse<LaboratoryInstanceDTO>> GetLaboratoryInstance(Guid id, CancellationToken cancellationToken = default);
+    public Task<ServiceResponse> AddLaboratoryInstance(LaboratoryInstanceAddDTO laboratoryInstance, UserDTO? requestingUser = default, CancellationToken cancellationToken = default);
+    public Task<ServiceResponse> UpdateLaboratoryInstance(LaboratoryInstanceUpdateDTO laboratoryInstance, UserDTO? requestingUser = default, CancellationToken cancellationToken = default);
+    public Task<ServiceResponse> DeleteLaboratoryInstance(Guid id, UserDTO? requestingUser = default, CancellationToken cancellationToken = default);
+}
