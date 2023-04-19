@@ -37,15 +37,41 @@ public class CourseInstanceService : ICourseInstanceService
             return ServiceResponse.FromError(new(HttpStatusCode.Forbidden, "Only the admin can add course instances!", ErrorCodes.CannotAdd));
         }
 
-        var result = await _repository.GetAsync(new LaboratoryInstanceProjectionSpec(courseInstance.CourseId), cancellationToken);
+        var result = await _repository.GetAsync(new CourseInstanceProjectionSpec(courseInstance.CourseId), cancellationToken);
         if (result != null)
         {
             return ServiceResponse.FromError(new(HttpStatusCode.Forbidden, "Course Instance already exists!", ErrorCodes.CannotAdd));
         }
 
+        var Students = new List<User>();
+        //var Course = new Course();
+
+        if (courseInstance.Students != null)
+        {
+            foreach (Guid id in courseInstance.Students)
+            {
+                var student = await _repository.GetAsync(new UserSpec(id), cancellationToken);
+                if (student == null)
+                {
+                    return ServiceResponse.FromError(new(HttpStatusCode.NotFound, "Bad student id provided", ErrorCodes.EntityNotFound));
+                }
+                Students.Add(student);
+            }
+        }
+
+        /*
+        Course = await _repository.GetAsync(new CourseSpec(courseInstance.CourseId), cancellationToken);
+        if (Course == null)
+        {
+            return ServiceResponse.FromError(new(HttpStatusCode.NotFound, "Bad course id provided", ErrorCodes.EntityNotFound));
+        }
+        */
+
         await _repository.AddAsync(new CourseInstance
         {
-            CourseId = courseInstance.CourseId
+            //Course = courseInstance.Course,
+            CourseId = courseInstance.CourseId,
+            Students = Students
         });
 
         return ServiceResponse.ForSuccess();
@@ -60,9 +86,34 @@ public class CourseInstanceService : ICourseInstanceService
 
         var entity = await _repository.GetAsync(new CourseInstanceSpec(courseInstance.Id), cancellationToken);
 
+        var Students = new List<User>();
+        var Course = new Course();
+
+        if (courseInstance.Students != null)
+        {
+            foreach (Guid id in courseInstance.Students)
+            {
+                var student = await _repository.GetAsync(new UserSpec(id), cancellationToken);
+                if (student == null)
+                {
+                    return ServiceResponse.FromError(new(HttpStatusCode.NotFound, "Bad student id provided", ErrorCodes.EntityNotFound));
+                }
+                Students.Add(student);
+            }
+        }
+
+        Course = await _repository.GetAsync(new CourseSpec(courseInstance.CourseId), cancellationToken);
+        if (Course == null)
+        {
+            return ServiceResponse.FromError(new(HttpStatusCode.NotFound, "Bad course id provided", ErrorCodes.EntityNotFound));
+        }
+
+
         if (entity != null)
         {
             entity.CourseId = courseInstance.CourseId;
+            entity.Students = courseInstance.Students == null ? entity.Students : Students;
+            //entity.Course = courseInstance.Course == null ? entity.Course : Course;
 
             await _repository.UpdateAsync(entity, cancellationToken);
         }

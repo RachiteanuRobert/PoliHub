@@ -91,12 +91,75 @@ public class UserService : IUserService
             return ServiceResponse.FromError(new(HttpStatusCode.Conflict, "The user already exists!", ErrorCodes.UserAlreadyExists));
         }
 
+        /*
+        var Laboratories = new List<Laboratory>();
+        var Courses = new List<Course>();
+        var CourseInstances = new List<CourseInstance>();
+        var LaboratoryInstances = new List<LaboratoryInstance>();
+
+        if (user.Laboratories != null)
+        {
+            foreach (Guid id in user.Laboratories)
+            {
+                var laboratory = await _repository.GetAsync(new LaboratorySpec(id), cancellationToken);
+                if (laboratory == null)
+                {
+                    return ServiceResponse.FromError(new(HttpStatusCode.NotFound, "Bad laboratory id provided", ErrorCodes.EntityNotFound));
+                }
+                Laboratories.Add(laboratory);
+            }
+        }
+
+        if (user.Courses != null)
+        {
+            foreach (Guid id in user.Courses)
+            {
+                var course = await _repository.GetAsync(new CourseSpec(id), cancellationToken);
+                if (course == null)
+                {
+                    return ServiceResponse.FromError(new(HttpStatusCode.NotFound, "Bad course id provided", ErrorCodes.EntityNotFound));
+                }
+                Courses.Add(course);
+            }
+        }
+
+        if (user.LaboratoryInstances != null)
+        {
+            foreach (Guid id in user.LaboratoryInstances)
+            {
+                var laboratoryInstances = await _repository.GetAsync(new LaboratoryInstanceSpec(id), cancellationToken);
+                if (laboratoryInstances == null)
+                {
+                    return ServiceResponse.FromError(new(HttpStatusCode.NotFound, "Bad laboratory instance id provided", ErrorCodes.EntityNotFound));
+                }
+                LaboratoryInstances.Add(laboratoryInstances);
+            }
+        }
+
+        if (user.CourseInstances != null)
+        {
+            foreach (Guid id in user.CourseInstances)
+            {
+                var courseInstances = await _repository.GetAsync(new CourseInstanceSpec(id), cancellationToken);
+                if (courseInstances == null)
+                {
+                    return ServiceResponse.FromError(new(HttpStatusCode.NotFound, "Bad course instance id provided", ErrorCodes.EntityNotFound));
+                }
+                CourseInstances.Add(courseInstances);
+            }
+        }
+        */
+
         await _repository.AddAsync(new User
         {
             Email = user.Email,
             Name = user.Name,
             Role = user.Role,
-            Password = user.Password
+            Password = user.Password,
+            //Laboratories = user.Laboratories,
+            //Courses = user.Courses,
+            //LaboratoryInstances = user.LaboratoryInstances,
+            //CourseInstances = user.CourseInstances
         }, cancellationToken); // A new entity is created and persisted in the database.
 
         await _mailService.SendMail(user.Email, "Welcome!", MailTemplates.UserAddTemplate(user.Name), true, "My App", cancellationToken); // You can send a notification on the user email. Change the email if you want.
@@ -111,12 +174,73 @@ public class UserService : IUserService
             return ServiceResponse.FromError(new(HttpStatusCode.Forbidden, "Only the admin or the own user can update the user!", ErrorCodes.CannotUpdate));
         }
 
+        var Laboratories = new List<Laboratory>();
+        var Courses = new List<Course>();
+        var CourseInstances = new List<CourseInstance>();
+        var LaboratoryInstances = new List<LaboratoryInstance>();
+
+        if (user.Laboratories != null)
+        {
+            foreach (Guid id in user.Laboratories)
+            {
+                var laboratory = await _repository.GetAsync(new LaboratorySpec(id), cancellationToken);
+                if (laboratory == null)
+                {
+                    return ServiceResponse.FromError(new(HttpStatusCode.NotFound, "Bad laboratory id provided", ErrorCodes.EntityNotFound));
+                }
+                Laboratories.Add(laboratory);
+            }
+        }
+
+        if (user.Courses != null)
+        {
+            foreach (Guid id in user.Courses)
+            {
+                var course = await _repository.GetAsync(new CourseSpec(id), cancellationToken);
+                if (course == null)
+                {
+                    return ServiceResponse.FromError(new(HttpStatusCode.NotFound, "Bad course id provided", ErrorCodes.EntityNotFound));
+                }
+                Courses.Add(course);
+            }
+        }
+
+        if (user.LaboratoryInstances != null)
+        {
+            foreach (Guid id in user.LaboratoryInstances)
+            {
+                var laboratoryInstances = await _repository.GetAsync(new LaboratoryInstanceSpec(id), cancellationToken);
+                if (laboratoryInstances == null)
+                {
+                    return ServiceResponse.FromError(new(HttpStatusCode.NotFound, "Bad laboratory instance id provided", ErrorCodes.EntityNotFound));
+                }
+                LaboratoryInstances.Add(laboratoryInstances);
+            }
+        }
+
+        if (user.CourseInstances != null)
+        {
+            foreach (Guid id in user.CourseInstances)
+            {
+                var courseInstances = await _repository.GetAsync(new CourseInstanceSpec(id), cancellationToken);
+                if (courseInstances == null)
+                {
+                    return ServiceResponse.FromError(new(HttpStatusCode.NotFound, "Bad course instance id provided", ErrorCodes.EntityNotFound));
+                }
+                CourseInstances.Add(courseInstances);
+            }
+        }
+
         var entity = await _repository.GetAsync(new UserSpec(user.Id), cancellationToken); 
 
         if (entity != null) // Verify if the user is not found, you cannot update an non-existing entity.
         {
             entity.Name = user.Name ?? entity.Name;
             entity.Password = user.Password ?? entity.Password;
+            entity.Laboratories = user.Laboratories == null ? entity.Laboratories : Laboratories;
+            entity.Courses = user.Courses == null ? entity.Courses : Courses;
+            entity.LaboratoryInstances = user.LaboratoryInstances == null ? entity.LaboratoryInstances : LaboratoryInstances;
+            entity.CourseInstances = user.CourseInstances == null ? entity.CourseInstances : CourseInstances;
 
             await _repository.UpdateAsync(entity, cancellationToken); // Update the entity and persist the changes.
         }

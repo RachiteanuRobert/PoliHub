@@ -43,9 +43,26 @@ public class LaboratoryInstanceService : ILaboratoryInstanceService
             return ServiceResponse.FromError(new(HttpStatusCode.Forbidden, "Laboratory Instance already exists!", ErrorCodes.CannotAdd));
         }
 
+        var Students = new List<User>();
+
+        if (laboratoryInstance.Students != null)
+        {
+            foreach (Guid id in laboratoryInstance.Students)
+            {
+                var student = await _repository.GetAsync(new UserSpec(id), cancellationToken);
+                if (student == null)
+                {
+                    return ServiceResponse.FromError(new(HttpStatusCode.NotFound, "Bad student id provided", ErrorCodes.EntityNotFound));
+                }
+                Students.Add(student);
+            }
+        }
+
         await _repository.AddAsync(new LaboratoryInstance
         {
-            LaboratoryId = laboratoryInstance.LaboratoryId
+            //Laboratory = laboratoryInstance.Laboratory,
+            LaboratoryId = laboratoryInstance.LaboratoryId,
+            Students = Students
         });
 
         return ServiceResponse.ForSuccess();
@@ -60,9 +77,25 @@ public class LaboratoryInstanceService : ILaboratoryInstanceService
 
         var entity = await _repository.GetAsync(new LaboratoryInstanceSpec(laboratoryInstance.Id), cancellationToken);
 
+        var Students = new List<User>();
+
+        if (laboratoryInstance.Students != null)
+        {
+            foreach (Guid id in laboratoryInstance.Students)
+            {
+                var student = await _repository.GetAsync(new UserSpec(id), cancellationToken);
+                if (student == null)
+                {
+                    return ServiceResponse.FromError(new(HttpStatusCode.NotFound, "Bad student id provided", ErrorCodes.EntityNotFound));
+                }
+                Students.Add(student);
+            }
+        }
+
         if (entity != null)
         {
             entity.LaboratoryId = laboratoryInstance.LaboratoryId;
+            entity.Students = laboratoryInstance.Students == null ? entity.Students : Students;
 
             await _repository.UpdateAsync(entity, cancellationToken);
         }

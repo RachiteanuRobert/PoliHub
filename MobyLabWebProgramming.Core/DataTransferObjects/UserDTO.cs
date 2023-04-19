@@ -13,8 +13,8 @@ public class UserDTO
     public string Name { get; set; } = default!;
     public string Email { get; set; } = default!;
     public UserRoleEnum Role { get; set; } = default!;
-    public ICollection<Course> Courses { get; set; } = default!;
-    public ICollection<Laboratory> Laboratories { get; set; } = default!;
+    public ICollection<CourseSimpleDTO> Courses { get; set; } = default!;
+    public ICollection<LaboratorySimpleDTO> Laboratories { get; set; } = default!;
     public ICollection<LaboratoryInstance> LaboratoryInstances { get; set; } = default!;
     public ICollection<CourseInstance> CourseInstances { get; set; } = default!;
 }

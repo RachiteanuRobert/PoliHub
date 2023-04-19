@@ -1,4 +1,5 @@
-﻿using MobyLabWebProgramming.Core.Enums;
+﻿using MobyLabWebProgramming.Core.Entities;
+using MobyLabWebProgramming.Core.Enums;
 
 namespace MobyLabWebProgramming.Core.DataTransferObjects;
 
@@ -8,5 +9,7 @@ namespace MobyLabWebProgramming.Core.DataTransferObjects;
 /// </summary>
 public class CourseInstanceAddDTO
 {
+    //public Course Course { get; set; } = default!;
     public Guid CourseId { get; set; } = default!;
+    public ICollection<Guid> Students { get; set; } = default!; 
 }

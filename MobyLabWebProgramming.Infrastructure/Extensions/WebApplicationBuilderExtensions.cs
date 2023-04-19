@@ -86,7 +86,8 @@ public static class WebApplicationBuilderExtensions
     private static AuthorizationPolicyBuilder AddDefaultPolicy(this AuthorizationPolicyBuilder policy) =>
         policy.RequireClaim(ClaimTypes.NameIdentifier)
             .RequireClaim(ClaimTypes.Name)
-            .RequireClaim(ClaimTypes.Email);
+            .RequireClaim(ClaimTypes.Email)
+            .RequireClaim(ClaimTypes.Role);
 
 
     /// <summary>
@@ -173,7 +174,12 @@ public static class WebApplicationBuilderExtensions
             .AddTransient<ILoginService, LoginService>()
             .AddTransient<IFileRepository, FileRepository>()
             .AddTransient<IUserFileService, UserFileService>()
-            .AddTransient<IMailService, MailService>();
+            .AddTransient<IMailService, MailService>()
+            .AddTransient<ICourseInstanceService, CourseInstanceService>()
+            .AddTransient<ILaboratoryInstanceService, LaboratoryInstanceService>()
+            .AddTransient<ICourseService, CourseService>()
+            .AddTransient<ILaboratoryService, LaboratoryService>()
+            .AddTransient<ISubjectService, SubjectService>();
 
         return builder;
     }
