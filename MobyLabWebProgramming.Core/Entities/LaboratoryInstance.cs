@@ -8,6 +8,7 @@ namespace MobyLabWebProgramming.Core.Entities;
 public class LaboratoryInstance : BaseEntity
 {
     public Guid LaboratoryId { get; set; } = default!;
+    public DateOnly LaboratoryInstanceDate { get; set; } = default!;
     public Laboratory Laboratory { get; set; } = default!;
     public ICollection<User> Students { get; set; } = default!;
 }

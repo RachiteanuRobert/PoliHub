@@ -18,7 +18,9 @@ public sealed class LaboratoryInstanceProjectionSpec : BaseSpec<LaboratoryInstan
     protected override Expression<Func<LaboratoryInstance, LaboratoryInstanceDTO>> Spec => e => new()
     {
         Id = e.Id,
-        LaboratoryId = e.LaboratoryId
+        LaboratoryId = e.LaboratoryId,
+        LaboratoryInstanceDate = e.LaboratoryInstanceDate,
+        Students = (ICollection<Guid>)e.Students
     };
 
     public LaboratoryInstanceProjectionSpec(Guid id) : base(id)

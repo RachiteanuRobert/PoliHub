@@ -82,16 +82,6 @@ public class CourseService : ICourseService
             }
         }
 
-        /*
-        Subject = await _repository.GetAsync(new SubjectSpec(course.SubjectId), cancellationToken);
-        if (Subject == null)
-        {
-            return ServiceResponse.FromError(new(HttpStatusCode.NotFound, "Bad subject id provided", ErrorCodes.EntityNotFound));
-        }
-        */
-        
-
-
         await _repository.AddAsync(new Course
         {
             StartTime = course.StartTime,

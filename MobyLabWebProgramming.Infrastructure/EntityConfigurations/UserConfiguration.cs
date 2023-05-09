@@ -29,6 +29,9 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
         builder.Property(e => e.Role)
             .HasMaxLength(255)
             .IsRequired();
+        builder.Property(e => e.Group)
+            .HasMaxLength(255) // This specifies the maximum length for varchar type in the database.
+            .IsRequired();
         builder.Property(e => e.CreatedAt)
             .IsRequired();
         builder.Property(e => e.UpdatedAt)

@@ -59,18 +59,11 @@ public class CourseInstanceService : ICourseInstanceService
             }
         }
 
-        /*
-        Course = await _repository.GetAsync(new CourseSpec(courseInstance.CourseId), cancellationToken);
-        if (Course == null)
-        {
-            return ServiceResponse.FromError(new(HttpStatusCode.NotFound, "Bad course id provided", ErrorCodes.EntityNotFound));
-        }
-        */
-
         await _repository.AddAsync(new CourseInstance
         {
             //Course = courseInstance.Course,
             CourseId = courseInstance.CourseId,
+            CourseInstanceDate = courseInstance.CourseInstanceDate,
             Students = Students
         });
 
@@ -112,8 +105,8 @@ public class CourseInstanceService : ICourseInstanceService
         if (entity != null)
         {
             entity.CourseId = courseInstance.CourseId;
+            entity.CourseInstanceDate = courseInstance.CourseInstanceDate;
             entity.Students = courseInstance.Students == null ? entity.Students : Students;
-            //entity.Course = courseInstance.Course == null ? entity.Course : Course;
 
             await _repository.UpdateAsync(entity, cancellationToken);
         }

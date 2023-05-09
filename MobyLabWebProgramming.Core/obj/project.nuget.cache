@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "nrtECx821NzfPucaybg85HOR7KC4QBm11Bcl2P0sjhpN9yfxMguNYepAxHxpFMwugY9vhKGKm/AsOO2cG//AgA==",
+  "dgSpecHash": "wYJRxGURbaC1SCn94pjOkhJqwLCkcMiHrfs1/LdtgzGd6O/nzeRxW1oZiMVRCgPBjtG0D83Hb1ZRF+ybFkLylQ==",
   "success": true,
-  "projectFilePath": "D:\\F\\A4\\S2\\PWeb\\PoliHub\\MobyLabWebProgramming.Core\\MobyLabWebProgramming.Core.csproj",
+  "projectFilePath": "D:\\F\\A4\\S2\\PWeb\\PoliHub_Backend\\MobyLabWebProgramming.Core\\MobyLabWebProgramming.Core.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\rober\\.nuget\\packages\\ardalis.smartenum\\2.1.0\\ardalis.smartenum.2.1.0.nupkg.sha512",
     "C:\\Users\\rober\\.nuget\\packages\\ardalis.smartenum.efcore\\2.1.0\\ardalis.smartenum.efcore.2.1.0.nupkg.sha512",

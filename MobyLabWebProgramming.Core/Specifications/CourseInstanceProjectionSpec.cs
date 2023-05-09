@@ -18,7 +18,8 @@ public sealed class CourseInstanceProjectionSpec : BaseSpec<CourseInstanceProjec
     protected override Expression<Func<CourseInstance, CourseInstanceDTO>> Spec => e => new()
     {
         Id = e.Id,
-        CourseId = e.CourseId
+        CourseId = e.CourseId,
+        Students = (ICollection<Guid>)e.Students
     };
 
     public CourseInstanceProjectionSpec(Guid id) : base(id)

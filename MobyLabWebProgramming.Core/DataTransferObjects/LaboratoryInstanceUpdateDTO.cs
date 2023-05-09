@@ -3,4 +3,4 @@
 /// <summary>
 /// This DTO is used to update a user, the properties besides the id are nullable to indicate that they may not be updated if they are null.
 /// </summary>
-public record LaboratoryInstanceUpdateDTO(Guid Id, Guid LaboratoryId, ICollection<Guid>? Students = null);
+public record LaboratoryInstanceUpdateDTO(Guid Id, Guid LaboratoryId, DateOnly LaboratoryInstanceDate, ICollection<Guid>? Students = null);

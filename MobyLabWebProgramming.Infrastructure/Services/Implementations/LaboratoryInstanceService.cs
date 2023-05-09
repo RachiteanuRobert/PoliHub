@@ -62,6 +62,7 @@ public class LaboratoryInstanceService : ILaboratoryInstanceService
         {
             //Laboratory = laboratoryInstance.Laboratory,
             LaboratoryId = laboratoryInstance.LaboratoryId,
+            LaboratoryInstanceDate = laboratoryInstance.LaboratoryInstanceDate,
             Students = Students
         });
 
@@ -95,6 +96,7 @@ public class LaboratoryInstanceService : ILaboratoryInstanceService
         if (entity != null)
         {
             entity.LaboratoryId = laboratoryInstance.LaboratoryId;
+            entity.LaboratoryInstanceDate = laboratoryInstance.LaboratoryInstanceDate;
             entity.Students = laboratoryInstance.Students == null ? entity.Students : Students;
 
             await _repository.UpdateAsync(entity, cancellationToken);

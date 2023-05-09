@@ -10,6 +10,6 @@ namespace MobyLabWebProgramming.Core.DataTransferObjects;
 public class LaboratoryInstanceAddDTO
 {
     public Guid LaboratoryId { get; set; } = default!;
-    //public Laboratory Laboratory { get; set; } = default!;
+    public DateOnly LaboratoryInstanceDate { get; set; } = default!;
     public ICollection<Guid> Students { get; set; } = default!;
 }

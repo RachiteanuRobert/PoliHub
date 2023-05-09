@@ -21,6 +21,7 @@ public sealed class UserProjectionSpec : BaseSpec<UserProjectionSpec, User, User
         Email = e.Email,
         Name = e.Name,
         Role = e.Role,
+        Group = e.Group,
         //CourseInstances = (ICollection<Guid>)e.CourseInstances
     };
 

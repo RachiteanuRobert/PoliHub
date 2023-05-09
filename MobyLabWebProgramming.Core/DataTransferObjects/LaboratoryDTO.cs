@@ -15,7 +15,7 @@ public class LaboratoryDTO
     public string Location { get; set; } = default!;
     public string AssistantName { get; set; } = default!;
     public Guid SubjectId { get; set; } = default!;
-    public Subject Subject { get; set; } = default!;
-    public ICollection<LaboratoryInstance> LaboratoryInstances { get; set; } = default!;
-    public ICollection<User> Students { get; set; } = default!;
+    //public Subject Subject { get; set; } = default!;
+    public ICollection<Guid> LaboratoryInstances { get; set; } = default!;
+    public ICollection<Guid> Students { get; set; } = default!;
 }

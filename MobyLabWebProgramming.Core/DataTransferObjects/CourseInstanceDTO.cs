@@ -10,4 +10,5 @@ public class CourseInstanceDTO
 {
     public Guid Id { get; set; }
     public Guid CourseId { get; set; } = default!;
+    public ICollection<Guid> Students { get; set; } = default!;
 }

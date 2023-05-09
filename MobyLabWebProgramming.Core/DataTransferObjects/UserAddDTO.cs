@@ -11,6 +11,7 @@ public class UserAddDTO
     public string Email { get; set; } = default!;
     public string Password { get; set; } = default!;
     public UserRoleEnum Role { get; set; } = default!;
+    public string Group { get; set; } = default!;
     public ICollection<Guid> Laboratories { get; set; } = default!;
     public ICollection<Guid> Courses { get; set; } = default!;
     public ICollection<Guid> LaboratoryInstances { get; set; } = default!;

@@ -64,7 +64,8 @@ public class UserService : IUserService
             Id = result.Id,
             Email = result.Email,
             Name = result.Name,
-            Role = result.Role
+            Role = result.Role,
+            Group = result.Group
         };
 
         return ServiceResponse<LoginResponseDTO>.ForSuccess(new()
@@ -156,6 +157,7 @@ public class UserService : IUserService
             Name = user.Name,
             Role = user.Role,
             Password = user.Password,
+            Group = user.Group,
             //Laboratories = user.Laboratories,
             //Courses = user.Courses,
             //LaboratoryInstances = user.LaboratoryInstances,

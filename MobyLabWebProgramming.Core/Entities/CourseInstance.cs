@@ -9,7 +9,7 @@ public class CourseInstance : BaseEntity
 {
     public Course Course { get; set; } = default!;
     public Guid CourseId { get; set; } = default!;
+    public DateOnly CourseInstanceDate { get; set; } = default!;
     public ICollection<User> Students { get; set; } = default!;
-
 
 }

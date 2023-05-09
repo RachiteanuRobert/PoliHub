@@ -25,7 +25,8 @@ public sealed class UserFileProjectionSpec : BaseSpec<UserFileProjectionSpec, Us
             Id = e.User.Id,
             Email = e.User.Email,
             Name = e.User.Name,
-            Role = e.User.Role
+            Role = e.User.Role,
+            Group = e.User.Group
         },
         CreatedAt = e.CreatedAt,
         UpdatedAt = e.UpdatedAt

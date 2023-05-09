@@ -128,6 +128,9 @@ namespace MobyLabWebProgramming.Infrastructure.Migrations
                     b.Property<Guid>("CourseId")
                         .HasColumnType("uuid");
 
+                    b.Property<DateOnly>("CourseInstanceDate")
+                        .HasColumnType("date");
+
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp without time zone");
 
@@ -193,6 +196,9 @@ namespace MobyLabWebProgramming.Infrastructure.Migrations
                     b.Property<Guid>("LaboratoryId")
                         .HasColumnType("uuid");
 
+                    b.Property<DateOnly>("LaboratoryInstanceDate")
+                        .HasColumnType("date");
+
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("timestamp without time zone");
 
@@ -257,6 +263,11 @@ namespace MobyLabWebProgramming.Infrastructure.Migrations
                         .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("Email")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("character varying(255)");
+
+                    b.Property<string>("Group")
                         .IsRequired()
                         .HasMaxLength(255)
                         .HasColumnType("character varying(255)");

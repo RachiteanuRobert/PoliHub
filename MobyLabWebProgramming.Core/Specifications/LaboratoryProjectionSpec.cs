@@ -23,19 +23,8 @@ public sealed class LaboratoryProjectionSpec : BaseSpec<LaboratoryProjectionSpec
         Location = e.Location,
         AssistantName = e.AssistantName,
         SubjectId = e.SubjectId,
-        Students = (ICollection<User>)e.Students.Select(u => new UserDTO
-        {
-            Id = u.Id,
-            Name = u.Name,
-            Email = u.Email,
-            Role = u.Role,
-        }),
-        LaboratoryInstances = (ICollection<LaboratoryInstance>)e.LaboratoryInstances.Select(l => new LaboratoryInstanceDTO
-        {
-            Id = l.Id,
-            LaboratoryId = e.Id,
-        }
-        )
+        Students = (ICollection<Guid>)e.Students,
+        LaboratoryInstances = (ICollection<Guid>)e.LaboratoryInstances
     };
 
     public LaboratoryProjectionSpec(Guid id) : base(id)

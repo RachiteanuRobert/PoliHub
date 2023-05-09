@@ -11,6 +11,7 @@ public class User : BaseEntity
     public string Email { get; set; } = default!;
     public string Password { get; set; } = default!;
     public UserRoleEnum Role { get; set; } = default!;
+    public string Group { get; set; } = default!;
 
     /// <summary>
     /// References to other entities such as this are used to automatically fetch correlated data, this is called a navigation property.
