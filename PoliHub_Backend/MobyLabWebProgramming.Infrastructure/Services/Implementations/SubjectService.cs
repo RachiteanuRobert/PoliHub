@@ -31,6 +31,13 @@ public class SubjectService : ISubjectService
             ServiceResponse<SubjectDTO>.FromError(new(HttpStatusCode.Forbidden, "Subject not found!", ErrorCodes.EntityNotFound));
     }
 
+    public async Task<ServiceResponse<PagedResponse<SubjectDTO>>> GetSubjects(PaginationSearchQueryParams pagination, CancellationToken cancellationToken)
+    {
+        var result = await _repository.PageAsync(pagination, new SubjectProjectionSpec(pagination.Search), cancellationToken);
+
+        return ServiceResponse<PagedResponse<SubjectDTO>>.ForSuccess(result);
+    }
+
     public async Task<ServiceResponse<SubjectDTO>> GetSubjectByName(string subjectName, CancellationToken cancellationToken = default)
     {
         var result = await _repository.GetAsync(new SubjectProjectionSpec(subjectName), cancellationToken);

@@ -38,6 +38,12 @@ public class LaboratoryService : ILaboratoryService
             ServiceResponse<LaboratoryDTO>.ForSuccess(result) :
             ServiceResponse<LaboratoryDTO>.FromError(new(HttpStatusCode.Forbidden, "Laboratory not found!", ErrorCodes.EntityNotFound));
     }
+    public async Task<ServiceResponse<PagedResponse<LaboratoryDTO>>> GetLaboratories(PaginationSearchQueryParams pagination, CancellationToken cancellationToken)
+    {
+        var result = await _repository.PageAsync(pagination, new LaboratoryProjectionSpec(pagination.Search), cancellationToken);
+
+        return ServiceResponse<PagedResponse<LaboratoryDTO>>.ForSuccess(result);
+    }
 
     public async Task<ServiceResponse> AddLaboratory(LaboratoryAddDTO laboratory, UserDTO? requestingUser, CancellationToken cancellationToken)
     {

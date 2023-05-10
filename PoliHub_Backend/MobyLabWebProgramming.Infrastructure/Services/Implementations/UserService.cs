@@ -75,6 +75,34 @@ public class UserService : IUserService
         });
     }
 
+    public async Task<ServiceResponse> Register(UserAddDTO user, CancellationToken cancellationToken = default)
+    {
+        var result = await _repository.GetAsync(new UserSpec(user.Email), cancellationToken);
+
+        if (result != null)
+        {
+            return ServiceResponse.FromError(new(HttpStatusCode.Conflict, "The user already exists!", ErrorCodes.UserAlreadyExists));
+        }
+
+        if (user.Role == UserRoleEnum.Admin)
+        {
+            return ServiceResponse.FromError(new(HttpStatusCode.Forbidden, "You can't register with an Admin role, only an admin can create another admin!", ErrorCodes.CannotAdd));
+        }
+
+        await _repository.AddAsync(new User
+        {
+            Name = user.Name,
+            Email = user.Email,
+            Password = user.Password,
+            Role = user.Role,
+            Group = user.Group
+        }, cancellationToken);
+
+        await _mailService.SendMail(user.Email, "Welcome!", MailTemplates.UserAddTemplate(user.Name), true, "My App", cancellationToken); // You can send a notification on the user email. Change the email if you want.
+
+        return ServiceResponse.ForSuccess();
+    }
+
     public async Task<ServiceResponse<int>> GetUserCount(CancellationToken cancellationToken = default) => 
         ServiceResponse<int>.ForSuccess(await _repository.GetCountAsync<User>(cancellationToken)); // Get the count of all user entities in the database.
 

@@ -17,6 +17,7 @@ import * as runtime from '../runtime';
 import type {
   RequestResponse,
   SubjectAddDTO,
+  SubjectDTOPagedResponseRequestResponse,
   SubjectDTORequestResponse,
   SubjectUpdateDTO,
 } from '../models';
@@ -25,6 +26,8 @@ import {
     RequestResponseToJSON,
     SubjectAddDTOFromJSON,
     SubjectAddDTOToJSON,
+    SubjectDTOPagedResponseRequestResponseFromJSON,
+    SubjectDTOPagedResponseRequestResponseToJSON,
     SubjectDTORequestResponseFromJSON,
     SubjectDTORequestResponseToJSON,
     SubjectUpdateDTOFromJSON,
@@ -46,6 +49,12 @@ export interface ApiSubjectGetByIdIdGetRequest {
 export interface ApiSubjectGetByNameIdGetRequest {
     subjectName: string;
     id: string;
+}
+
+export interface ApiSubjectGetPageGetRequest {
+    search?: string;
+    page?: number;
+    pageSize?: number;
 }
 
 export interface ApiSubjectUpdatePutRequest {
@@ -185,6 +194,46 @@ export class SubjectApi extends runtime.BaseAPI {
      */
     async apiSubjectGetByNameIdGet(requestParameters: ApiSubjectGetByNameIdGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SubjectDTORequestResponse> {
         const response = await this.apiSubjectGetByNameIdGetRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     */
+    async apiSubjectGetPageGetRaw(requestParameters: ApiSubjectGetPageGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<SubjectDTOPagedResponseRequestResponse>> {
+        const queryParameters: any = {};
+
+        if (requestParameters.search !== undefined) {
+            queryParameters['Search'] = requestParameters.search;
+        }
+
+        if (requestParameters.page !== undefined) {
+            queryParameters['Page'] = requestParameters.page;
+        }
+
+        if (requestParameters.pageSize !== undefined) {
+            queryParameters['PageSize'] = requestParameters.pageSize;
+        }
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["Authorization"] = this.configuration.apiKey("Authorization"); // Bearer authentication
+        }
+
+        const response = await this.request({
+            path: `/api/Subject/GetPage`,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => SubjectDTOPagedResponseRequestResponseFromJSON(jsonValue));
+    }
+
+    /**
+     */
+    async apiSubjectGetPageGet(requestParameters: ApiSubjectGetPageGetRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SubjectDTOPagedResponseRequestResponse> {
+        const response = await this.apiSubjectGetPageGetRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

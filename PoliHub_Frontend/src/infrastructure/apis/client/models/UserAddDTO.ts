@@ -52,28 +52,10 @@ export interface UserAddDTO {
     role?: UserRoleEnum;
     /**
      * 
-     * @type {Array<string>}
+     * @type {string}
      * @memberof UserAddDTO
      */
-    laboratories?: Array<string> | null;
-    /**
-     * 
-     * @type {Array<string>}
-     * @memberof UserAddDTO
-     */
-    courses?: Array<string> | null;
-    /**
-     * 
-     * @type {Array<string>}
-     * @memberof UserAddDTO
-     */
-    laboratoryInstances?: Array<string> | null;
-    /**
-     * 
-     * @type {Array<string>}
-     * @memberof UserAddDTO
-     */
-    courseInstances?: Array<string> | null;
+    group?: string | null;
 }
 
 /**
@@ -99,10 +81,7 @@ export function UserAddDTOFromJSONTyped(json: any, ignoreDiscriminator: boolean)
         'email': !exists(json, 'email') ? undefined : json['email'],
         'password': !exists(json, 'password') ? undefined : json['password'],
         'role': !exists(json, 'role') ? undefined : UserRoleEnumFromJSON(json['role']),
-        'laboratories': !exists(json, 'laboratories') ? undefined : json['laboratories'],
-        'courses': !exists(json, 'courses') ? undefined : json['courses'],
-        'laboratoryInstances': !exists(json, 'laboratoryInstances') ? undefined : json['laboratoryInstances'],
-        'courseInstances': !exists(json, 'courseInstances') ? undefined : json['courseInstances'],
+        'group': !exists(json, 'group') ? undefined : json['group'],
     };
 }
 
@@ -119,10 +98,7 @@ export function UserAddDTOToJSON(value?: UserAddDTO | null): any {
         'email': value.email,
         'password': value.password,
         'role': UserRoleEnumToJSON(value.role),
-        'laboratories': value.laboratories,
-        'courses': value.courses,
-        'laboratoryInstances': value.laboratoryInstances,
-        'courseInstances': value.courseInstances,
+        'group': value.group,
     };
 }
 

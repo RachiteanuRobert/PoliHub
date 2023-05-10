@@ -5,6 +5,7 @@ using MobyLabWebProgramming.Core.Requests;
 using MobyLabWebProgramming.Core.Responses;
 using MobyLabWebProgramming.Infrastructure.Authorization;
 using MobyLabWebProgramming.Infrastructure.Extensions;
+using MobyLabWebProgramming.Infrastructure.Services.Implementations;
 using MobyLabWebProgramming.Infrastructure.Services.Interfaces;
 
 namespace MobyLabWebProgramming.Backend.Controllers;
@@ -19,7 +20,7 @@ public class CourseInstanceController : AuthorizedController
         _courseInstanceService = courseInstanceService;
     }
 
-    [Authorize]
+
     [HttpGet("{id:guid}")]
     public async Task<ActionResult<RequestResponse<CourseInstanceDTO>>> GetById([FromRoute] Guid id)
     {
@@ -29,6 +30,14 @@ public class CourseInstanceController : AuthorizedController
             this.FromServiceResponse(await _courseInstanceService.GetCourseInstance(id)) :
             this.ErrorMessageResult<CourseInstanceDTO>(currentUser.Error);
     }
+
+    /*
+    [HttpGet]
+    public async Task<ActionResult<RequestResponse<PagedResponse<CourseInstanceDTO>>>> GetPage([FromQuery] PaginationSearchQueryParams pagination)
+    {
+        return this.FromServiceResponse(await _courseInstanceService.GetCourseInstances(pagination));
+    }
+    */
 
     [Authorize]
     [HttpPost]

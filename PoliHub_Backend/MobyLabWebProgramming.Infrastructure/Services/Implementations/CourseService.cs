@@ -30,6 +30,13 @@ public class CourseService : ICourseService
             ServiceResponse<CourseDTO>.FromError(new(HttpStatusCode.Forbidden, "Course not found!", ErrorCodes.EntityNotFound));
     }
 
+    public async Task<ServiceResponse<PagedResponse<CourseDTO>>> GetCourses(PaginationSearchQueryParams pagination, CancellationToken cancellationToken)
+    {
+        var result = await _repository.PageAsync(pagination, new CourseProjectionSpec(pagination.Search), cancellationToken);
+
+        return ServiceResponse<PagedResponse<CourseDTO>>.ForSuccess(result);
+    }
+
     public async Task<ServiceResponse<CourseDTO>> GetCourseByName(string subjectName, CancellationToken cancellationToken = default)
     {
         var result = await _repository.GetAsync(new CourseProjectionSpec(subjectName), cancellationToken);

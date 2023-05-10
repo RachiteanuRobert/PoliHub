@@ -28,7 +28,15 @@ public class CourseInstanceService : ICourseInstanceService
         return result != null ?
             ServiceResponse<CourseInstanceDTO>.ForSuccess(result) :
             ServiceResponse<CourseInstanceDTO>.FromError(new(HttpStatusCode.Forbidden, "Course Instance not found!", ErrorCodes.EntityNotFound));
-    } 
+    }
+    /*
+    public async Task<ServiceResponse<PagedResponse<CourseInstanceDTO>>> GetCourseInstances(PaginationSearchQueryParams pagination, CancellationToken cancellationToken)
+    {
+        var result = await _repository.PageAsync(pagination, new CourseInstanceProjectionSpec(pagination.Search), cancellationToken);
+
+        return ServiceResponse<PagedResponse<CourseInstanceDTO>>.ForSuccess(result);
+    }
+    */
 
     public async Task<ServiceResponse> AddCourseInstance(CourseInstanceAddDTO courseInstance, UserDTO? requestingUser, CancellationToken cancellationToken)
     {

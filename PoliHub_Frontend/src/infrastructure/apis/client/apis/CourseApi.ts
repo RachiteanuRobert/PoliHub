@@ -16,6 +16,7 @@
 import * as runtime from '../runtime';
 import type {
   CourseAddDTO,
+  CourseDTOPagedResponseRequestResponse,
   CourseDTORequestResponse,
   CourseUpdateDTO,
   RequestResponse,
@@ -23,6 +24,8 @@ import type {
 import {
     CourseAddDTOFromJSON,
     CourseAddDTOToJSON,
+    CourseDTOPagedResponseRequestResponseFromJSON,
+    CourseDTOPagedResponseRequestResponseToJSON,
     CourseDTORequestResponseFromJSON,
     CourseDTORequestResponseToJSON,
     CourseUpdateDTOFromJSON,
@@ -41,6 +44,12 @@ export interface ApiCourseDeleteIdDeleteRequest {
 
 export interface ApiCourseGetByIdIdGetRequest {
     id: string;
+}
+
+export interface ApiCourseGetPageGetRequest {
+    search?: string;
+    page?: number;
+    pageSize?: number;
 }
 
 export interface ApiCourseUpdatePutRequest {
@@ -144,6 +153,46 @@ export class CourseApi extends runtime.BaseAPI {
      */
     async apiCourseGetByIdIdGet(requestParameters: ApiCourseGetByIdIdGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<CourseDTORequestResponse> {
         const response = await this.apiCourseGetByIdIdGetRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     */
+    async apiCourseGetPageGetRaw(requestParameters: ApiCourseGetPageGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<CourseDTOPagedResponseRequestResponse>> {
+        const queryParameters: any = {};
+
+        if (requestParameters.search !== undefined) {
+            queryParameters['Search'] = requestParameters.search;
+        }
+
+        if (requestParameters.page !== undefined) {
+            queryParameters['Page'] = requestParameters.page;
+        }
+
+        if (requestParameters.pageSize !== undefined) {
+            queryParameters['PageSize'] = requestParameters.pageSize;
+        }
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["Authorization"] = this.configuration.apiKey("Authorization"); // Bearer authentication
+        }
+
+        const response = await this.request({
+            path: `/api/Course/GetPage`,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => CourseDTOPagedResponseRequestResponseFromJSON(jsonValue));
+    }
+
+    /**
+     */
+    async apiCourseGetPageGet(requestParameters: ApiCourseGetPageGetRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<CourseDTOPagedResponseRequestResponse> {
+        const response = await this.apiCourseGetPageGetRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

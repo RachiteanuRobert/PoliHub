@@ -19,7 +19,6 @@ public class SubjectController : AuthorizedController
         _subjectService = subjectService;
     }
 
-    [Authorize]
     [HttpGet("{id:guid}")]
     public async Task<ActionResult<RequestResponse<SubjectDTO>>> GetById([FromRoute] Guid id)
     {
@@ -30,7 +29,12 @@ public class SubjectController : AuthorizedController
             this.ErrorMessageResult<SubjectDTO>(currentUser.Error);
     }
 
-    [Authorize]
+    [HttpGet]
+    public async Task<ActionResult<RequestResponse<PagedResponse<SubjectDTO>>>> GetPage([FromQuery] PaginationSearchQueryParams pagination)
+    {
+        return this.FromServiceResponse(await _subjectService.GetSubjects(pagination));
+    }
+
     [HttpGet("{id:guid}")]
     public async Task<ActionResult<RequestResponse<SubjectDTO>>> GetByName([FromRoute] string subjectName)
     {

@@ -76,6 +76,12 @@ export interface UserDTO {
     role?: UserRoleEnum;
     /**
      * 
+     * @type {string}
+     * @memberof UserDTO
+     */
+    group?: string | null;
+    /**
+     * 
      * @type {Array<CourseSimpleDTO>}
      * @memberof UserDTO
      */
@@ -123,6 +129,7 @@ export function UserDTOFromJSONTyped(json: any, ignoreDiscriminator: boolean): U
         'name': !exists(json, 'name') ? undefined : json['name'],
         'email': !exists(json, 'email') ? undefined : json['email'],
         'role': !exists(json, 'role') ? undefined : UserRoleEnumFromJSON(json['role']),
+        'group': !exists(json, 'group') ? undefined : json['group'],
         'courses': !exists(json, 'courses') ? undefined : (json['courses'] === null ? null : (json['courses'] as Array<any>).map(CourseSimpleDTOFromJSON)),
         'laboratories': !exists(json, 'laboratories') ? undefined : (json['laboratories'] === null ? null : (json['laboratories'] as Array<any>).map(LaboratorySimpleDTOFromJSON)),
         'laboratoryInstances': !exists(json, 'laboratoryInstances') ? undefined : (json['laboratoryInstances'] === null ? null : (json['laboratoryInstances'] as Array<any>).map(LaboratoryInstanceFromJSON)),
@@ -143,6 +150,7 @@ export function UserDTOToJSON(value?: UserDTO | null): any {
         'name': value.name,
         'email': value.email,
         'role': UserRoleEnumToJSON(value.role),
+        'group': value.group,
         'courses': value.courses === undefined ? undefined : (value.courses === null ? null : (value.courses as Array<any>).map(CourseSimpleDTOToJSON)),
         'laboratories': value.laboratories === undefined ? undefined : (value.laboratories === null ? null : (value.laboratories as Array<any>).map(LaboratorySimpleDTOToJSON)),
         'laboratoryInstances': value.laboratoryInstances === undefined ? undefined : (value.laboratoryInstances === null ? null : (value.laboratoryInstances as Array<any>).map(LaboratoryInstanceToJSON)),

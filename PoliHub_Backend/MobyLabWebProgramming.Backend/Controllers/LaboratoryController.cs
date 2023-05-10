@@ -6,6 +6,7 @@ using MobyLabWebProgramming.Core.Requests;
 using MobyLabWebProgramming.Core.Responses;
 using MobyLabWebProgramming.Infrastructure.Authorization;
 using MobyLabWebProgramming.Infrastructure.Extensions;
+using MobyLabWebProgramming.Infrastructure.Services.Implementations;
 using MobyLabWebProgramming.Infrastructure.Services.Interfaces;
 
 namespace MobyLabWebProgramming.Backend.Controllers;
@@ -20,7 +21,7 @@ public class LaboratoryController : AuthorizedController
         _laboratoryService = laboratoryService;
     }
 
-    [Authorize]
+
     [HttpGet("{id:guid}")]
     public async Task<ActionResult<RequestResponse<LaboratoryDTO>>> GetById([FromRoute] Guid id)
     {
@@ -31,8 +32,13 @@ public class LaboratoryController : AuthorizedController
             this.ErrorMessageResult<LaboratoryDTO>(currentUser.Error);
     }
 
-    [Authorize]
-    [HttpGet("{id:guid}")]
+    [HttpGet]
+    public async Task<ActionResult<RequestResponse<PagedResponse<LaboratoryDTO>>>> GetPage([FromQuery] PaginationSearchQueryParams pagination)
+    {
+        return this.FromServiceResponse(await _laboratoryService.GetLaboratories(pagination));
+    }
+
+    [HttpGet]
     public async Task<ActionResult<RequestResponse<LaboratoryDTO>>> GetByName([FromRoute] string assistantName)
     {
         var currentUser = await GetCurrentUser();

@@ -25,6 +25,8 @@ public interface IUserService
     /// <summary>
     /// GetUserCount returns the number of users in the database.
     /// </summary>
+    /// 
+    public Task<ServiceResponse> Register(UserAddDTO user, CancellationToken cancellationToken = default);
     public Task<ServiceResponse<int>> GetUserCount(CancellationToken cancellationToken = default);
     /// <summary>
     /// AddUser adds an user and verifies if requesting user has permissions to add one.

@@ -23,7 +23,7 @@ export const useLoginApi = () => {
 }
 
 export const useRegisterApi = () => {
-    const registerMutation = (user: UserAddDTO) => new AuthorizationApi().apiAuthorizationRegisterPost({ userAddDTO: user }); // Use the generated client code and adapt it.
+    const registerMutation = (newUser: UserAddDTO) => new AuthorizationApi().apiAuthorizationRegisterPost({ userAddDTO: newUser }); // Use the generated client code and adapt it.
 
     return {
         registerMutation: { // Return the mutation object.

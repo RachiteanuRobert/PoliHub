@@ -26,6 +26,8 @@ import {
     LoginResponseDTORequestResponseFromJSON,
     LoginResponseDTORequestResponseToJSON,
     RequestResponseFromJSON,
+    RequestResponseToJSON,
+    UserAddDTOFromJSON,
     UserAddDTOToJSON,
 } from '../models';
 
@@ -73,6 +75,8 @@ export class AuthorizationApi extends runtime.BaseAPI {
         return await response.value();
     }
 
+    /**
+     */
     async apiAuthorizationRegisterPostRaw(requestParameters: ApiAuthorizationRegisterPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<RequestResponse>> {
         const queryParameters: any = {};
 

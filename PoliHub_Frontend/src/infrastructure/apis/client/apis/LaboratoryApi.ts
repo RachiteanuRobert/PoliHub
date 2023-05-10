@@ -16,6 +16,7 @@
 import * as runtime from '../runtime';
 import type {
   LaboratoryAddDTO,
+  LaboratoryDTOPagedResponseRequestResponse,
   LaboratoryDTORequestResponse,
   LaboratoryUpdateDTO,
   RequestResponse,
@@ -23,6 +24,8 @@ import type {
 import {
     LaboratoryAddDTOFromJSON,
     LaboratoryAddDTOToJSON,
+    LaboratoryDTOPagedResponseRequestResponseFromJSON,
+    LaboratoryDTOPagedResponseRequestResponseToJSON,
     LaboratoryDTORequestResponseFromJSON,
     LaboratoryDTORequestResponseToJSON,
     LaboratoryUpdateDTOFromJSON,
@@ -43,9 +46,14 @@ export interface ApiLaboratoryGetByIdIdGetRequest {
     id: string;
 }
 
-export interface ApiLaboratoryGetByNameIdGetRequest {
+export interface ApiLaboratoryGetByNameGetRequest {
     assistantName: string;
-    id: string;
+}
+
+export interface ApiLaboratoryGetPageGetRequest {
+    search?: string;
+    page?: number;
+    pageSize?: number;
 }
 
 export interface ApiLaboratoryUpdatePutRequest {
@@ -154,13 +162,9 @@ export class LaboratoryApi extends runtime.BaseAPI {
 
     /**
      */
-    async apiLaboratoryGetByNameIdGetRaw(requestParameters: ApiLaboratoryGetByNameIdGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<LaboratoryDTORequestResponse>> {
+    async apiLaboratoryGetByNameGetRaw(requestParameters: ApiLaboratoryGetByNameGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<LaboratoryDTORequestResponse>> {
         if (requestParameters.assistantName === null || requestParameters.assistantName === undefined) {
-            throw new runtime.RequiredError('assistantName','Required parameter requestParameters.assistantName was null or undefined when calling apiLaboratoryGetByNameIdGet.');
-        }
-
-        if (requestParameters.id === null || requestParameters.id === undefined) {
-            throw new runtime.RequiredError('id','Required parameter requestParameters.id was null or undefined when calling apiLaboratoryGetByNameIdGet.');
+            throw new runtime.RequiredError('assistantName','Required parameter requestParameters.assistantName was null or undefined when calling apiLaboratoryGetByNameGet.');
         }
 
         const queryParameters: any = {};
@@ -172,7 +176,7 @@ export class LaboratoryApi extends runtime.BaseAPI {
         }
 
         const response = await this.request({
-            path: `/api/Laboratory/GetByName/{id}`.replace(`{${"assistantName"}}`, encodeURIComponent(String(requestParameters.assistantName))).replace(`{${"id"}}`, encodeURIComponent(String(requestParameters.id))),
+            path: `/api/Laboratory/GetByName`.replace(`{${"assistantName"}}`, encodeURIComponent(String(requestParameters.assistantName))),
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
@@ -183,8 +187,48 @@ export class LaboratoryApi extends runtime.BaseAPI {
 
     /**
      */
-    async apiLaboratoryGetByNameIdGet(requestParameters: ApiLaboratoryGetByNameIdGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<LaboratoryDTORequestResponse> {
-        const response = await this.apiLaboratoryGetByNameIdGetRaw(requestParameters, initOverrides);
+    async apiLaboratoryGetByNameGet(requestParameters: ApiLaboratoryGetByNameGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<LaboratoryDTORequestResponse> {
+        const response = await this.apiLaboratoryGetByNameGetRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     */
+    async apiLaboratoryGetPageGetRaw(requestParameters: ApiLaboratoryGetPageGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<LaboratoryDTOPagedResponseRequestResponse>> {
+        const queryParameters: any = {};
+
+        if (requestParameters.search !== undefined) {
+            queryParameters['Search'] = requestParameters.search;
+        }
+
+        if (requestParameters.page !== undefined) {
+            queryParameters['Page'] = requestParameters.page;
+        }
+
+        if (requestParameters.pageSize !== undefined) {
+            queryParameters['PageSize'] = requestParameters.pageSize;
+        }
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["Authorization"] = this.configuration.apiKey("Authorization"); // Bearer authentication
+        }
+
+        const response = await this.request({
+            path: `/api/Laboratory/GetPage`,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => LaboratoryDTOPagedResponseRequestResponseFromJSON(jsonValue));
+    }
+
+    /**
+     */
+    async apiLaboratoryGetPageGet(requestParameters: ApiLaboratoryGetPageGetRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<LaboratoryDTOPagedResponseRequestResponse> {
+        const response = await this.apiLaboratoryGetPageGetRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

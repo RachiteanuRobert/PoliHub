@@ -100,6 +100,12 @@ export interface User {
     role?: UserRoleEnum;
     /**
      * 
+     * @type {string}
+     * @memberof User
+     */
+    group?: string | null;
+    /**
+     * 
      * @type {Array<UserFile>}
      * @memberof User
      */
@@ -156,6 +162,7 @@ export function UserFromJSONTyped(json: any, ignoreDiscriminator: boolean): User
         'email': !exists(json, 'email') ? undefined : json['email'],
         'password': !exists(json, 'password') ? undefined : json['password'],
         'role': !exists(json, 'role') ? undefined : UserRoleEnumFromJSON(json['role']),
+        'group': !exists(json, 'group') ? undefined : json['group'],
         'userFiles': !exists(json, 'userFiles') ? undefined : (json['userFiles'] === null ? null : (json['userFiles'] as Array<any>).map(UserFileFromJSON)),
         'courses': !exists(json, 'courses') ? undefined : (json['courses'] === null ? null : (json['courses'] as Array<any>).map(CourseFromJSON)),
         'laboratories': !exists(json, 'laboratories') ? undefined : (json['laboratories'] === null ? null : (json['laboratories'] as Array<any>).map(LaboratoryFromJSON)),
@@ -180,6 +187,7 @@ export function UserToJSON(value?: User | null): any {
         'email': value.email,
         'password': value.password,
         'role': UserRoleEnumToJSON(value.role),
+        'group': value.group,
         'userFiles': value.userFiles === undefined ? undefined : (value.userFiles === null ? null : (value.userFiles as Array<any>).map(UserFileToJSON)),
         'courses': value.courses === undefined ? undefined : (value.courses === null ? null : (value.courses as Array<any>).map(CourseToJSON)),
         'laboratories': value.laboratories === undefined ? undefined : (value.laboratories === null ? null : (value.laboratories as Array<any>).map(LaboratoryToJSON)),
