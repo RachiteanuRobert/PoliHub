@@ -19,12 +19,12 @@ import {
     CourseFromJSONTyped,
     CourseToJSON,
 } from './Course';
-import type { Laboratory } from './Laboratory';
+import type { User } from './User';
 import {
-    LaboratoryFromJSON,
-    LaboratoryFromJSONTyped,
-    LaboratoryToJSON,
-} from './Laboratory';
+    UserFromJSON,
+    UserFromJSONTyped,
+    UserToJSON,
+} from './User';
 
 /**
  * 
@@ -67,7 +67,7 @@ export interface Subject {
      * @type {string}
      * @memberof Subject
      */
-    professor?: string | null;
+    semester?: string;
     /**
      * 
      * @type {string}
@@ -88,16 +88,16 @@ export interface Subject {
     description?: string | null;
     /**
      * 
-     * @type {Course}
+     * @type {Array<Course>}
      * @memberof Subject
      */
-    course?: Course;
+    courses?: Array<Course> | null;
     /**
      * 
-     * @type {Array<Laboratory>}
+     * @type {Array<User>}
      * @memberof Subject
      */
-    laboratories?: Array<Laboratory> | null;
+    students?: Array<User> | null;
 }
 
 /**
@@ -124,12 +124,12 @@ export function SubjectFromJSONTyped(json: any, ignoreDiscriminator: boolean): S
         'updatedAt': !exists(json, 'updatedAt') ? undefined : (new Date(json['updatedAt'])),
         'name': !exists(json, 'name') ? undefined : json['name'],
         'year': !exists(json, 'year') ? undefined : json['year'],
-        'professor': !exists(json, 'professor') ? undefined : json['professor'],
+        'semester': !exists(json, 'semester') ? undefined : json['semester'],
         'department': !exists(json, 'department') ? undefined : json['department'],
         'creditsNo': !exists(json, 'creditsNo') ? undefined : json['creditsNo'],
         'description': !exists(json, 'description') ? undefined : json['description'],
-        'course': !exists(json, 'course') ? undefined : CourseFromJSON(json['course']),
-        'laboratories': !exists(json, 'laboratories') ? undefined : (json['laboratories'] === null ? null : (json['laboratories'] as Array<any>).map(LaboratoryFromJSON)),
+        'courses': !exists(json, 'courses') ? undefined : (json['courses'] === null ? null : (json['courses'] as Array<any>).map(CourseFromJSON)),
+        'students': !exists(json, 'students') ? undefined : (json['students'] === null ? null : (json['students'] as Array<any>).map(UserFromJSON)),
     };
 }
 
@@ -147,12 +147,12 @@ export function SubjectToJSON(value?: Subject | null): any {
         'updatedAt': value.updatedAt === undefined ? undefined : (value.updatedAt.toISOString()),
         'name': value.name,
         'year': value.year,
-        'professor': value.professor,
+        'semester': value.semester,
         'department': value.department,
         'creditsNo': value.creditsNo,
         'description': value.description,
-        'course': CourseToJSON(value.course),
-        'laboratories': value.laboratories === undefined ? undefined : (value.laboratories === null ? null : (value.laboratories as Array<any>).map(LaboratoryToJSON)),
+        'courses': value.courses === undefined ? undefined : (value.courses === null ? null : (value.courses as Array<any>).map(CourseToJSON)),
+        'students': value.students === undefined ? undefined : (value.students === null ? null : (value.students as Array<any>).map(UserToJSON)),
     };
 }
 

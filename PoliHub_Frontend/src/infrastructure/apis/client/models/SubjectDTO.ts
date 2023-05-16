@@ -19,12 +19,6 @@ import {
     CourseSimpleDTOFromJSONTyped,
     CourseSimpleDTOToJSON,
 } from './CourseSimpleDTO';
-import type { LaboratorySimpleDTO } from './LaboratorySimpleDTO';
-import {
-    LaboratorySimpleDTOFromJSON,
-    LaboratorySimpleDTOFromJSONTyped,
-    LaboratorySimpleDTOToJSON,
-} from './LaboratorySimpleDTO';
 
 /**
  * 
@@ -55,7 +49,7 @@ export interface SubjectDTO {
      * @type {string}
      * @memberof SubjectDTO
      */
-    professor?: string | null;
+    semester?: string;
     /**
      * 
      * @type {string}
@@ -76,16 +70,10 @@ export interface SubjectDTO {
     description?: string | null;
     /**
      * 
-     * @type {CourseSimpleDTO}
+     * @type {Array<CourseSimpleDTO>}
      * @memberof SubjectDTO
      */
-    course?: CourseSimpleDTO;
-    /**
-     * 
-     * @type {Array<LaboratorySimpleDTO>}
-     * @memberof SubjectDTO
-     */
-    laboratories?: Array<LaboratorySimpleDTO> | null;
+    courses?: Array<CourseSimpleDTO> | null;
 }
 
 /**
@@ -110,12 +98,11 @@ export function SubjectDTOFromJSONTyped(json: any, ignoreDiscriminator: boolean)
         'id': !exists(json, 'id') ? undefined : json['id'],
         'name': !exists(json, 'name') ? undefined : json['name'],
         'year': !exists(json, 'year') ? undefined : json['year'],
-        'professor': !exists(json, 'professor') ? undefined : json['professor'],
+        'semester': !exists(json, 'semester') ? undefined : json['semester'],
         'department': !exists(json, 'department') ? undefined : json['department'],
         'creditsNo': !exists(json, 'creditsNo') ? undefined : json['creditsNo'],
         'description': !exists(json, 'description') ? undefined : json['description'],
-        'course': !exists(json, 'course') ? undefined : CourseSimpleDTOFromJSON(json['course']),
-        'laboratories': !exists(json, 'laboratories') ? undefined : (json['laboratories'] === null ? null : (json['laboratories'] as Array<any>).map(LaboratorySimpleDTOFromJSON)),
+        'courses': !exists(json, 'courses') ? undefined : (json['courses'] === null ? null : (json['courses'] as Array<any>).map(CourseSimpleDTOFromJSON)),
     };
 }
 
@@ -131,12 +118,11 @@ export function SubjectDTOToJSON(value?: SubjectDTO | null): any {
         'id': value.id,
         'name': value.name,
         'year': value.year,
-        'professor': value.professor,
+        'semester': value.semester,
         'department': value.department,
         'creditsNo': value.creditsNo,
         'description': value.description,
-        'course': CourseSimpleDTOToJSON(value.course),
-        'laboratories': value.laboratories === undefined ? undefined : (value.laboratories === null ? null : (value.laboratories as Array<any>).map(LaboratorySimpleDTOToJSON)),
+        'courses': value.courses === undefined ? undefined : (value.courses === null ? null : (value.courses as Array<any>).map(CourseSimpleDTOToJSON)),
     };
 }
 

@@ -21,10 +21,16 @@ import { exists, mapValues } from '../runtime';
 export interface LaboratoryAddDTO {
     /**
      * 
-     * @type {number}
+     * @type {string}
      * @memberof LaboratoryAddDTO
      */
-    startTime?: number;
+    assistantName?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof LaboratoryAddDTO
+     */
+    startTime?: string | null;
     /**
      * 
      * @type {number}
@@ -39,28 +45,16 @@ export interface LaboratoryAddDTO {
     location?: string | null;
     /**
      * 
-     * @type {string}
+     * @type {number}
      * @memberof LaboratoryAddDTO
      */
-    assistantName?: string | null;
+    dayOfWeek?: number;
     /**
      * 
      * @type {string}
      * @memberof LaboratoryAddDTO
      */
-    subjectId?: string;
-    /**
-     * 
-     * @type {Array<string>}
-     * @memberof LaboratoryAddDTO
-     */
-    laboratoryInstances?: Array<string> | null;
-    /**
-     * 
-     * @type {Array<string>}
-     * @memberof LaboratoryAddDTO
-     */
-    students?: Array<string> | null;
+    courseId?: string;
 }
 
 /**
@@ -82,13 +76,12 @@ export function LaboratoryAddDTOFromJSONTyped(json: any, ignoreDiscriminator: bo
     }
     return {
         
+        'assistantName': !exists(json, 'assistantName') ? undefined : json['assistantName'],
         'startTime': !exists(json, 'startTime') ? undefined : json['startTime'],
         'duration': !exists(json, 'duration') ? undefined : json['duration'],
         'location': !exists(json, 'location') ? undefined : json['location'],
-        'assistantName': !exists(json, 'assistantName') ? undefined : json['assistantName'],
-        'subjectId': !exists(json, 'subjectId') ? undefined : json['subjectId'],
-        'laboratoryInstances': !exists(json, 'laboratoryInstances') ? undefined : json['laboratoryInstances'],
-        'students': !exists(json, 'students') ? undefined : json['students'],
+        'dayOfWeek': !exists(json, 'dayOfWeek') ? undefined : json['dayOfWeek'],
+        'courseId': !exists(json, 'courseId') ? undefined : json['courseId'],
     };
 }
 
@@ -101,13 +94,12 @@ export function LaboratoryAddDTOToJSON(value?: LaboratoryAddDTO | null): any {
     }
     return {
         
+        'assistantName': value.assistantName,
         'startTime': value.startTime,
         'duration': value.duration,
         'location': value.location,
-        'assistantName': value.assistantName,
-        'subjectId': value.subjectId,
-        'laboratoryInstances': value.laboratoryInstances,
-        'students': value.students,
+        'dayOfWeek': value.dayOfWeek,
+        'courseId': value.courseId,
     };
 }
 

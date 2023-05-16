@@ -39,28 +39,10 @@ export interface UserUpdateDTO {
     password?: string | null;
     /**
      * 
-     * @type {Array<string>}
+     * @type {string}
      * @memberof UserUpdateDTO
      */
-    laboratories?: Array<string> | null;
-    /**
-     * 
-     * @type {Array<string>}
-     * @memberof UserUpdateDTO
-     */
-    courses?: Array<string> | null;
-    /**
-     * 
-     * @type {Array<string>}
-     * @memberof UserUpdateDTO
-     */
-    laboratoryInstances?: Array<string> | null;
-    /**
-     * 
-     * @type {Array<string>}
-     * @memberof UserUpdateDTO
-     */
-    courseInstances?: Array<string> | null;
+    group?: string | null;
 }
 
 /**
@@ -85,10 +67,7 @@ export function UserUpdateDTOFromJSONTyped(json: any, ignoreDiscriminator: boole
         'id': !exists(json, 'id') ? undefined : json['id'],
         'name': !exists(json, 'name') ? undefined : json['name'],
         'password': !exists(json, 'password') ? undefined : json['password'],
-        'laboratories': !exists(json, 'laboratories') ? undefined : json['laboratories'],
-        'courses': !exists(json, 'courses') ? undefined : json['courses'],
-        'laboratoryInstances': !exists(json, 'laboratoryInstances') ? undefined : json['laboratoryInstances'],
-        'courseInstances': !exists(json, 'courseInstances') ? undefined : json['courseInstances'],
+        'group': !exists(json, 'group') ? undefined : json['group'],
     };
 }
 
@@ -104,10 +83,7 @@ export function UserUpdateDTOToJSON(value?: UserUpdateDTO | null): any {
         'id': value.id,
         'name': value.name,
         'password': value.password,
-        'laboratories': value.laboratories,
-        'courses': value.courses,
-        'laboratoryInstances': value.laboratoryInstances,
-        'courseInstances': value.courseInstances,
+        'group': value.group,
     };
 }
 

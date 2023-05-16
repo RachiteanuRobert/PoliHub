@@ -16,14 +16,22 @@ public class CourseConfiguration : IEntityTypeConfiguration<Course>
         builder.Property(e => e.Id) // This specifies which property is configured.
             .IsRequired(); // Here it is specified if the property is required, meaning it cannot be null in the database.
         builder.HasKey(x => x.Id); // Here it is specifies that the property Id is the primary key.
-        builder.Property(e => e.StartTime)
+        builder.Property(e => e.ProfessorName)
             .HasMaxLength(255)
+            .IsRequired();
+        builder.Property(e => e.StartTime)
             .IsRequired();
         builder.Property(e => e.Duration)
             .HasMaxLength(255)
             .IsRequired();
         builder.Property(e => e.Location)
             .HasMaxLength(255)
+            .IsRequired();
+        builder.Property(e => e.Series)
+            .HasMaxLength(10)
+            .IsRequired();
+        builder.Property(e => e.DayOfWeek)
+            .HasMaxLength(10)
             .IsRequired();
         builder.Property(e => e.CreatedAt)
             .IsRequired();
@@ -33,5 +41,12 @@ public class CourseConfiguration : IEntityTypeConfiguration<Course>
         builder.HasMany(e => e.Students)
             .WithMany(l => l.Courses)
             .UsingEntity(j => j.ToTable("CourseStudents"));
+
+        builder.HasOne(e => e.Subject)
+             .WithMany(s => s.Courses)
+             .HasForeignKey(s => s.SubjectId)
+             .HasPrincipalKey(e => e.Id) 
+            .IsRequired()
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }

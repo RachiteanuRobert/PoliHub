@@ -12,10 +12,9 @@ public class SubjectDTO
     public Guid Id { get; set; }
     public string Name { get; set; } = default!;
     public char Year { get; set; } = default!;
-    public string Professor { get; set; } = default!;
+    public char Semester { get; set; } = default!;
     public string Department { get; set; } = default!;
     public char CreditsNo { get; set; } = default!;
     public string Description { get; set; } = default!;
-    public CourseSimpleDTO Course { get; set; } = default!;
-    public ICollection<LaboratorySimpleDTO> Laboratories { get; set; } = default!;
+    public ICollection<CourseSimpleDTO> Courses { get; set; } = default!;
 }

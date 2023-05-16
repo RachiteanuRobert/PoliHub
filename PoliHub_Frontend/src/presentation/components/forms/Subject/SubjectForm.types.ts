@@ -11,9 +11,9 @@ export type SubjectFormModel = {
     id?: string,
     name: string;
     year: string;
-    professor: string;
+    semester: string;
     department: string;
-    creditsno: string;
+    creditsNo: string;
     description: string
 };
 

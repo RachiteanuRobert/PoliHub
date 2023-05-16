@@ -20,27 +20,25 @@ public class SubjectConfiguration : IEntityTypeConfiguration<Subject>
         builder.Property(e => e.Year)
             .HasMaxLength(5)
             .IsRequired();
-        builder.Property(e => e.Professor)
-            .HasMaxLength(255)
+        builder.Property(e => e.Semester)
+            .HasMaxLength(5)
             .IsRequired();
         builder.Property(e => e.Department)
-            .HasMaxLength(255)
+            .HasMaxLength(5)
             .IsRequired();
         builder.Property(e => e.CreditsNo)
             .HasMaxLength(5)
             .IsRequired();
         builder.Property(e => e.Description)
-            .HasMaxLength(4095)
+            .HasMaxLength(300)
             .IsRequired(false); // This specifies that this column can be null in the database.
         builder.Property(e => e.CreatedAt)
             .IsRequired();
         builder.Property(e => e.UpdatedAt)
             .IsRequired();
 
-        builder.HasOne(e => e.Course)
-            .WithOne(s => s.Subject)
-            .HasForeignKey<Course>(s => s.SubjectId)
-            .IsRequired();
-
+        builder.HasMany(e => e.Students)
+            .WithMany(l => l.Subjects)
+            .UsingEntity(j => j.ToTable("SubjectsStudents"));
     }
 }

@@ -7,11 +7,14 @@ namespace MobyLabWebProgramming.Core.Entities;
 /// </summary>
 public class Course : BaseEntity
 {
-    public int StartTime { get; set; } = default!;
+    public string ProfessorName { get; set; } = default!;
+    public string StartTime { get; set; } = default!;
     public int Duration { get; set; } = default!;
     public string Location { get; set; } = default!;
-    public Subject Subject { get; set; } = default!;
+    public string Series { get; set; } = default!;
+    public int DayOfWeek { get; set; } = default!;
     public Guid SubjectId { get; set; } = default!;
+    public Subject Subject { get; set; } = default!;
 
     /// <summary>
     /// References to other entities such as this are used to automatically fetch correlated data, this is called a navigation property.
@@ -19,5 +22,6 @@ public class Course : BaseEntity
     /// Note that this field will be null if not explicitly requested via a Include query, also note that the property is used by the ORM, in the database this collection doesn't exist. 
     /// </summary>
     public ICollection<CourseInstance> CourseInstances { get; set; } = default!;
+    public ICollection<Laboratory> Laboratories { get; set; } = default!;
     public ICollection<User> Students { get; set; } = default!;
 }

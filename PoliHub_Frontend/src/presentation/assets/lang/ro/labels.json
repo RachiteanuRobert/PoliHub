@@ -5,6 +5,9 @@
     "labels.yes": "Da",
     "labels.no": "Nu",
     "labels.actions": "Actiuni",
+    "labels.addSubject": "Adauga materie",
+    "labels.addCourse": "Adauga curs",
+    "labels.addLaboratory": "Adauga laborator",
     "labels.addUser": "Adauga utilizator",
     "labels.addUserFile": "Adauga fisier"
 }

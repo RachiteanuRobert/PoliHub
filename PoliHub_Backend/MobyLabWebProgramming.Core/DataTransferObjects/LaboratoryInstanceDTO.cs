@@ -10,7 +10,7 @@ public class LaboratoryInstanceDTO
 {
     public Guid Id { get; set; }
     public Guid LaboratoryId { get; set; } = default!;
-    public DateOnly LaboratoryInstanceDate { get; set; } = default!;
-    public ICollection<Guid> Students { get; set; } = default!;
+    public DateTime LaboratoryInstanceDate { get; set; } = default!;
+    public ICollection<UserSimpleDTO> Students { get; set; } = default!;
 
 }

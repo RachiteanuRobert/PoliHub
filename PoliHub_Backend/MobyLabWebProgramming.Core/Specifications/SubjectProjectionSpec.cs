@@ -20,7 +20,7 @@ public sealed class SubjectProjectionSpec : BaseSpec<SubjectProjectionSpec, Subj
         Id = e.Id,
         Name = e.Name,
         Year = e.Year,
-        Professor = e.Professor,
+        Semester = e.Semester,
         Department = e.Department,
         CreditsNo = e.CreditsNo,
         Description = e.Description,
@@ -32,7 +32,7 @@ public sealed class SubjectProjectionSpec : BaseSpec<SubjectProjectionSpec, Subj
             Duration = e.Course.Duration,
             Location = e.Course.Location,
             SubjectId = e.Id
-        },*/
+        },
         
         Laboratories = (ICollection<LaboratorySimpleDTO>)e.Laboratories.Select(l => new LaboratorySimpleDTO
         {
@@ -43,6 +43,7 @@ public sealed class SubjectProjectionSpec : BaseSpec<SubjectProjectionSpec, Subj
             AssistantName = l.AssistantName,
             SubjectId = e.Id,
         })
+        */
     };
 
     public SubjectProjectionSpec(Guid id) : base(id)
@@ -60,7 +61,6 @@ public sealed class SubjectProjectionSpec : BaseSpec<SubjectProjectionSpec, Subj
         var searchExpr = $"%{search.Replace(" ", "%")}%";
 
         Query
-            .Include(e => e.Laboratories)
             .Where(e => EF.Functions.ILike(e.Name, searchExpr));
     }
 }

@@ -18,6 +18,7 @@ models/CourseInstance.ts
 models/CourseInstanceAddDTO.ts
 models/CourseInstanceDTO.ts
 models/CourseInstanceDTORequestResponse.ts
+models/CourseInstanceSimpleDTO.ts
 models/CourseInstanceUpdateDTO.ts
 models/CourseSimpleDTO.ts
 models/CourseUpdateDTO.ts
@@ -34,6 +35,7 @@ models/LaboratoryInstance.ts
 models/LaboratoryInstanceAddDTO.ts
 models/LaboratoryInstanceDTO.ts
 models/LaboratoryInstanceDTORequestResponse.ts
+models/LaboratoryInstanceSimpleDTO.ts
 models/LaboratoryInstanceUpdateDTO.ts
 models/LaboratorySimpleDTO.ts
 models/LaboratoryUpdateDTO.ts
@@ -47,6 +49,7 @@ models/SubjectDTO.ts
 models/SubjectDTOPagedResponse.ts
 models/SubjectDTOPagedResponseRequestResponse.ts
 models/SubjectDTORequestResponse.ts
+models/SubjectSimpleDTO.ts
 models/SubjectUpdateDTO.ts
 models/User.ts
 models/UserAddDTO.ts
@@ -59,5 +62,6 @@ models/UserFileDTO.ts
 models/UserFileDTOPagedResponse.ts
 models/UserFileDTOPagedResponseRequestResponse.ts
 models/UserRoleEnum.ts
+models/UserSimpleDTO.ts
 models/UserUpdateDTO.ts
 models/index.ts

@@ -7,9 +7,9 @@ const initialState: SubjectState = {
         id: "",
         name: "",
         year: "",
-        professor: "",
+        semester: "",
         department: "",
-        creditsno: "",
+        creditsNo: "",
         description: "",
     }
 }

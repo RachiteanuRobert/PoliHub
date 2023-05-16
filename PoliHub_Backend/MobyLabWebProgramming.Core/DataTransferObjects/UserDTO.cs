@@ -16,6 +16,7 @@ public class UserDTO
     public string Group { get; set; } = default!;
     public ICollection<CourseSimpleDTO> Courses { get; set; } = default!;
     public ICollection<LaboratorySimpleDTO> Laboratories { get; set; } = default!;
+    public ICollection<SubjectSimpleDTO> Subjects { get; set; } = default!;
     public ICollection<LaboratoryInstance> LaboratoryInstances { get; set; } = default!;
     public ICollection<CourseInstance> CourseInstances { get; set; } = default!;
 }

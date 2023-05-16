@@ -9,7 +9,7 @@ namespace MobyLabWebProgramming.Core.DataTransferObjects;
 /// </summary>
 public class CourseInstanceAddDTO
 {
-    public DateOnly CourseInstanceDate { get; set; } = default!;
+    public DateTime CourseInstanceDate { get; set; } = default!;
     public Guid CourseId { get; set; } = default!;
     public ICollection<Guid> Students { get; set; } = default!; 
 }

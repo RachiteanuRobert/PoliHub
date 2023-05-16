@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace MobyLabWebProgramming.Infrastructure.Migrations
 {
     [DbContext(typeof(WebAppDatabaseContext))]
-    [Migration("20230412154322_BaseEntitiesAdditionUpdated")]
-    partial class BaseEntitiesAdditionUpdated
+    [Migration("20230511164839_update_starttime_timeonly")]
+    partial class update_starttime_timeonly
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -103,9 +103,9 @@ namespace MobyLabWebProgramming.Infrastructure.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("character varying(255)");
 
-                    b.Property<int>("StartTime")
+                    b.Property<TimeOnly>("StartTime")
                         .HasMaxLength(255)
-                        .HasColumnType("integer");
+                        .HasColumnType("time without time zone");
 
                     b.Property<Guid>("SubjectId")
                         .HasColumnType("uuid");
@@ -129,6 +129,9 @@ namespace MobyLabWebProgramming.Infrastructure.Migrations
 
                     b.Property<Guid>("CourseId")
                         .HasColumnType("uuid");
+
+                    b.Property<DateOnly>("CourseInstanceDate")
+                        .HasColumnType("date");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp without time zone");
@@ -166,9 +169,9 @@ namespace MobyLabWebProgramming.Infrastructure.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("character varying(255)");
 
-                    b.Property<int>("StartTime")
+                    b.Property<TimeOnly>("StartTime")
                         .HasMaxLength(255)
-                        .HasColumnType("integer");
+                        .HasColumnType("time without time zone");
 
                     b.Property<Guid>("SubjectId")
                         .HasColumnType("uuid");
@@ -194,6 +197,9 @@ namespace MobyLabWebProgramming.Infrastructure.Migrations
 
                     b.Property<Guid>("LaboratoryId")
                         .HasColumnType("uuid");
+
+                    b.Property<DateOnly>("LaboratoryInstanceDate")
+                        .HasColumnType("date");
 
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("timestamp without time zone");
@@ -259,6 +265,11 @@ namespace MobyLabWebProgramming.Infrastructure.Migrations
                         .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("Email")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("character varying(255)");
+
+                    b.Property<string>("Group")
                         .IsRequired()
                         .HasMaxLength(255)
                         .HasColumnType("character varying(255)");

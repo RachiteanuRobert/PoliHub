@@ -108,6 +108,33 @@ export const UserAddForm = (props: { onSubmit?: () => void }) => {
                 <Grid container item direction="column" xs={6} md={6}>
                     <FormControl
                         fullWidth
+                        error={!isUndefined(state.errors.group)}
+                    >
+                        <FormLabel required>
+                            <FormattedMessage id="globals.group" />
+                        </FormLabel>
+                        <OutlinedInput
+                            type="group"
+                            {...actions.register("group")}
+                            placeholder={formatMessage(
+                                { id: "globals.placeholders.textInput" },
+                                {
+                                    fieldName: formatMessage({
+                                        id: "globals.group",
+                                    }),
+                                })}
+                            autoComplete="none"
+                        />
+                        <FormHelperText
+                            hidden={isUndefined(state.errors.group)}
+                        >
+                            {state.errors.group?.message}
+                        </FormHelperText>
+                    </FormControl>
+                </Grid>
+                <Grid container item direction="column" xs={6} md={6}>
+                    <FormControl
+                        fullWidth
                         error={!isUndefined(state.errors.role)}
                     >
                         <FormLabel required>

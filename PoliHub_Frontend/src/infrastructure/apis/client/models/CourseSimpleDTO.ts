@@ -24,13 +24,19 @@ export interface CourseSimpleDTO {
      * @type {string}
      * @memberof CourseSimpleDTO
      */
+    professorName?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof CourseSimpleDTO
+     */
     id?: string;
     /**
      * 
-     * @type {number}
+     * @type {string}
      * @memberof CourseSimpleDTO
      */
-    startTime?: number;
+    startTime?: string | null;
     /**
      * 
      * @type {number}
@@ -43,6 +49,12 @@ export interface CourseSimpleDTO {
      * @memberof CourseSimpleDTO
      */
     location?: string | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof CourseSimpleDTO
+     */
+    dayOfWeek?: number;
     /**
      * 
      * @type {string}
@@ -70,10 +82,12 @@ export function CourseSimpleDTOFromJSONTyped(json: any, ignoreDiscriminator: boo
     }
     return {
         
+        'professorName': !exists(json, 'professorName') ? undefined : json['professorName'],
         'id': !exists(json, 'id') ? undefined : json['id'],
         'startTime': !exists(json, 'startTime') ? undefined : json['startTime'],
         'duration': !exists(json, 'duration') ? undefined : json['duration'],
         'location': !exists(json, 'location') ? undefined : json['location'],
+        'dayOfWeek': !exists(json, 'dayOfWeek') ? undefined : json['dayOfWeek'],
         'subjectId': !exists(json, 'subjectId') ? undefined : json['subjectId'],
     };
 }
@@ -87,10 +101,12 @@ export function CourseSimpleDTOToJSON(value?: CourseSimpleDTO | null): any {
     }
     return {
         
+        'professorName': value.professorName,
         'id': value.id,
         'startTime': value.startTime,
         'duration': value.duration,
         'location': value.location,
+        'dayOfWeek': value.dayOfWeek,
         'subjectId': value.subjectId,
     };
 }

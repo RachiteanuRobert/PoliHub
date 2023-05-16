@@ -82,7 +82,7 @@ export function CourseInstanceUpdateDTOToJSON(value?: CourseInstanceUpdateDTO | 
         
         'id': value.id,
         'courseId': value.courseId,
-        'courseInstanceDate': value.courseInstanceDate === undefined ? undefined : (value.courseInstanceDate.toISOString().substr(0,10)),
+        'courseInstanceDate': value.courseInstanceDate === undefined ? undefined : (value.courseInstanceDate.toISOString()),
         'students': value.students,
     };
 }

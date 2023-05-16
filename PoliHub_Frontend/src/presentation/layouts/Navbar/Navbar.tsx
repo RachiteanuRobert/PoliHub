@@ -72,6 +72,27 @@ export const Navbar = () => {
                   </Link>
                 </Button>
               </Grid>
+              <Grid container item direction="column" xs={1}>
+                <Button color="inherit">
+                  <Link style={{ color: 'white' }} to={AppRoute.Subjects}>
+                    {formatMessage({ id: "globals.subjects" })}
+                  </Link>
+                </Button>
+              </Grid>
+              <Grid container item direction="column" xs={1}>
+                <Button color="inherit">
+                  <Link style={{ color: 'white' }} to={AppRoute.Courses}>
+                    {formatMessage({ id: "globals.courses" })}
+                  </Link>
+                </Button>
+              </Grid>
+              <Grid container item direction="column" xs={1}>
+                <Button color="inherit">
+                  <Link style={{ color: 'white' }} to={AppRoute.Laboratories}>
+                    {formatMessage({ id: "globals.laboratories" })}
+                  </Link>
+                </Button>
+              </Grid>
             </Grid>}
           </Grid>
           <div style={{ display: 'flex', alignItems: 'center' }}>

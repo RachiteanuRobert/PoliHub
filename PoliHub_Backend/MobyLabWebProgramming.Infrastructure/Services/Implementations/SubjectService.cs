@@ -59,7 +59,7 @@ public class SubjectService : ISubjectService
         {
             return ServiceResponse.FromError(new(HttpStatusCode.Forbidden, "Subject already exists!", ErrorCodes.CannotAdd));
         }
-
+        /*
         var Laboratories = new List<Laboratory>();
         //var NewCourse = new Course();  
 
@@ -76,7 +76,7 @@ public class SubjectService : ISubjectService
             }
         }
 
-        /*
+        
         NewCourse = await _repository.GetAsync(new CourseSpec(subject.Id), cancellationToken);
         if (NewCourse == null)
         {
@@ -88,12 +88,15 @@ public class SubjectService : ISubjectService
         {
             Name = subject.Name,
             Year = subject.Year,
-            Professor = subject.Professor,
+            Semester = subject.Semester,
             Department = subject.Department,
             CreditsNo = subject.CreditsNo,
-            Description = subject.Description,
-            //Course = NewCourse,
+            Description = subject.Description
+
+            /*
+            Course = NewCourse,
             Laboratories = Laboratories
+            */
         });
 
         return ServiceResponse.ForSuccess();
@@ -108,6 +111,7 @@ public class SubjectService : ISubjectService
 
         var entity = await _repository.GetAsync(new SubjectSpec(subject.Id), cancellationToken);
 
+        /*
         var Laboratories = new List<Laboratory>();
 
         if (subject.Laboratories != null)
@@ -122,17 +126,19 @@ public class SubjectService : ISubjectService
                 Laboratories.Add(laboratory);
             }
         }
+        */
 
         if (entity != null)
         {
             entity.Name = subject.Name ?? entity.Name;
             entity.Year = subject.Year ?? entity.Year;
-            entity.Professor = subject.Professor ?? entity.Professor;
+            entity.Semester = subject.Semester ?? entity.Semester;
             entity.Department = subject.Department ?? entity.Department;
             entity.CreditsNo = subject.CreditsNo ?? entity.CreditsNo;
             entity.Description = subject.Description ?? entity.Description;
-            //entity.Course = subject.Course ?? entity.Course;
-            entity.Laboratories = subject.Laboratories == null ? entity.Laboratories : Laboratories;
+/*
+            entity.Course = subject.Course ?? entity.Course;
+            entity.Laboratories = subject.Laboratories == null ? entity.Laboratories : Laboratories;*/
 
             await _repository.UpdateAsync(entity, cancellationToken);
         }

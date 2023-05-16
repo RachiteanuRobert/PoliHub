@@ -21,10 +21,16 @@ import { exists, mapValues } from '../runtime';
 export interface CourseAddDTO {
     /**
      * 
-     * @type {number}
+     * @type {string}
      * @memberof CourseAddDTO
      */
-    startTime?: number;
+    professorName?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof CourseAddDTO
+     */
+    startTime?: string | null;
     /**
      * 
      * @type {number}
@@ -42,19 +48,19 @@ export interface CourseAddDTO {
      * @type {string}
      * @memberof CourseAddDTO
      */
+    series?: string | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof CourseAddDTO
+     */
+    dayOfWeek?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof CourseAddDTO
+     */
     subjectId?: string;
-    /**
-     * 
-     * @type {Array<string>}
-     * @memberof CourseAddDTO
-     */
-    courseInstances?: Array<string> | null;
-    /**
-     * 
-     * @type {Array<string>}
-     * @memberof CourseAddDTO
-     */
-    students?: Array<string> | null;
 }
 
 /**
@@ -76,12 +82,13 @@ export function CourseAddDTOFromJSONTyped(json: any, ignoreDiscriminator: boolea
     }
     return {
         
+        'professorName': !exists(json, 'professorName') ? undefined : json['professorName'],
         'startTime': !exists(json, 'startTime') ? undefined : json['startTime'],
         'duration': !exists(json, 'duration') ? undefined : json['duration'],
         'location': !exists(json, 'location') ? undefined : json['location'],
+        'series': !exists(json, 'series') ? undefined : json['series'],
+        'dayOfWeek': !exists(json, 'dayOfWeek') ? undefined : json['dayOfWeek'],
         'subjectId': !exists(json, 'subjectId') ? undefined : json['subjectId'],
-        'courseInstances': !exists(json, 'courseInstances') ? undefined : json['courseInstances'],
-        'students': !exists(json, 'students') ? undefined : json['students'],
     };
 }
 
@@ -94,12 +101,13 @@ export function CourseAddDTOToJSON(value?: CourseAddDTO | null): any {
     }
     return {
         
+        'professorName': value.professorName,
         'startTime': value.startTime,
         'duration': value.duration,
         'location': value.location,
+        'series': value.series,
+        'dayOfWeek': value.dayOfWeek,
         'subjectId': value.subjectId,
-        'courseInstances': value.courseInstances,
-        'students': value.students,
     };
 }
 

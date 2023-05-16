@@ -19,7 +19,8 @@ const getDefaultValues = (initialData?: UserAddFormModel) => {
         email: "",
         name: "",
         password: "",
-        role: "" as UserRoleEnum
+        role: "" as UserRoleEnum,
+        group: ""
     };
 
     if (!isUndefined(initialData)) {
@@ -59,6 +60,15 @@ const useInitUserAddForm = () => {
                 }))
             .email()
             .default(defaultValues.email),
+        group: yup.string()
+            .required(formatMessage(
+                { id: "globals.validations.requiredField" },
+                {
+                    fieldName: formatMessage({
+                        id: "globals.group",
+                    }),
+                }))
+            .default(defaultValues.group),
         password: yup.string()
             .required(formatMessage(
                 { id: "globals.validations.requiredField" },
@@ -71,7 +81,8 @@ const useInitUserAddForm = () => {
             .oneOf([ // The select input should have one of these values.
                 UserRoleEnum.Admin,
                 UserRoleEnum.Personnel,
-                UserRoleEnum.Student
+                UserRoleEnum.Student,
+                UserRoleEnum.Client
             ])
             .required(formatMessage(
                 { id: "globals.validations.requiredField" },

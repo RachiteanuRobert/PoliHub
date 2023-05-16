@@ -58,6 +58,7 @@ public class LaboratoryService : ILaboratoryService
             return ServiceResponse.FromError(new(HttpStatusCode.Forbidden, "Laboratory already exists!", ErrorCodes.CannotAdd));
         }
 
+        /*
         var Students = new List<User>();
         var LaboratoryInstances = new List<LaboratoryInstance>();
 
@@ -86,6 +87,7 @@ public class LaboratoryService : ILaboratoryService
                 LaboratoryInstances.Add(laboratoryInstance);
             }
         }
+        */
 
         await _repository.AddAsync(new Laboratory
         {
@@ -93,10 +95,14 @@ public class LaboratoryService : ILaboratoryService
             Duration = laboratory.Duration,
             Location = laboratory.Location,
             AssistantName = laboratory.AssistantName,
-            SubjectId = laboratory.SubjectId,
-            //Subject = laboratory.Subject,
+            DayOfWeek = laboratory.DayOfWeek,
+            CourseId = laboratory.CourseId,
+            /*
+            SubjectId = laboratory.SubjectId
+            Subject = laboratory.Subject,
             Students = Students,
             LaboratoryInstances = LaboratoryInstances
+            */
         });
 
         return ServiceResponse.ForSuccess();
@@ -111,6 +117,7 @@ public class LaboratoryService : ILaboratoryService
 
         var entity = await _repository.GetAsync(new LaboratorySpec(laboratory.Id), cancellationToken);
 
+        /*
         var Students = new List<User>();
         var LaboratoryInstances = new List<LaboratoryInstance>();
 
@@ -139,6 +146,7 @@ public class LaboratoryService : ILaboratoryService
                 LaboratoryInstances.Add(laboratoryInstance);
             }
         }
+        */
 
 
         if (entity != null)
@@ -146,11 +154,14 @@ public class LaboratoryService : ILaboratoryService
             entity.StartTime = laboratory.StartTime ?? entity.StartTime;
             entity.Duration = laboratory.Duration ?? entity.Duration;
             entity.Location = laboratory.Location ?? entity.Location;
-            //entity.Subject = laboratory.Subject ?? entity.Subject;
-            entity.AssistantName = laboratory.AssistantName ?? laboratory.AssistantName;
-            entity.SubjectId = laboratory.SubjectId ?? entity.SubjectId;
+            entity.AssistantName = laboratory.AssistantName ?? entity.AssistantName;
+            entity.DayOfWeek = laboratory.DayOfWeek ?? entity.DayOfWeek;
+            entity.CourseId = laboratory.CourseId ?? entity.CourseId;
+            /*
+            entity.Subject = laboratory.Subject ?? entity.Subject;
             entity.Students = laboratory.Students == null ? entity.Students : Students;
             entity.LaboratoryInstances = laboratory.LaboratoryInstances == null ? entity.LaboratoryInstances : LaboratoryInstances;
+            */
 
 
             await _repository.UpdateAsync(entity, cancellationToken);

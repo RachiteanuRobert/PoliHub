@@ -74,7 +74,7 @@ export function LaboratoryInstanceAddDTOToJSON(value?: LaboratoryInstanceAddDTO 
     return {
         
         'laboratoryId': value.laboratoryId,
-        'laboratoryInstanceDate': value.laboratoryInstanceDate === undefined ? undefined : (value.laboratoryInstanceDate.toISOString().substr(0,10)),
+        'laboratoryInstanceDate': value.laboratoryInstanceDate === undefined ? undefined : (value.laboratoryInstanceDate.toISOString()),
         'students': value.students,
     };
 }
