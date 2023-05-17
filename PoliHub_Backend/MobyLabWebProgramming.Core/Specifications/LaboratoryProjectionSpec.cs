@@ -22,12 +22,9 @@ public sealed class LaboratoryProjectionSpec : BaseSpec<LaboratoryProjectionSpec
         Duration = e.Duration,
         Location = e.Location,
         AssistantName = e.AssistantName,
-        DayOfWeek = e.DayOfWeek,
-        CourseId = e.CourseId
-        /*
+        SubjectId = e.SubjectId,
         Students = (ICollection<Guid>)e.Students,
         LaboratoryInstances = (ICollection<Guid>)e.LaboratoryInstances
-        */
     };
 
     public LaboratoryProjectionSpec(Guid id) : base(id)

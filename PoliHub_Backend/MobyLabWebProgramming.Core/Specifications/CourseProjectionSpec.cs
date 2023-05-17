@@ -18,17 +18,12 @@ public sealed class CourseProjectionSpec : BaseSpec<CourseProjectionSpec, Course
     protected override Expression<Func<Course, CourseDTO>> Spec => e => new()
     {
         Id = e.Id,
-        ProfessorName = e.ProfessorName,
         StartTime = e.StartTime,
         Duration = e.Duration,
         Location = e.Location,
-        Series = e.Series,
-        DayOfWeek = e.DayOfWeek,
         SubjectId = e.SubjectId,
-        /*
         Students = (ICollection<Guid>)e.Students,
         CourseInstances = (ICollection<Guid>)e.CourseInstances
-        */
     };
 
     public CourseProjectionSpec(Guid id) : base(id)
@@ -48,6 +43,6 @@ public sealed class CourseProjectionSpec : BaseSpec<CourseProjectionSpec, Course
         Query
             .Include(e => e.CourseInstances)
             .Include(e => e.Students)
-            .Where(e => EF.Functions.ILike(e.ProfessorName, searchExpr));
+            .Where(e => EF.Functions.ILike(e.Subject.Name, searchExpr));
     }
 }

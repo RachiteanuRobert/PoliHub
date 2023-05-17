@@ -20,7 +20,7 @@ public sealed class LaboratoryInstanceProjectionSpec : BaseSpec<LaboratoryInstan
         Id = e.Id,
         LaboratoryId = e.LaboratoryId,
         LaboratoryInstanceDate = e.LaboratoryInstanceDate,
-        //Students = (ICollection<Guid>)e.Students
+        Students = (ICollection<Guid>)e.Students
     };
 
     public LaboratoryInstanceProjectionSpec(Guid id) : base(id)

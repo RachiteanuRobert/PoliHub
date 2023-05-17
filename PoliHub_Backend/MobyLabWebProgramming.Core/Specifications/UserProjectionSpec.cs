@@ -22,6 +22,7 @@ public sealed class UserProjectionSpec : BaseSpec<UserProjectionSpec, User, User
         Name = e.Name,
         Role = e.Role,
         Group = e.Group,
+        //CourseInstances = (ICollection<Guid>)e.CourseInstances
     };
 
     public UserProjectionSpec(bool orderByCreatedAt = true) : base(orderByCreatedAt)

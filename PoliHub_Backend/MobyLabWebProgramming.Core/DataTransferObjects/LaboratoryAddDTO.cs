@@ -9,15 +9,11 @@ namespace MobyLabWebProgramming.Core.DataTransferObjects;
 /// </summary>
 public class LaboratoryAddDTO
 {
-    public string AssistantName { get; set; } = default!;
-    public string StartTime { get; set; } = default!;
+    public int StartTime { get; set; } = default!;
     public int Duration { get; set; } = default!;
     public string Location { get; set; } = default!;
-    public int DayOfWeek { get; set; } = default!;
-    public Guid CourseId { get; set; } = default!;
-
-    /*
+    public string AssistantName { get; set; } = default!;
+    public Guid SubjectId { get; set; } = default!;
     public ICollection<Guid> LaboratoryInstances { get; set; } = default!;
     public ICollection<Guid> Students { get; set; } = default!;
-    */
 }

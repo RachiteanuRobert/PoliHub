@@ -21,7 +21,6 @@ public class User : BaseEntity
     public ICollection<UserFile> UserFiles { get; set; } = default!;
     public ICollection<Course> Courses { get; set; } = default!;
     public ICollection<Laboratory> Laboratories { get; set; } = default!;
-    public ICollection<Subject> Subjects { get; set; } = default!;
     public ICollection<LaboratoryInstance> LaboratoryInstances { get; set; } = default!;
     public ICollection<CourseInstance> CourseInstances { get; set; } = default!;
 }

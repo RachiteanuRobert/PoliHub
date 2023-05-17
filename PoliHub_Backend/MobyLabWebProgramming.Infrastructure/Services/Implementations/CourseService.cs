@@ -59,8 +59,7 @@ public class CourseService : ICourseService
         {
             return ServiceResponse.FromError(new(HttpStatusCode.Forbidden, "Course already exists!", ErrorCodes.CannotAdd));
         }
-
-        /*
+        
         var Students = new List<User>();
         var CourseInstances = new List<CourseInstance>();
 
@@ -89,23 +88,17 @@ public class CourseService : ICourseService
                 CourseInstances.Add(courseInstance);
             }
         }
-        */
 
         await _repository.AddAsync(new Course
         {
-            ProfessorName = course.ProfessorName,
             StartTime = course.StartTime,
             Duration = course.Duration,
             Location = course.Location,
-            Series = course.Series,
-            DayOfWeek = course.DayOfWeek,
-            SubjectId = course.SubjectId
-            /*
-            Subject = course.Subject,
+            SubjectId = course.SubjectId,
+            //Subject = course.Subject,
             Students = Students,
             CourseInstances = CourseInstances
-            */
-        }) ;
+        });
 
         return ServiceResponse.ForSuccess();
     }
@@ -119,7 +112,6 @@ public class CourseService : ICourseService
 
         var entity = await _repository.GetAsync(new CourseSpec(course.Id), cancellationToken);
 
-        /*
         var Students = new List<User>();
         var CourseInstances = new List<CourseInstance>();
 
@@ -148,23 +140,18 @@ public class CourseService : ICourseService
                 CourseInstances.Add(courseInstance);
             }
         }
-        */
 
 
         if (entity != null)
         {
             entity.StartTime = course.StartTime ?? entity.StartTime;
-            entity.ProfessorName = course.ProfessorName ?? entity.ProfessorName;
             entity.Duration = course.Duration ?? entity.Duration;
             entity.Location = course.Location ?? entity.Location;
-            entity.Series = course.Series ?? entity.Series;
-            entity.DayOfWeek = course.DayOfWeek ?? entity.DayOfWeek;
+            //entity.Subject = course.Subject ?? entity.Subject;
             entity.SubjectId = course.SubjectId ?? entity.SubjectId;
-            /*
-            entity.Subject = course.Subject ?? entity.Subject;
             entity.Students = course.Students == null ? entity.Students : Students;
             entity.CourseInstances = course.CourseInstances == null ? entity.CourseInstances : CourseInstances;
-            */
+
 
             await _repository.UpdateAsync(entity, cancellationToken);
         }

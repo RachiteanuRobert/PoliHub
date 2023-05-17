@@ -203,10 +203,9 @@ public class UserService : IUserService
         {
             return ServiceResponse.FromError(new(HttpStatusCode.Forbidden, "Only the admin or the own user can update the user!", ErrorCodes.CannotUpdate));
         }
-        /*
+
         var Laboratories = new List<Laboratory>();
         var Courses = new List<Course>();
-        var Subjects = new List<Subject>();
         var CourseInstances = new List<CourseInstance>();
         var LaboratoryInstances = new List<LaboratoryInstance>();
 
@@ -236,19 +235,6 @@ public class UserService : IUserService
             }
         }
 
-        if (user.Subjects != null)
-        {
-            foreach (Guid id in user.Subjects)
-            {
-                var subject = await _repository.GetAsync(new SubjectSpec(id), cancellationToken);
-                if (subject == null)
-                {
-                    return ServiceResponse.FromError(new(HttpStatusCode.NotFound, "Bad subject id provided", ErrorCodes.EntityNotFound));
-                }
-                Subjects.Add(subject);
-            }
-        }
-
         if (user.LaboratoryInstances != null)
         {
             foreach (Guid id in user.LaboratoryInstances)
@@ -274,21 +260,17 @@ public class UserService : IUserService
                 CourseInstances.Add(courseInstances);
             }
         }
-        */
+
         var entity = await _repository.GetAsync(new UserSpec(user.Id), cancellationToken); 
 
         if (entity != null) // Verify if the user is not found, you cannot update an non-existing entity.
         {
             entity.Name = user.Name ?? entity.Name;
             entity.Password = user.Password ?? entity.Password;
-            entity.Group = user.Group ?? entity.Group;  
-            /*
             entity.Laboratories = user.Laboratories == null ? entity.Laboratories : Laboratories;
             entity.Courses = user.Courses == null ? entity.Courses : Courses;
-            entity.Subjects = user.Subjects == null ? entity.Subjects : Subjects;
             entity.LaboratoryInstances = user.LaboratoryInstances == null ? entity.LaboratoryInstances : LaboratoryInstances;
             entity.CourseInstances = user.CourseInstances == null ? entity.CourseInstances : CourseInstances;
-            */
 
             await _repository.UpdateAsync(entity, cancellationToken); // Update the entity and persist the changes.
         }

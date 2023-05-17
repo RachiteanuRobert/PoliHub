@@ -19,8 +19,7 @@ public sealed class CourseInstanceProjectionSpec : BaseSpec<CourseInstanceProjec
     {
         Id = e.Id,
         CourseId = e.CourseId,
-        CourseInstanceDate = e.CourseInstanceDate
-        //Students = (ICollection<Guid>)e.Students
+        Students = (ICollection<Guid>)e.Students
     };
 
     public CourseInstanceProjectionSpec(Guid id) : base(id)

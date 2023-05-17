@@ -16,9 +16,6 @@ public class LaboratoryConfiguration : IEntityTypeConfiguration<Laboratory>
         builder.Property(e => e.Id) // This specifies which property is configured.
             .IsRequired(); // Here it is specified if the property is required, meaning it cannot be null in the database.
         builder.HasKey(x => x.Id); // Here it is specifies that the property Id is the primary key.
-        builder.Property(e => e.AssistantName)
-            .HasMaxLength(255)
-            .IsRequired();
         builder.Property(e => e.StartTime)
             .HasMaxLength(255)
             .IsRequired();
@@ -28,7 +25,7 @@ public class LaboratoryConfiguration : IEntityTypeConfiguration<Laboratory>
         builder.Property(e => e.Location)
             .HasMaxLength(255)
             .IsRequired();
-        builder.Property(e => e.DayOfWeek)
+        builder.Property(e => e.AssistantName)
             .HasMaxLength(255)
             .IsRequired();
         builder.Property(e => e.CreatedAt)
@@ -36,12 +33,12 @@ public class LaboratoryConfiguration : IEntityTypeConfiguration<Laboratory>
         builder.Property(e => e.UpdatedAt)
             .IsRequired();
 
-        builder.HasOne(e => e.Course) // This specifies a one-to-many relation.
+        builder.HasOne(e => e.Subject) // This specifies a one-to-many relation.
             .WithMany(e => e.Laboratories) // This provides the reverse mapping for the one-to-many relation. 
-            .HasForeignKey(e => e.CourseId) // Here the foreign key column is specified.
+            .HasForeignKey(e => e.SubjectId) // Here the foreign key column is specified.
             .HasPrincipalKey(e => e.Id) // This specifies the referenced key in the referenced table.
             .IsRequired()
-            .OnDelete(DeleteBehavior.Cascade); // This specifies the delete behavior when the referenced entity is removed.
+            .OnDelete(DeleteBehavior.NoAction); // This specifies the delete behavior when the referenced entity is removed.
 
         builder.HasMany(e => e.Students)
             .WithMany(l => l.Laboratories)
