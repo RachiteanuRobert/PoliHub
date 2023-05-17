@@ -14,7 +14,7 @@ export type SubjectFormModel = {
     semester: string;
     department: string;
     creditsNo: string;
-    description: string
+    description: string;
 };
 
 export type SubjectFormState = {

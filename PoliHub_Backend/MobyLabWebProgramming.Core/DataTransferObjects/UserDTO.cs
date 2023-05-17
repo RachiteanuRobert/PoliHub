@@ -17,6 +17,6 @@ public class UserDTO
     public ICollection<CourseSimpleDTO> Courses { get; set; } = default!;
     public ICollection<LaboratorySimpleDTO> Laboratories { get; set; } = default!;
     public ICollection<SubjectSimpleDTO> Subjects { get; set; } = default!;
-    public ICollection<LaboratoryInstance> LaboratoryInstances { get; set; } = default!;
-    public ICollection<CourseInstance> CourseInstances { get; set; } = default!;
+    public ICollection<LaboratoryInstanceDTO> LaboratoryInstances { get; set; } = default!;
+    public ICollection<CourseInstanceDTO> CourseInstances { get; set; } = default!;
 }

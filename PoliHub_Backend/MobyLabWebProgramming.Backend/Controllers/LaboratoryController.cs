@@ -50,6 +50,17 @@ public class LaboratoryController : AuthorizedController
 
     [Authorize]
     [HttpPost]
+    public async Task<ActionResult<RequestResponse>> AddStudentToLaboratory([FromBody] StudentToLaboratoryAddDTO studentLaboratoryIds)
+    {
+        var currentUser = await GetCurrentUser();
+
+        return currentUser.Result != null ?
+            this.FromServiceResponse(await _laboratoryService.AddStudentToLaboratory(studentLaboratoryIds, currentUser.Result)) :
+            this.ErrorMessageResult(currentUser.Error);
+    }
+
+    [Authorize]
+    [HttpPost]
     public async Task<ActionResult<RequestResponse>> Add([FromBody] LaboratoryAddDTO laboratory)
     {
         var currentUser = await GetCurrentUser();

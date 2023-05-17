@@ -38,6 +38,17 @@ public class CourseController : AuthorizedController
 
     [Authorize]
     [HttpPost]
+    public async Task<ActionResult<RequestResponse>> AddStudentToCourse([FromBody] StudentToCourseAddDTO studentCourseIds)
+    {
+        var currentUser = await GetCurrentUser();
+
+        return currentUser.Result != null ?
+            this.FromServiceResponse(await _courseService.AddStudentToCourse(studentCourseIds, currentUser.Result)) :
+            this.ErrorMessageResult(currentUser.Error);
+    }
+
+    [Authorize]
+    [HttpPost]
     public async Task<ActionResult<RequestResponse>> Add([FromBody] CourseAddDTO course)
     {
         var currentUser = await GetCurrentUser();

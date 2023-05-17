@@ -60,6 +60,12 @@ export interface CourseSimpleDTO {
      * @type {string}
      * @memberof CourseSimpleDTO
      */
+    series?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof CourseSimpleDTO
+     */
     subjectId?: string;
 }
 
@@ -88,6 +94,7 @@ export function CourseSimpleDTOFromJSONTyped(json: any, ignoreDiscriminator: boo
         'duration': !exists(json, 'duration') ? undefined : json['duration'],
         'location': !exists(json, 'location') ? undefined : json['location'],
         'dayOfWeek': !exists(json, 'dayOfWeek') ? undefined : json['dayOfWeek'],
+        'series': !exists(json, 'series') ? undefined : json['series'],
         'subjectId': !exists(json, 'subjectId') ? undefined : json['subjectId'],
     };
 }
@@ -107,6 +114,7 @@ export function CourseSimpleDTOToJSON(value?: CourseSimpleDTO | null): any {
         'duration': value.duration,
         'location': value.location,
         'dayOfWeek': value.dayOfWeek,
+        'series': value.series,
         'subjectId': value.subjectId,
     };
 }

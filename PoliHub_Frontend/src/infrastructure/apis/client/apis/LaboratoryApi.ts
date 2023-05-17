@@ -20,6 +20,7 @@ import type {
   LaboratoryDTORequestResponse,
   LaboratoryUpdateDTO,
   RequestResponse,
+  StudentToLaboratoryAddDTO,
 } from '../models';
 import {
     LaboratoryAddDTOFromJSON,
@@ -32,10 +33,16 @@ import {
     LaboratoryUpdateDTOToJSON,
     RequestResponseFromJSON,
     RequestResponseToJSON,
+    StudentToLaboratoryAddDTOFromJSON,
+    StudentToLaboratoryAddDTOToJSON,
 } from '../models';
 
 export interface ApiLaboratoryAddPostRequest {
     laboratoryAddDTO?: LaboratoryAddDTO;
+}
+
+export interface ApiLaboratoryAddStudentToLaboratoryPostRequest {
+    studentToLaboratoryAddDTO?: StudentToLaboratoryAddDTO;
 }
 
 export interface ApiLaboratoryDeleteIdDeleteRequest {
@@ -93,6 +100,37 @@ export class LaboratoryApi extends runtime.BaseAPI {
      */
     async apiLaboratoryAddPost(requestParameters: ApiLaboratoryAddPostRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<RequestResponse> {
         const response = await this.apiLaboratoryAddPostRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     */
+    async apiLaboratoryAddStudentToLaboratoryPostRaw(requestParameters: ApiLaboratoryAddStudentToLaboratoryPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<RequestResponse>> {
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["Authorization"] = this.configuration.apiKey("Authorization"); // Bearer authentication
+        }
+
+        const response = await this.request({
+            path: `/api/Laboratory/AddStudentToLaboratory`,
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+            body: StudentToLaboratoryAddDTOToJSON(requestParameters.studentToLaboratoryAddDTO),
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => RequestResponseFromJSON(jsonValue));
+    }
+
+    /**
+     */
+    async apiLaboratoryAddStudentToLaboratoryPost(requestParameters: ApiLaboratoryAddStudentToLaboratoryPostRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<RequestResponse> {
+        const response = await this.apiLaboratoryAddStudentToLaboratoryPostRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

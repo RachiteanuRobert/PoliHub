@@ -7,5 +7,6 @@ namespace MobyLabWebProgramming.Core.DataTransferObjects;
 /// </summary>
 public record SubjectUpdateDTO(Guid Id, string? Name = null, char? Year = null, char? Semester = null,
     string? Department = null, string? Description = null, char? CreditsNo = null);
+//ICollection<Guid>? StudentIds = null
 
 //    CourseSimpleDTO? Course = null, ICollection<Guid>? Laboratories = null);

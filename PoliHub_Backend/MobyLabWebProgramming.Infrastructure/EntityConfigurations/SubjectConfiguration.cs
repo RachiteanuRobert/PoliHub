@@ -11,9 +11,9 @@ public class SubjectConfiguration : IEntityTypeConfiguration<Subject>
 {
     public void Configure(EntityTypeBuilder<Subject> builder)
     {
-        builder.Property(e => e.Id)
+        builder.Property(e => e.SubjectId)
             .IsRequired();
-        builder.HasKey(x => x.Id);         
+        builder.HasKey(x => x.SubjectId);         
         builder.Property(e => e.Name)
             .HasMaxLength(255)
             .IsRequired();
@@ -40,5 +40,11 @@ public class SubjectConfiguration : IEntityTypeConfiguration<Subject>
         builder.HasMany(e => e.Students)
             .WithMany(l => l.Subjects)
             .UsingEntity(j => j.ToTable("SubjectsStudents"));
+
+        builder.HasMany(s => s.SubjectUsers)
+             .WithOne(e => e.Subject)
+             .HasForeignKey(s => s.Id)
+             .HasPrincipalKey(e => e.SubjectId)
+            .IsRequired();
     }
 }

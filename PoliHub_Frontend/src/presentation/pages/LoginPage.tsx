@@ -13,6 +13,7 @@ const divStyles: React.CSSProperties = {
     alignItems: "center"
 }
 
+const rectoratePicture = new URL("public/upb-rectorat.jpg", import.meta.url)
 export const LoginPage = memo(() => {
     const { formatMessage } = useIntl()
     return (

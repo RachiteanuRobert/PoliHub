@@ -22,6 +22,38 @@ public sealed class UserProjectionSpec : BaseSpec<UserProjectionSpec, User, User
         Name = e.Name,
         Role = e.Role,
         Group = e.Group,
+        Courses = e.Courses.Select(c => new CourseSimpleDTO
+        {
+            Id = c.Id,
+            ProfessorName = c.ProfessorName,
+            StartTime = c.StartTime,
+            Duration = c.Duration,
+            Location = c.Location,
+            Series = c.Series,
+            DayOfWeek = c.DayOfWeek,
+            SubjectId =c.SubjectId
+        }).ToList(),
+
+        Subjects = e.Subjects.Select(s => new SubjectSimpleDTO
+        {
+            Id = s.Id,
+            Name = s.Name,
+            Year = s.Year,
+            Semester = s.Semester,
+            Department = s.Department,
+            CreditsNo = s.CreditsNo,
+            Description = s.Description
+        }).ToList(),
+        Laboratories = e.Laboratories.Select(l => new LaboratorySimpleDTO
+        {
+            Id = l.Id,
+            AssistantName = l.AssistantName,
+            StartTime = l.StartTime,
+            Duration = l.Duration,
+            Location = l.Location,
+            DayOfWeek = l.DayOfWeek,
+            CourseId = l.CourseId
+        }).ToList()
     };
 
     public UserProjectionSpec(bool orderByCreatedAt = true) : base(orderByCreatedAt)

@@ -43,6 +43,9 @@ models/LoginDTO.ts
 models/LoginResponseDTO.ts
 models/LoginResponseDTORequestResponse.ts
 models/RequestResponse.ts
+models/StudentToCourseAddDTO.ts
+models/StudentToLaboratoryAddDTO.ts
+models/StudentToSubjectAddDTO.ts
 models/Subject.ts
 models/SubjectAddDTO.ts
 models/SubjectDTO.ts

@@ -1,6 +1,7 @@
 {
     "globals.welcome": "Bine ati venit!",
     "globals.login": "Autentificare",
+    "globals.students": "Studenti",
     "globals.register": "Inregistrare",
     "globals.logout": "Iesire",
     "globals.submit": "Trimite",

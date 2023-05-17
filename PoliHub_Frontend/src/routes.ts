@@ -10,5 +10,7 @@ export enum AppRoute {
     Subjects = "/subjects",
     Courses = "/courses",
     Laboratories = "/laboratories",
-    SingleSubject = "/subjects/:subjectId"
+    SingleSubject = "/subjects/:subjectId",
+    SingleCourse = "/courses/:courseId",
+    SingleLaboratory = "/laboratories/:laboratoryId"
 }

@@ -46,7 +46,52 @@ public class CourseService : ICourseService
             ServiceResponse<CourseDTO>.FromError(new(HttpStatusCode.Forbidden, "Course not found!", ErrorCodes.EntityNotFound));
     }
 
-    
+    public async Task<ServiceResponse> AddStudentToCourse(StudentToCourseAddDTO studentCourseIds, UserDTO? requestingUser, CancellationToken cancellationToken)
+    {
+
+        if (requestingUser != null && requestingUser.Role != UserRoleEnum.Admin)
+        {
+            return ServiceResponse.FromError(new(HttpStatusCode.Forbidden, "Only the admin can add students!", ErrorCodes.CannotAdd));
+        }
+
+        var course = await _repository.GetAsync(new CourseEntityProjectionSpec(studentCourseIds.CourseId), cancellationToken);
+        if (course == null)
+        {
+            return ServiceResponse.FromError(new(HttpStatusCode.Forbidden, "Bad course Id provided!", ErrorCodes.EntityNotFound));
+        }
+
+        var student = await _repository.GetAsync(new UserSpec(studentCourseIds.StudentId), cancellationToken);
+        if (student == null)
+        {
+            return ServiceResponse.FromError(new(HttpStatusCode.NotFound, "Bad student id provided!", ErrorCodes.EntityNotFound));
+        }
+
+        // Verify if student is enrolled
+        foreach (User StudentInCourse in course.Students)
+        {
+            if (StudentInCourse.Id == student.Id)
+            {
+                return ServiceResponse.FromError(new(HttpStatusCode.NotFound, "Student already enroled!", ErrorCodes.UserAlreadyExists));
+            }
+        }
+
+        if (course.Students != null)
+        {
+            course.Students.Add(student);
+        }
+        else
+        {
+            var Students = new List<User>();
+            Students.Add(student);
+            course.Students = Students;
+        }
+
+        await _repository.UpdateAsync(course, cancellationToken);
+
+        return ServiceResponse.ForSuccess();
+    }
+
+
     public async Task<ServiceResponse> AddCourse(CourseAddDTO course, UserDTO? requestingUser, CancellationToken cancellationToken)
     {
         if (requestingUser != null && requestingUser.Role != UserRoleEnum.Admin) // Verify who can add the user, you can change this however you se fit.

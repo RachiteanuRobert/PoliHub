@@ -37,6 +37,13 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
         builder.Property(e => e.UpdatedAt)
             .IsRequired();
 
+        builder.HasMany(e => e.Subjects) // Configure the subjects relationship
+                .WithMany(l => l.Students) // Specify the navigation property on the Subject entity
+                .UsingEntity(j => j.ToTable("SubjectsStudents"));
+
+        builder.HasMany(e => e.Courses)
+            .WithMany(l => l.Students)
+            .UsingEntity(j => j.ToTable("CourseStudents"));
 
     }
 }

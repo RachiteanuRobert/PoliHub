@@ -19,6 +19,12 @@ import {
     CourseSimpleDTOFromJSONTyped,
     CourseSimpleDTOToJSON,
 } from './CourseSimpleDTO';
+import type { UserSimpleDTO } from './UserSimpleDTO';
+import {
+    UserSimpleDTOFromJSON,
+    UserSimpleDTOFromJSONTyped,
+    UserSimpleDTOToJSON,
+} from './UserSimpleDTO';
 
 /**
  * 
@@ -74,6 +80,12 @@ export interface SubjectDTO {
      * @memberof SubjectDTO
      */
     courses?: Array<CourseSimpleDTO> | null;
+    /**
+     * 
+     * @type {Array<UserSimpleDTO>}
+     * @memberof SubjectDTO
+     */
+    students?: Array<UserSimpleDTO> | null;
 }
 
 /**
@@ -103,6 +115,7 @@ export function SubjectDTOFromJSONTyped(json: any, ignoreDiscriminator: boolean)
         'creditsNo': !exists(json, 'creditsNo') ? undefined : json['creditsNo'],
         'description': !exists(json, 'description') ? undefined : json['description'],
         'courses': !exists(json, 'courses') ? undefined : (json['courses'] === null ? null : (json['courses'] as Array<any>).map(CourseSimpleDTOFromJSON)),
+        'students': !exists(json, 'students') ? undefined : (json['students'] === null ? null : (json['students'] as Array<any>).map(UserSimpleDTOFromJSON)),
     };
 }
 
@@ -123,6 +136,7 @@ export function SubjectDTOToJSON(value?: SubjectDTO | null): any {
         'creditsNo': value.creditsNo,
         'description': value.description,
         'courses': value.courses === undefined ? undefined : (value.courses === null ? null : (value.courses as Array<any>).map(CourseSimpleDTOToJSON)),
+        'students': value.students === undefined ? undefined : (value.students === null ? null : (value.students as Array<any>).map(UserSimpleDTOToJSON)),
     };
 }
 
