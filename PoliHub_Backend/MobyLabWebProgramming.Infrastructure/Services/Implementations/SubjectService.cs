@@ -1,6 +1,5 @@
 ﻿using System.Net;
 using System.Xml.Linq;
-using Ardalis.Specification;
 using MobyLabWebProgramming.Core.DataTransferObjects;
 using MobyLabWebProgramming.Core.Entities;
 using MobyLabWebProgramming.Core.Enums;
@@ -17,7 +16,7 @@ namespace MobyLabWebProgramming.Infrastructure.Services.Implementations;
 public class SubjectService : ISubjectService
 {
     private readonly IRepository<WebAppDatabaseContext> _repository;
-    private readonly ISubjectUserService _subjectUser;
+
     public SubjectService(IRepository<WebAppDatabaseContext> repository)
     {
         _repository = repository;
@@ -48,62 +47,6 @@ public class SubjectService : ISubjectService
             ServiceResponse<SubjectDTO>.FromError(new(HttpStatusCode.Forbidden, "Subject not found!", ErrorCodes.EntityNotFound));
     }
 
-    public async Task<ServiceResponse> AddStudentToSubject(StudentToSubjectAddDTO studentSubjectIds, UserDTO? requestingUser, CancellationToken cancellationToken)
-    {
-
-        if (requestingUser != null && requestingUser.Role != UserRoleEnum.Admin) 
-        {
-            return ServiceResponse.FromError(new(HttpStatusCode.Forbidden, "Only the admin can add students!", ErrorCodes.CannotAdd));
-        }
-
-        var subject = await _repository.GetAsync(new SubjectEntityProjectionSpec(studentSubjectIds.SubjectId), cancellationToken);
-        if (subject == null)
-        {
-            return ServiceResponse.FromError(new(HttpStatusCode.Forbidden, "Bad subject Id provided!", ErrorCodes.EntityNotFound));
-        }
-
-        var student = await _repository.GetAsync(new UserSpec(studentSubjectIds.StudentId), cancellationToken);
-        if (student == null)
-        {
-            return ServiceResponse.FromError(new(HttpStatusCode.NotFound, "Bad student id provided!", ErrorCodes.EntityNotFound));
-        }
-
-        // Verify if student is enrolled
-        foreach (SubjectUser SubjectUser in subject.SubjectUsers) { 
-            if((SubjectUser.UserId ==  student.Id) || (SubjectUser.SubjectId == subject.SubjectId)){
-                return ServiceResponse.FromError(new(HttpStatusCode.NotFound, "Student already enroled!", ErrorCodes.UserAlreadyExists));
-            }
-        }
-
-        var SubjectUserResult = await _subjectUser.AddSubjectUser(subject.SubjectId, student.Id, requestingUser, cancellationToken);
-        if (SubjectUserResult == null)
-        {
-            return ServiceResponse.FromError(new(HttpStatusCode.Forbidden, "Subject User could not be added provided!", ErrorCodes.CannotAdd));
-        }
-        SubjectUser newSubjectUser = new SubjectUser
-        {
-            Subject = subject,
-            User = student,
-            SubjectId = subject.SubjectId,
-            UserId = student.Id,
-        };
-
-        
-        if (subject.SubjectUsers != null) {
-            subject.SubjectUsers.Add(newSubjectUser);
-        }
-        else {
-            var SubjectUsers = new List<SubjectUser>();
-            SubjectUsers.Add(newSubjectUser);
-            subject.SubjectUsers = SubjectUsers;   
-        }
-      
-        await _repository.UpdateAsync(subject, cancellationToken);  
-        
-
-        return ServiceResponse.ForSuccess();
-    }
-
     public async Task<ServiceResponse> AddSubject(SubjectAddDTO subject, UserDTO? requestingUser, CancellationToken cancellationToken)
     {
         if (requestingUser != null && requestingUser.Role != UserRoleEnum.Admin) // Verify who can add the user, you can change this however you se fit.
@@ -116,21 +59,28 @@ public class SubjectService : ISubjectService
         {
             return ServiceResponse.FromError(new(HttpStatusCode.Forbidden, "Subject already exists!", ErrorCodes.CannotAdd));
         }
-        
         /*
-        var Students = new List<User>();
+        var Laboratories = new List<Laboratory>();
+        //var NewCourse = new Course();  
 
-        if (subject.StudentIds != null)
+        if (subject.Laboratories != null)
         {
-            foreach (Guid id in subject.StudentIds)
+            foreach (Guid id in subject.Laboratories)
             {
-                var student = await _repository.GetAsync(new UserSpec(id), cancellationToken);
-                if (student == null)
+                var laboratory = await _repository.GetAsync(new LaboratorySpec(id), cancellationToken);
+                if (laboratory == null)
                 {
-                    return ServiceResponse.FromError(new(HttpStatusCode.NotFound, "Bad student id provided", ErrorCodes.EntityNotFound));
+                    return ServiceResponse.FromError(new(HttpStatusCode.NotFound, "Bad laboratory id provided", ErrorCodes.EntityNotFound));
                 }
-                Students.Add(student);
+                Laboratories.Add(laboratory);
             }
+        }
+
+        
+        NewCourse = await _repository.GetAsync(new CourseSpec(subject.Id), cancellationToken);
+        if (NewCourse == null)
+        {
+            return ServiceResponse.FromError(new(HttpStatusCode.NotFound, "Bad subject id provided", ErrorCodes.EntityNotFound));
         }
         */
 
@@ -141,10 +91,11 @@ public class SubjectService : ISubjectService
             Semester = subject.Semester,
             Department = subject.Department,
             CreditsNo = subject.CreditsNo,
-            Description = subject.Description,
-           // Students = Students
+            Description = subject.Description
+
             /*
             Course = NewCourse,
+            Laboratories = Laboratories
             */
         });
 
@@ -161,19 +112,18 @@ public class SubjectService : ISubjectService
         var entity = await _repository.GetAsync(new SubjectSpec(subject.Id), cancellationToken);
 
         /*
-        var Students = new List<User>();
-        Students = null;
+        var Laboratories = new List<Laboratory>();
 
-        if (subject.StudentIds != null)
+        if (subject.Laboratories != null)
         {
-            foreach (Guid id in subject.StudentIds)
+            foreach (Guid id in subject.Laboratories)
             {
-                var student = await _repository.GetAsync(new UserSpec(id), cancellationToken);
-                if (student == null)
+                var laboratory = await _repository.GetAsync(new LaboratorySpec(id), cancellationToken);
+                if (laboratory == null)
                 {
-                    return ServiceResponse.FromError(new(HttpStatusCode.NotFound, "Bad student id provided", ErrorCodes.EntityNotFound));
+                    return ServiceResponse.FromError(new(HttpStatusCode.NotFound, "Bad laboratory id provided", ErrorCodes.EntityNotFound));
                 }
-                Students.Add(student);
+                Laboratories.Add(laboratory);
             }
         }
         */
@@ -186,9 +136,7 @@ public class SubjectService : ISubjectService
             entity.Department = subject.Department ?? entity.Department;
             entity.CreditsNo = subject.CreditsNo ?? entity.CreditsNo;
             entity.Description = subject.Description ?? entity.Description;
-            //entity.Students = Students ?? entity.Students;
-            /*
-            
+/*
             entity.Course = subject.Course ?? entity.Course;
             entity.Laboratories = subject.Laboratories == null ? entity.Laboratories : Laboratories;*/
 

@@ -16,7 +16,6 @@
 import * as runtime from '../runtime';
 import type {
   RequestResponse,
-  StudentToSubjectAddDTO,
   SubjectAddDTO,
   SubjectDTOPagedResponseRequestResponse,
   SubjectDTORequestResponse,
@@ -25,8 +24,6 @@ import type {
 import {
     RequestResponseFromJSON,
     RequestResponseToJSON,
-    StudentToSubjectAddDTOFromJSON,
-    StudentToSubjectAddDTOToJSON,
     SubjectAddDTOFromJSON,
     SubjectAddDTOToJSON,
     SubjectDTOPagedResponseRequestResponseFromJSON,
@@ -39,10 +36,6 @@ import {
 
 export interface ApiSubjectAddPostRequest {
     subjectAddDTO?: SubjectAddDTO;
-}
-
-export interface ApiSubjectAddStudentToSubjectPostRequest {
-    studentToSubjectAddDTO?: StudentToSubjectAddDTO;
 }
 
 export interface ApiSubjectDeleteIdDeleteRequest {
@@ -101,37 +94,6 @@ export class SubjectApi extends runtime.BaseAPI {
      */
     async apiSubjectAddPost(requestParameters: ApiSubjectAddPostRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<RequestResponse> {
         const response = await this.apiSubjectAddPostRaw(requestParameters, initOverrides);
-        return await response.value();
-    }
-
-    /**
-     */
-    async apiSubjectAddStudentToSubjectPostRaw(requestParameters: ApiSubjectAddStudentToSubjectPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<RequestResponse>> {
-        const queryParameters: any = {};
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        headerParameters['Content-Type'] = 'application/json';
-
-        if (this.configuration && this.configuration.apiKey) {
-            headerParameters["Authorization"] = this.configuration.apiKey("Authorization"); // Bearer authentication
-        }
-
-        const response = await this.request({
-            path: `/api/Subject/AddStudentToSubject`,
-            method: 'POST',
-            headers: headerParameters,
-            query: queryParameters,
-            body: StudentToSubjectAddDTOToJSON(requestParameters.studentToSubjectAddDTO),
-        }, initOverrides);
-
-        return new runtime.JSONApiResponse(response, (jsonValue) => RequestResponseFromJSON(jsonValue));
-    }
-
-    /**
-     */
-    async apiSubjectAddStudentToSubjectPost(requestParameters: ApiSubjectAddStudentToSubjectPostRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<RequestResponse> {
-        const response = await this.apiSubjectAddStudentToSubjectPostRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

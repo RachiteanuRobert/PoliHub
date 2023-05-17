@@ -45,51 +45,6 @@ public class LaboratoryService : ILaboratoryService
         return ServiceResponse<PagedResponse<LaboratoryDTO>>.ForSuccess(result);
     }
 
-    public async Task<ServiceResponse> AddStudentToLaboratory(StudentToLaboratoryAddDTO studentLaboratoryIds, UserDTO? requestingUser, CancellationToken cancellationToken)
-    {
-
-        if (requestingUser != null && requestingUser.Role != UserRoleEnum.Admin)
-        {
-            return ServiceResponse.FromError(new(HttpStatusCode.Forbidden, "Only the admin can add students!", ErrorCodes.CannotAdd));
-        }
-
-        var laboratory = await _repository.GetAsync(new LaboratoryEntityProjectionSpec(studentLaboratoryIds.LaboratoryId), cancellationToken);
-        if (laboratory == null)
-        {
-            return ServiceResponse.FromError(new(HttpStatusCode.Forbidden, "Bad laboratory Id provided!", ErrorCodes.EntityNotFound));
-        }
-
-        var student = await _repository.GetAsync(new UserSpec(studentLaboratoryIds.StudentId), cancellationToken);
-        if (student == null)
-        {
-            return ServiceResponse.FromError(new(HttpStatusCode.NotFound, "Bad student id provided!", ErrorCodes.EntityNotFound));
-        }
-
-        // Verify if student is enrolled
-        foreach (User StudentInLaboratory in laboratory.Students)
-        {
-            if (StudentInLaboratory.Id == student.Id)
-            {
-                return ServiceResponse.FromError(new(HttpStatusCode.NotFound, "Student already enroled!", ErrorCodes.UserAlreadyExists));
-            }
-        }
-
-        if (laboratory.Students != null)
-        {
-            laboratory.Students.Add(student);
-        }
-        else
-        {
-            var Students = new List<User>();
-            Students.Add(student);
-            laboratory.Students = Students;
-        }
-
-        await _repository.UpdateAsync(laboratory, cancellationToken);
-
-        return ServiceResponse.ForSuccess();
-    }
-
     public async Task<ServiceResponse> AddLaboratory(LaboratoryAddDTO laboratory, UserDTO? requestingUser, CancellationToken cancellationToken)
     {
         if (requestingUser != null && requestingUser.Role != UserRoleEnum.Admin) // Verify who can add the user, you can change this however you se fit.

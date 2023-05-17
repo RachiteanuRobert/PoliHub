@@ -15,6 +15,5 @@ public class CourseSimpleDTO
     public int Duration { get; set; } = default!;
     public string Location { get; set; } = default!;
     public int DayOfWeek { get; set; } = default!;
-    public string Series { get; set; } = default!;
     public Guid SubjectId { get; set; } = default!;
 }

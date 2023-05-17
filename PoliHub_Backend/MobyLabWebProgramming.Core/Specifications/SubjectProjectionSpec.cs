@@ -17,51 +17,33 @@ public sealed class SubjectProjectionSpec : BaseSpec<SubjectProjectionSpec, Subj
     /// </summary>
     protected override Expression<Func<Subject, SubjectDTO>> Spec => e => new()
     {
-        SubjectId = e.SubjectId,
+        Id = e.Id,
         Name = e.Name,
         Year = e.Year,
         Semester = e.Semester,
         Department = e.Department,
         CreditsNo = e.CreditsNo,
         Description = e.Description,
-
-        Courses = e.Courses.Select(c => new CourseSimpleDTO
-        {
-            Id = c.Id,
-            ProfessorName = c.ProfessorName,
-            StartTime = c.StartTime,
-            Duration = c.Duration,
-            Location = c.Location,
-            Series = c.Series,
-            DayOfWeek = c.DayOfWeek,
-            SubjectId = e.SubjectId
-        }).ToList(),
-
         /*
-        Students = e.Students.Select(u => new UserSimpleDTO
+        Course = new CourseSimpleDTO
         {
-            Id = u.Id,
-            Name = u.Name,
-            Email = u.Email,
-            Role = u.Role,
-            Group = u.Group
-        }).ToList(),
+            Id = e.Course.Id,
+            StartTime = e.Course.StartTime,
+            Duration = e.Course.Duration,
+            Location = e.Course.Location,
+            SubjectId = e.Id
+        },
+        
+        Laboratories = (ICollection<LaboratorySimpleDTO>)e.Laboratories.Select(l => new LaboratorySimpleDTO
+        {
+            Id = l.Id,
+            StartTime = l.StartTime,
+            Duration = l.Duration,
+            Location = l.Location,
+            AssistantName = l.AssistantName,
+            SubjectId = e.Id,
+        })
         */
-
-        SubjectUsers = e.SubjectUsers.Select(n => new SubjectUserSimpleDTO 
-        { 
-            Id = n.Id,
-            UserId = n.UserId,
-            User = new UserSimpleDTO
-            {
-                Id = n.User.Id,
-                Name = n.User.Name, 
-                Email = n.User.Email,  
-                Role = n.User.Role,
-                Group = n.User.Group
-            }
-
-        }).ToList(),
     };
 
     public SubjectProjectionSpec(Guid id) : base(id)

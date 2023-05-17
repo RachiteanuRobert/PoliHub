@@ -9,7 +9,7 @@ namespace MobyLabWebProgramming.Core.DataTransferObjects;
 /// </summary>
 public class SubjectDTO
 {
-    public Guid SubjectId { get; set; }
+    public Guid Id { get; set; }
     public string Name { get; set; } = default!;
     public char Year { get; set; } = default!;
     public char Semester { get; set; } = default!;
@@ -17,6 +17,4 @@ public class SubjectDTO
     public char CreditsNo { get; set; } = default!;
     public string Description { get; set; } = default!;
     public ICollection<CourseSimpleDTO> Courses { get; set; } = default!;
-    public ICollection<UserSimpleDTO> Students { get; set; } = default!;
-    public ICollection<SubjectUserSimpleDTO> SubjectUsers { get; set; } = default!;
 }
