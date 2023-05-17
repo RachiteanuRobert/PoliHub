@@ -27,10 +27,10 @@ export interface LaboratoryUpdateDTO {
     id?: string;
     /**
      * 
-     * @type {string}
+     * @type {number}
      * @memberof LaboratoryUpdateDTO
      */
-    startTime?: string | null;
+    startTime?: number | null;
     /**
      * 
      * @type {number}
@@ -51,16 +51,22 @@ export interface LaboratoryUpdateDTO {
     assistantName?: string | null;
     /**
      * 
-     * @type {number}
-     * @memberof LaboratoryUpdateDTO
-     */
-    dayOfWeek?: number | null;
-    /**
-     * 
      * @type {string}
      * @memberof LaboratoryUpdateDTO
      */
-    courseId?: string | null;
+    subjectId?: string | null;
+    /**
+     * 
+     * @type {Array<string>}
+     * @memberof LaboratoryUpdateDTO
+     */
+    laboratoryInstances?: Array<string> | null;
+    /**
+     * 
+     * @type {Array<string>}
+     * @memberof LaboratoryUpdateDTO
+     */
+    students?: Array<string> | null;
 }
 
 /**
@@ -87,8 +93,9 @@ export function LaboratoryUpdateDTOFromJSONTyped(json: any, ignoreDiscriminator:
         'duration': !exists(json, 'duration') ? undefined : json['duration'],
         'location': !exists(json, 'location') ? undefined : json['location'],
         'assistantName': !exists(json, 'assistantName') ? undefined : json['assistantName'],
-        'dayOfWeek': !exists(json, 'dayOfWeek') ? undefined : json['dayOfWeek'],
-        'courseId': !exists(json, 'courseId') ? undefined : json['courseId'],
+        'subjectId': !exists(json, 'subjectId') ? undefined : json['subjectId'],
+        'laboratoryInstances': !exists(json, 'laboratoryInstances') ? undefined : json['laboratoryInstances'],
+        'students': !exists(json, 'students') ? undefined : json['students'],
     };
 }
 
@@ -106,8 +113,9 @@ export function LaboratoryUpdateDTOToJSON(value?: LaboratoryUpdateDTO | null): a
         'duration': value.duration,
         'location': value.location,
         'assistantName': value.assistantName,
-        'dayOfWeek': value.dayOfWeek,
-        'courseId': value.courseId,
+        'subjectId': value.subjectId,
+        'laboratoryInstances': value.laboratoryInstances,
+        'students': value.students,
     };
 }
 

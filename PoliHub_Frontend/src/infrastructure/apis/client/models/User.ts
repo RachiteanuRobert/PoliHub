@@ -37,12 +37,6 @@ import {
     LaboratoryInstanceFromJSONTyped,
     LaboratoryInstanceToJSON,
 } from './LaboratoryInstance';
-import type { Subject } from './Subject';
-import {
-    SubjectFromJSON,
-    SubjectFromJSONTyped,
-    SubjectToJSON,
-} from './Subject';
 import type { UserFile } from './UserFile';
 import {
     UserFileFromJSON,
@@ -130,12 +124,6 @@ export interface User {
     laboratories?: Array<Laboratory> | null;
     /**
      * 
-     * @type {Array<Subject>}
-     * @memberof User
-     */
-    subjects?: Array<Subject> | null;
-    /**
-     * 
      * @type {Array<LaboratoryInstance>}
      * @memberof User
      */
@@ -178,7 +166,6 @@ export function UserFromJSONTyped(json: any, ignoreDiscriminator: boolean): User
         'userFiles': !exists(json, 'userFiles') ? undefined : (json['userFiles'] === null ? null : (json['userFiles'] as Array<any>).map(UserFileFromJSON)),
         'courses': !exists(json, 'courses') ? undefined : (json['courses'] === null ? null : (json['courses'] as Array<any>).map(CourseFromJSON)),
         'laboratories': !exists(json, 'laboratories') ? undefined : (json['laboratories'] === null ? null : (json['laboratories'] as Array<any>).map(LaboratoryFromJSON)),
-        'subjects': !exists(json, 'subjects') ? undefined : (json['subjects'] === null ? null : (json['subjects'] as Array<any>).map(SubjectFromJSON)),
         'laboratoryInstances': !exists(json, 'laboratoryInstances') ? undefined : (json['laboratoryInstances'] === null ? null : (json['laboratoryInstances'] as Array<any>).map(LaboratoryInstanceFromJSON)),
         'courseInstances': !exists(json, 'courseInstances') ? undefined : (json['courseInstances'] === null ? null : (json['courseInstances'] as Array<any>).map(CourseInstanceFromJSON)),
     };
@@ -204,7 +191,6 @@ export function UserToJSON(value?: User | null): any {
         'userFiles': value.userFiles === undefined ? undefined : (value.userFiles === null ? null : (value.userFiles as Array<any>).map(UserFileToJSON)),
         'courses': value.courses === undefined ? undefined : (value.courses === null ? null : (value.courses as Array<any>).map(CourseToJSON)),
         'laboratories': value.laboratories === undefined ? undefined : (value.laboratories === null ? null : (value.laboratories as Array<any>).map(LaboratoryToJSON)),
-        'subjects': value.subjects === undefined ? undefined : (value.subjects === null ? null : (value.subjects as Array<any>).map(SubjectToJSON)),
         'laboratoryInstances': value.laboratoryInstances === undefined ? undefined : (value.laboratoryInstances === null ? null : (value.laboratoryInstances as Array<any>).map(LaboratoryInstanceToJSON)),
         'courseInstances': value.courseInstances === undefined ? undefined : (value.courseInstances === null ? null : (value.courseInstances as Array<any>).map(CourseInstanceToJSON)),
     };

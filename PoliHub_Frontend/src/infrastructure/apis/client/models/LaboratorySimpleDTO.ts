@@ -27,10 +27,10 @@ export interface LaboratorySimpleDTO {
     id?: string;
     /**
      * 
-     * @type {string}
+     * @type {number}
      * @memberof LaboratorySimpleDTO
      */
-    startTime?: string | null;
+    startTime?: number;
     /**
      * 
      * @type {number}
@@ -51,16 +51,10 @@ export interface LaboratorySimpleDTO {
     assistantName?: string | null;
     /**
      * 
-     * @type {number}
-     * @memberof LaboratorySimpleDTO
-     */
-    dayOfWeek?: number;
-    /**
-     * 
      * @type {string}
      * @memberof LaboratorySimpleDTO
      */
-    courseId?: string;
+    subjectId?: string;
 }
 
 /**
@@ -87,8 +81,7 @@ export function LaboratorySimpleDTOFromJSONTyped(json: any, ignoreDiscriminator:
         'duration': !exists(json, 'duration') ? undefined : json['duration'],
         'location': !exists(json, 'location') ? undefined : json['location'],
         'assistantName': !exists(json, 'assistantName') ? undefined : json['assistantName'],
-        'dayOfWeek': !exists(json, 'dayOfWeek') ? undefined : json['dayOfWeek'],
-        'courseId': !exists(json, 'courseId') ? undefined : json['courseId'],
+        'subjectId': !exists(json, 'subjectId') ? undefined : json['subjectId'],
     };
 }
 
@@ -106,8 +99,7 @@ export function LaboratorySimpleDTOToJSON(value?: LaboratorySimpleDTO | null): a
         'duration': value.duration,
         'location': value.location,
         'assistantName': value.assistantName,
-        'dayOfWeek': value.dayOfWeek,
-        'courseId': value.courseId,
+        'subjectId': value.subjectId,
     };
 }
 

@@ -13,19 +13,6 @@
  */
 
 import { exists, mapValues } from '../runtime';
-import type { LaboratoryInstanceSimpleDTO } from './LaboratoryInstanceSimpleDTO';
-import {
-    LaboratoryInstanceSimpleDTOFromJSON,
-    LaboratoryInstanceSimpleDTOFromJSONTyped,
-    LaboratoryInstanceSimpleDTOToJSON,
-} from './LaboratoryInstanceSimpleDTO';
-import type { UserSimpleDTO } from './UserSimpleDTO';
-import {
-    UserSimpleDTOFromJSON,
-    UserSimpleDTOFromJSONTyped,
-    UserSimpleDTOToJSON,
-} from './UserSimpleDTO';
-
 /**
  * 
  * @export
@@ -37,19 +24,13 @@ export interface LaboratoryDTO {
      * @type {string}
      * @memberof LaboratoryDTO
      */
-    assistantName?: string | null;
-    /**
-     * 
-     * @type {string}
-     * @memberof LaboratoryDTO
-     */
     id?: string;
     /**
      * 
-     * @type {string}
+     * @type {number}
      * @memberof LaboratoryDTO
      */
-    startTime?: string | null;
+    startTime?: number;
     /**
      * 
      * @type {number}
@@ -64,28 +45,28 @@ export interface LaboratoryDTO {
     location?: string | null;
     /**
      * 
-     * @type {number}
+     * @type {string}
      * @memberof LaboratoryDTO
      */
-    dayOfWeek?: number;
+    assistantName?: string | null;
     /**
      * 
      * @type {string}
      * @memberof LaboratoryDTO
      */
-    courseId?: string;
+    subjectId?: string;
     /**
      * 
-     * @type {Array<LaboratoryInstanceSimpleDTO>}
+     * @type {Array<string>}
      * @memberof LaboratoryDTO
      */
-    laboratoryInstances?: Array<LaboratoryInstanceSimpleDTO> | null;
+    laboratoryInstances?: Array<string> | null;
     /**
      * 
-     * @type {Array<UserSimpleDTO>}
+     * @type {Array<string>}
      * @memberof LaboratoryDTO
      */
-    students?: Array<UserSimpleDTO> | null;
+    students?: Array<string> | null;
 }
 
 /**
@@ -107,15 +88,14 @@ export function LaboratoryDTOFromJSONTyped(json: any, ignoreDiscriminator: boole
     }
     return {
         
-        'assistantName': !exists(json, 'assistantName') ? undefined : json['assistantName'],
         'id': !exists(json, 'id') ? undefined : json['id'],
         'startTime': !exists(json, 'startTime') ? undefined : json['startTime'],
         'duration': !exists(json, 'duration') ? undefined : json['duration'],
         'location': !exists(json, 'location') ? undefined : json['location'],
-        'dayOfWeek': !exists(json, 'dayOfWeek') ? undefined : json['dayOfWeek'],
-        'courseId': !exists(json, 'courseId') ? undefined : json['courseId'],
-        'laboratoryInstances': !exists(json, 'laboratoryInstances') ? undefined : (json['laboratoryInstances'] === null ? null : (json['laboratoryInstances'] as Array<any>).map(LaboratoryInstanceSimpleDTOFromJSON)),
-        'students': !exists(json, 'students') ? undefined : (json['students'] === null ? null : (json['students'] as Array<any>).map(UserSimpleDTOFromJSON)),
+        'assistantName': !exists(json, 'assistantName') ? undefined : json['assistantName'],
+        'subjectId': !exists(json, 'subjectId') ? undefined : json['subjectId'],
+        'laboratoryInstances': !exists(json, 'laboratoryInstances') ? undefined : json['laboratoryInstances'],
+        'students': !exists(json, 'students') ? undefined : json['students'],
     };
 }
 
@@ -128,15 +108,14 @@ export function LaboratoryDTOToJSON(value?: LaboratoryDTO | null): any {
     }
     return {
         
-        'assistantName': value.assistantName,
         'id': value.id,
         'startTime': value.startTime,
         'duration': value.duration,
         'location': value.location,
-        'dayOfWeek': value.dayOfWeek,
-        'courseId': value.courseId,
-        'laboratoryInstances': value.laboratoryInstances === undefined ? undefined : (value.laboratoryInstances === null ? null : (value.laboratoryInstances as Array<any>).map(LaboratoryInstanceSimpleDTOToJSON)),
-        'students': value.students === undefined ? undefined : (value.students === null ? null : (value.students as Array<any>).map(UserSimpleDTOToJSON)),
+        'assistantName': value.assistantName,
+        'subjectId': value.subjectId,
+        'laboratoryInstances': value.laboratoryInstances,
+        'students': value.students,
     };
 }
 

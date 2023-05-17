@@ -73,7 +73,7 @@ export function CourseInstanceAddDTOToJSON(value?: CourseInstanceAddDTO | null):
     }
     return {
         
-        'courseInstanceDate': value.courseInstanceDate === undefined ? undefined : (value.courseInstanceDate.toISOString()),
+        'courseInstanceDate': value.courseInstanceDate === undefined ? undefined : (value.courseInstanceDate.toISOString().substr(0,10)),
         'courseId': value.courseId,
         'students': value.students,
     };

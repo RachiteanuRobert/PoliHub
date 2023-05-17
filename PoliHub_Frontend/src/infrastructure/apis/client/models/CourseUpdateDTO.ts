@@ -27,16 +27,10 @@ export interface CourseUpdateDTO {
     id?: string;
     /**
      * 
-     * @type {string}
+     * @type {number}
      * @memberof CourseUpdateDTO
      */
-    professorName?: string | null;
-    /**
-     * 
-     * @type {string}
-     * @memberof CourseUpdateDTO
-     */
-    startTime?: string | null;
+    startTime?: number | null;
     /**
      * 
      * @type {number}
@@ -54,19 +48,19 @@ export interface CourseUpdateDTO {
      * @type {string}
      * @memberof CourseUpdateDTO
      */
-    series?: string | null;
-    /**
-     * 
-     * @type {number}
-     * @memberof CourseUpdateDTO
-     */
-    dayOfWeek?: number | null;
-    /**
-     * 
-     * @type {string}
-     * @memberof CourseUpdateDTO
-     */
     subjectId?: string | null;
+    /**
+     * 
+     * @type {Array<string>}
+     * @memberof CourseUpdateDTO
+     */
+    courseInstances?: Array<string> | null;
+    /**
+     * 
+     * @type {Array<string>}
+     * @memberof CourseUpdateDTO
+     */
+    students?: Array<string> | null;
 }
 
 /**
@@ -89,13 +83,12 @@ export function CourseUpdateDTOFromJSONTyped(json: any, ignoreDiscriminator: boo
     return {
         
         'id': !exists(json, 'id') ? undefined : json['id'],
-        'professorName': !exists(json, 'professorName') ? undefined : json['professorName'],
         'startTime': !exists(json, 'startTime') ? undefined : json['startTime'],
         'duration': !exists(json, 'duration') ? undefined : json['duration'],
         'location': !exists(json, 'location') ? undefined : json['location'],
-        'series': !exists(json, 'series') ? undefined : json['series'],
-        'dayOfWeek': !exists(json, 'dayOfWeek') ? undefined : json['dayOfWeek'],
         'subjectId': !exists(json, 'subjectId') ? undefined : json['subjectId'],
+        'courseInstances': !exists(json, 'courseInstances') ? undefined : json['courseInstances'],
+        'students': !exists(json, 'students') ? undefined : json['students'],
     };
 }
 
@@ -109,13 +102,12 @@ export function CourseUpdateDTOToJSON(value?: CourseUpdateDTO | null): any {
     return {
         
         'id': value.id,
-        'professorName': value.professorName,
         'startTime': value.startTime,
         'duration': value.duration,
         'location': value.location,
-        'series': value.series,
-        'dayOfWeek': value.dayOfWeek,
         'subjectId': value.subjectId,
+        'courseInstances': value.courseInstances,
+        'students': value.students,
     };
 }
 

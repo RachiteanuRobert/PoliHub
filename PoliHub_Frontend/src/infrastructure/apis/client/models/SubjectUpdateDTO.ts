@@ -13,6 +13,13 @@
  */
 
 import { exists, mapValues } from '../runtime';
+import type { CourseSimpleDTO } from './CourseSimpleDTO';
+import {
+    CourseSimpleDTOFromJSON,
+    CourseSimpleDTOFromJSONTyped,
+    CourseSimpleDTOToJSON,
+} from './CourseSimpleDTO';
+
 /**
  * 
  * @export
@@ -42,7 +49,7 @@ export interface SubjectUpdateDTO {
      * @type {string}
      * @memberof SubjectUpdateDTO
      */
-    semester?: string | null;
+    professor?: string | null;
     /**
      * 
      * @type {string}
@@ -61,6 +68,18 @@ export interface SubjectUpdateDTO {
      * @memberof SubjectUpdateDTO
      */
     creditsNo?: string | null;
+    /**
+     * 
+     * @type {CourseSimpleDTO}
+     * @memberof SubjectUpdateDTO
+     */
+    course?: CourseSimpleDTO;
+    /**
+     * 
+     * @type {Array<string>}
+     * @memberof SubjectUpdateDTO
+     */
+    laboratories?: Array<string> | null;
 }
 
 /**
@@ -85,10 +104,12 @@ export function SubjectUpdateDTOFromJSONTyped(json: any, ignoreDiscriminator: bo
         'id': !exists(json, 'id') ? undefined : json['id'],
         'name': !exists(json, 'name') ? undefined : json['name'],
         'year': !exists(json, 'year') ? undefined : json['year'],
-        'semester': !exists(json, 'semester') ? undefined : json['semester'],
+        'professor': !exists(json, 'professor') ? undefined : json['professor'],
         'department': !exists(json, 'department') ? undefined : json['department'],
         'description': !exists(json, 'description') ? undefined : json['description'],
         'creditsNo': !exists(json, 'creditsNo') ? undefined : json['creditsNo'],
+        'course': !exists(json, 'course') ? undefined : CourseSimpleDTOFromJSON(json['course']),
+        'laboratories': !exists(json, 'laboratories') ? undefined : json['laboratories'],
     };
 }
 
@@ -104,10 +125,12 @@ export function SubjectUpdateDTOToJSON(value?: SubjectUpdateDTO | null): any {
         'id': value.id,
         'name': value.name,
         'year': value.year,
-        'semester': value.semester,
+        'professor': value.professor,
         'department': value.department,
         'description': value.description,
         'creditsNo': value.creditsNo,
+        'course': CourseSimpleDTOToJSON(value.course),
+        'laboratories': value.laboratories,
     };
 }
 

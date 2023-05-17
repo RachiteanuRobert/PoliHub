@@ -13,13 +13,6 @@
  */
 
 import { exists, mapValues } from '../runtime';
-import type { UserSimpleDTO } from './UserSimpleDTO';
-import {
-    UserSimpleDTOFromJSON,
-    UserSimpleDTOFromJSONTyped,
-    UserSimpleDTOToJSON,
-} from './UserSimpleDTO';
-
 /**
  * 
  * @export
@@ -46,10 +39,10 @@ export interface LaboratoryInstanceDTO {
     laboratoryInstanceDate?: Date;
     /**
      * 
-     * @type {Array<UserSimpleDTO>}
+     * @type {Array<string>}
      * @memberof LaboratoryInstanceDTO
      */
-    students?: Array<UserSimpleDTO> | null;
+    students?: Array<string> | null;
 }
 
 /**
@@ -74,7 +67,7 @@ export function LaboratoryInstanceDTOFromJSONTyped(json: any, ignoreDiscriminato
         'id': !exists(json, 'id') ? undefined : json['id'],
         'laboratoryId': !exists(json, 'laboratoryId') ? undefined : json['laboratoryId'],
         'laboratoryInstanceDate': !exists(json, 'laboratoryInstanceDate') ? undefined : (new Date(json['laboratoryInstanceDate'])),
-        'students': !exists(json, 'students') ? undefined : (json['students'] === null ? null : (json['students'] as Array<any>).map(UserSimpleDTOFromJSON)),
+        'students': !exists(json, 'students') ? undefined : json['students'],
     };
 }
 
@@ -89,8 +82,8 @@ export function LaboratoryInstanceDTOToJSON(value?: LaboratoryInstanceDTO | null
         
         'id': value.id,
         'laboratoryId': value.laboratoryId,
-        'laboratoryInstanceDate': value.laboratoryInstanceDate === undefined ? undefined : (value.laboratoryInstanceDate.toISOString()),
-        'students': value.students === undefined ? undefined : (value.students === null ? null : (value.students as Array<any>).map(UserSimpleDTOToJSON)),
+        'laboratoryInstanceDate': value.laboratoryInstanceDate === undefined ? undefined : (value.laboratoryInstanceDate.toISOString().substr(0,10)),
+        'students': value.students,
     };
 }
 

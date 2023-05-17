@@ -36,7 +36,7 @@ export interface SubjectAddDTO {
      * @type {string}
      * @memberof SubjectAddDTO
      */
-    semester?: string;
+    professor?: string | null;
     /**
      * 
      * @type {string}
@@ -55,6 +55,12 @@ export interface SubjectAddDTO {
      * @memberof SubjectAddDTO
      */
     description?: string | null;
+    /**
+     * 
+     * @type {Array<string>}
+     * @memberof SubjectAddDTO
+     */
+    laboratories?: Array<string> | null;
 }
 
 /**
@@ -78,10 +84,11 @@ export function SubjectAddDTOFromJSONTyped(json: any, ignoreDiscriminator: boole
         
         'name': !exists(json, 'name') ? undefined : json['name'],
         'year': !exists(json, 'year') ? undefined : json['year'],
-        'semester': !exists(json, 'semester') ? undefined : json['semester'],
+        'professor': !exists(json, 'professor') ? undefined : json['professor'],
         'department': !exists(json, 'department') ? undefined : json['department'],
         'creditsNo': !exists(json, 'creditsNo') ? undefined : json['creditsNo'],
         'description': !exists(json, 'description') ? undefined : json['description'],
+        'laboratories': !exists(json, 'laboratories') ? undefined : json['laboratories'],
     };
 }
 
@@ -96,10 +103,11 @@ export function SubjectAddDTOToJSON(value?: SubjectAddDTO | null): any {
         
         'name': value.name,
         'year': value.year,
-        'semester': value.semester,
+        'professor': value.professor,
         'department': value.department,
         'creditsNo': value.creditsNo,
         'description': value.description,
+        'laboratories': value.laboratories,
     };
 }
 

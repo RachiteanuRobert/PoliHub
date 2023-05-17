@@ -13,13 +13,6 @@
  */
 
 import { exists, mapValues } from '../runtime';
-import type { UserSimpleDTO } from './UserSimpleDTO';
-import {
-    UserSimpleDTOFromJSON,
-    UserSimpleDTOFromJSONTyped,
-    UserSimpleDTOToJSON,
-} from './UserSimpleDTO';
-
 /**
  * 
  * @export
@@ -40,16 +33,10 @@ export interface CourseInstanceDTO {
     courseId?: string;
     /**
      * 
-     * @type {Date}
+     * @type {Array<string>}
      * @memberof CourseInstanceDTO
      */
-    courseInstanceDate?: Date;
-    /**
-     * 
-     * @type {Array<UserSimpleDTO>}
-     * @memberof CourseInstanceDTO
-     */
-    students?: Array<UserSimpleDTO> | null;
+    students?: Array<string> | null;
 }
 
 /**
@@ -73,8 +60,7 @@ export function CourseInstanceDTOFromJSONTyped(json: any, ignoreDiscriminator: b
         
         'id': !exists(json, 'id') ? undefined : json['id'],
         'courseId': !exists(json, 'courseId') ? undefined : json['courseId'],
-        'courseInstanceDate': !exists(json, 'courseInstanceDate') ? undefined : (new Date(json['courseInstanceDate'])),
-        'students': !exists(json, 'students') ? undefined : (json['students'] === null ? null : (json['students'] as Array<any>).map(UserSimpleDTOFromJSON)),
+        'students': !exists(json, 'students') ? undefined : json['students'],
     };
 }
 
@@ -89,8 +75,7 @@ export function CourseInstanceDTOToJSON(value?: CourseInstanceDTO | null): any {
         
         'id': value.id,
         'courseId': value.courseId,
-        'courseInstanceDate': value.courseInstanceDate === undefined ? undefined : (value.courseInstanceDate.toISOString()),
-        'students': value.students === undefined ? undefined : (value.students === null ? null : (value.students as Array<any>).map(UserSimpleDTOToJSON)),
+        'students': value.students,
     };
 }
 

@@ -18,9 +18,9 @@ const getDefaultValues = (initialData?: SubjectFormModel) => {
     const defaultValues = {
         name: "",
         year: "",
-        semester: "",
+        professor: "",
         department: "",
-        creditsNo: "",
+        creditsno: "",
         description: ""
     };
 
@@ -82,15 +82,15 @@ const getSchema = (defaultValues: SubjectFormModel) => {
                     }),
                 }))
             .default(defaultValues.year),
-        semester: yup.string()
+        professor: yup.string()
             .required(formatMessage(
                 { id: "globals.validations.requiredField" },
                 {
                     fieldName: formatMessage({
-                        id: "globals.semester",
+                        id: "globals.professor",
                     }),
                 }))
-            .default(defaultValues.semester),
+            .default(defaultValues.professor),
         department: yup.string()
             .required(formatMessage(
                 { id: "globals.validations.requiredField" },
@@ -100,15 +100,15 @@ const getSchema = (defaultValues: SubjectFormModel) => {
                     }),
                 }))
             .default(defaultValues.department),
-        creditsNo: yup.string()
+        creditsno: yup.string()
             .required(formatMessage(
                 { id: "globals.validations.requiredField" },
                 {
                     fieldName: formatMessage({
-                        id: "globals.creditsNo",
+                        id: "globals.creditsno",
                     }),
                 }))
-            .default(defaultValues.creditsNo),
+            .default(defaultValues.creditsno),
         description: yup.string()
             .required(formatMessage(
                 { id: "globals.validations.requiredField" },

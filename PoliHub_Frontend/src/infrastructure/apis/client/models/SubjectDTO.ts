@@ -19,12 +19,21 @@ import {
     CourseSimpleDTOFromJSONTyped,
     CourseSimpleDTOToJSON,
 } from './CourseSimpleDTO';
+<<<<<<< HEAD
 import type { UserSimpleDTO } from './UserSimpleDTO';
 import {
     UserSimpleDTOFromJSON,
     UserSimpleDTOFromJSONTyped,
     UserSimpleDTOToJSON,
 } from './UserSimpleDTO';
+=======
+import type { LaboratorySimpleDTO } from './LaboratorySimpleDTO';
+import {
+    LaboratorySimpleDTOFromJSON,
+    LaboratorySimpleDTOFromJSONTyped,
+    LaboratorySimpleDTOToJSON,
+} from './LaboratorySimpleDTO';
+>>>>>>> parent of 6434a11 (Subject, Course, Laboratory Forms and Tables)
 
 /**
  * 
@@ -55,7 +64,7 @@ export interface SubjectDTO {
      * @type {string}
      * @memberof SubjectDTO
      */
-    semester?: string;
+    professor?: string | null;
     /**
      * 
      * @type {string}
@@ -76,9 +85,10 @@ export interface SubjectDTO {
     description?: string | null;
     /**
      * 
-     * @type {Array<CourseSimpleDTO>}
+     * @type {CourseSimpleDTO}
      * @memberof SubjectDTO
      */
+<<<<<<< HEAD
     courses?: Array<CourseSimpleDTO> | null;
     /**
      * 
@@ -86,6 +96,15 @@ export interface SubjectDTO {
      * @memberof SubjectDTO
      */
     students?: Array<UserSimpleDTO> | null;
+=======
+    course?: CourseSimpleDTO;
+    /**
+     * 
+     * @type {Array<LaboratorySimpleDTO>}
+     * @memberof SubjectDTO
+     */
+    laboratories?: Array<LaboratorySimpleDTO> | null;
+>>>>>>> parent of 6434a11 (Subject, Course, Laboratory Forms and Tables)
 }
 
 /**
@@ -110,12 +129,17 @@ export function SubjectDTOFromJSONTyped(json: any, ignoreDiscriminator: boolean)
         'id': !exists(json, 'id') ? undefined : json['id'],
         'name': !exists(json, 'name') ? undefined : json['name'],
         'year': !exists(json, 'year') ? undefined : json['year'],
-        'semester': !exists(json, 'semester') ? undefined : json['semester'],
+        'professor': !exists(json, 'professor') ? undefined : json['professor'],
         'department': !exists(json, 'department') ? undefined : json['department'],
         'creditsNo': !exists(json, 'creditsNo') ? undefined : json['creditsNo'],
         'description': !exists(json, 'description') ? undefined : json['description'],
+<<<<<<< HEAD
         'courses': !exists(json, 'courses') ? undefined : (json['courses'] === null ? null : (json['courses'] as Array<any>).map(CourseSimpleDTOFromJSON)),
         'students': !exists(json, 'students') ? undefined : (json['students'] === null ? null : (json['students'] as Array<any>).map(UserSimpleDTOFromJSON)),
+=======
+        'course': !exists(json, 'course') ? undefined : CourseSimpleDTOFromJSON(json['course']),
+        'laboratories': !exists(json, 'laboratories') ? undefined : (json['laboratories'] === null ? null : (json['laboratories'] as Array<any>).map(LaboratorySimpleDTOFromJSON)),
+>>>>>>> parent of 6434a11 (Subject, Course, Laboratory Forms and Tables)
     };
 }
 
@@ -131,12 +155,17 @@ export function SubjectDTOToJSON(value?: SubjectDTO | null): any {
         'id': value.id,
         'name': value.name,
         'year': value.year,
-        'semester': value.semester,
+        'professor': value.professor,
         'department': value.department,
         'creditsNo': value.creditsNo,
         'description': value.description,
+<<<<<<< HEAD
         'courses': value.courses === undefined ? undefined : (value.courses === null ? null : (value.courses as Array<any>).map(CourseSimpleDTOToJSON)),
         'students': value.students === undefined ? undefined : (value.students === null ? null : (value.students as Array<any>).map(UserSimpleDTOToJSON)),
+=======
+        'course': CourseSimpleDTOToJSON(value.course),
+        'laboratories': value.laboratories === undefined ? undefined : (value.laboratories === null ? null : (value.laboratories as Array<any>).map(LaboratorySimpleDTOToJSON)),
+>>>>>>> parent of 6434a11 (Subject, Course, Laboratory Forms and Tables)
     };
 }
 

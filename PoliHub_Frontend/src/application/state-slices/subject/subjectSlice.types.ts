@@ -2,9 +2,9 @@ export interface Subject {
     id: string,
     name: string;
     year: string;
-    semester: string;
+    professor: string;
     department: string;
-    creditsNo: string;
+    creditsno: string;
     description: string;
 }
 

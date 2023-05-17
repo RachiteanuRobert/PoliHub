@@ -118,7 +118,7 @@ export function LaboratoryInstanceToJSON(value?: LaboratoryInstance | null): any
         'createdAt': value.createdAt === undefined ? undefined : (value.createdAt.toISOString()),
         'updatedAt': value.updatedAt === undefined ? undefined : (value.updatedAt.toISOString()),
         'laboratoryId': value.laboratoryId,
-        'laboratoryInstanceDate': value.laboratoryInstanceDate === undefined ? undefined : (value.laboratoryInstanceDate.toISOString()),
+        'laboratoryInstanceDate': value.laboratoryInstanceDate === undefined ? undefined : (value.laboratoryInstanceDate.toISOString().substr(0,10)),
         'laboratory': LaboratoryToJSON(value.laboratory),
         'students': value.students === undefined ? undefined : (value.students === null ? null : (value.students as Array<any>).map(UserToJSON)),
     };

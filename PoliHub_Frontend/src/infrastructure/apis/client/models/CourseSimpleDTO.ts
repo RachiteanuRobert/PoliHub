@@ -24,19 +24,13 @@ export interface CourseSimpleDTO {
      * @type {string}
      * @memberof CourseSimpleDTO
      */
-    professorName?: string | null;
-    /**
-     * 
-     * @type {string}
-     * @memberof CourseSimpleDTO
-     */
     id?: string;
     /**
      * 
-     * @type {string}
+     * @type {number}
      * @memberof CourseSimpleDTO
      */
-    startTime?: string | null;
+    startTime?: number;
     /**
      * 
      * @type {number}
@@ -49,12 +43,6 @@ export interface CourseSimpleDTO {
      * @memberof CourseSimpleDTO
      */
     location?: string | null;
-    /**
-     * 
-     * @type {number}
-     * @memberof CourseSimpleDTO
-     */
-    dayOfWeek?: number;
     /**
      * 
      * @type {string}
@@ -88,13 +76,15 @@ export function CourseSimpleDTOFromJSONTyped(json: any, ignoreDiscriminator: boo
     }
     return {
         
-        'professorName': !exists(json, 'professorName') ? undefined : json['professorName'],
         'id': !exists(json, 'id') ? undefined : json['id'],
         'startTime': !exists(json, 'startTime') ? undefined : json['startTime'],
         'duration': !exists(json, 'duration') ? undefined : json['duration'],
         'location': !exists(json, 'location') ? undefined : json['location'],
+<<<<<<< HEAD
         'dayOfWeek': !exists(json, 'dayOfWeek') ? undefined : json['dayOfWeek'],
         'series': !exists(json, 'series') ? undefined : json['series'],
+=======
+>>>>>>> parent of 6434a11 (Subject, Course, Laboratory Forms and Tables)
         'subjectId': !exists(json, 'subjectId') ? undefined : json['subjectId'],
     };
 }
@@ -108,13 +98,15 @@ export function CourseSimpleDTOToJSON(value?: CourseSimpleDTO | null): any {
     }
     return {
         
-        'professorName': value.professorName,
         'id': value.id,
         'startTime': value.startTime,
         'duration': value.duration,
         'location': value.location,
+<<<<<<< HEAD
         'dayOfWeek': value.dayOfWeek,
         'series': value.series,
+=======
+>>>>>>> parent of 6434a11 (Subject, Course, Laboratory Forms and Tables)
         'subjectId': value.subjectId,
     };
 }

@@ -14,7 +14,6 @@ export type UserAddFormModel = {
     email: string;
     password: string;
     role: UserRoleEnum;
-    group: string;
 };
 
 export type UserAddFormState = {

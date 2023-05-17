@@ -11,10 +11,15 @@ export type SubjectFormModel = {
     id?: string,
     name: string;
     year: string;
-    semester: string;
+    professor: string;
     department: string;
+<<<<<<< HEAD
     creditsNo: string;
     description: string;
+=======
+    creditsno: string;
+    description: string
+>>>>>>> parent of 6434a11 (Subject, Course, Laboratory Forms and Tables)
 };
 
 export type SubjectFormState = {

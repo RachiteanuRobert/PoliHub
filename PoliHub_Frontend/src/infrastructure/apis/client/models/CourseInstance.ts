@@ -119,7 +119,7 @@ export function CourseInstanceToJSON(value?: CourseInstance | null): any {
         'updatedAt': value.updatedAt === undefined ? undefined : (value.updatedAt.toISOString()),
         'course': CourseToJSON(value.course),
         'courseId': value.courseId,
-        'courseInstanceDate': value.courseInstanceDate === undefined ? undefined : (value.courseInstanceDate.toISOString()),
+        'courseInstanceDate': value.courseInstanceDate === undefined ? undefined : (value.courseInstanceDate.toISOString().substr(0,10)),
         'students': value.students === undefined ? undefined : (value.students === null ? null : (value.students as Array<any>).map(UserToJSON)),
     };
 }

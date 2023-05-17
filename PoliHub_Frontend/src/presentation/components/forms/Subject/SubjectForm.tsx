@@ -13,15 +13,14 @@ import {
 import { FormattedMessage, useIntl } from "react-intl";
 import { useSubjectFormController } from "./SubjectForm.controller";
 import { isEmpty, isUndefined } from "lodash"
-import {FormActions} from "@infrastructure/utils/formUtils";
 
 /**
- * Here we declare the Subject add and update form component.
+ * Here we declare the Subject add form component.
  * This form may be used in modals so the onSubmit callback could close the modal on completion.
  */
-export const SubjectForm = (props: { onSubmit?: () => void, action: FormActions}) => {
+export const SubjectForm = (props: { onSubmit?: () => void }) => {
     const { formatMessage } = useIntl();
-    const { state, actions, computed } = useSubjectFormController(props.action, props.onSubmit); // Use the controller.
+    const { state, actions, computed } = useSubjectFormController(props.onSubmit); // Use the controller.
 
     return <form onSubmit={actions.handleSubmit(actions.submit)}> {/* Wrap your form into a form tag and use the handle submit callback to validate the form and call the data submission. */}
         <Stack spacing={4} style={{ width: "100%" }}>
@@ -81,26 +80,26 @@ export const SubjectForm = (props: { onSubmit?: () => void, action: FormActions}
                 <Grid container item direction="column" xs={6} md={6}>
                     <FormControl
                         fullWidth
-                        error={!isUndefined(state.errors.semester)}
+                        error={!isUndefined(state.errors.professor)}
                     >
                         <FormLabel required>
-                            <FormattedMessage id="globals.semester" />
+                            <FormattedMessage id="globals.professor" />
                         </FormLabel>
                         <OutlinedInput
-                            {...actions.register("semester")}
+                            {...actions.register("professor")}
                             placeholder={formatMessage(
                                 { id: "globals.placeholders.textInput" },
                                 {
                                     fieldName: formatMessage({
-                                        id: "globals.semester",
+                                        id: "globals.professor",
                                     }),
                                 })}
                             autoComplete="none"
                         />
                         <FormHelperText
-                            hidden={isUndefined(state.errors.semester)}
+                            hidden={isUndefined(state.errors.professor)}
                         >
-                            {state.errors.semester?.message}
+                            {state.errors.professor?.message}
                         </FormHelperText>
                     </FormControl>
                 </Grid>
@@ -133,26 +132,26 @@ export const SubjectForm = (props: { onSubmit?: () => void, action: FormActions}
                 <Grid container item direction="column" xs={6} md={6}>
                     <FormControl
                         fullWidth
-                        error={!isUndefined(state.errors.creditsNo)}
+                        error={!isUndefined(state.errors.creditsno)}
                     >
                         <FormLabel required>
-                            <FormattedMessage id="globals.creditsNo" />
+                            <FormattedMessage id="globals.creditsno" />
                         </FormLabel>
                         <OutlinedInput
-                            {...actions.register("creditsNo")}
+                            {...actions.register("creditsno")}
                             placeholder={formatMessage(
                                 { id: "globals.placeholders.textInput" },
                                 {
                                     fieldName: formatMessage({
-                                        id: "globals.creditsNo",
+                                        id: "globals.creditsno",
                                     }),
                                 })}
                             autoComplete="none"
                         />
                         <FormHelperText
-                            hidden={isUndefined(state.errors.creditsNo)}
+                            hidden={isUndefined(state.errors.creditsno)}
                         >
-                            {state.errors.creditsNo?.message}
+                            {state.errors.creditsno?.message}
                         </FormHelperText>
                     </FormControl>
                 </Grid>

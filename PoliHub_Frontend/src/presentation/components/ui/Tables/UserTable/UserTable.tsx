@@ -17,8 +17,7 @@ const useHeader = (): { key: keyof UserDTO, name: string }[] => {
     return [
         { key: "name", name: formatMessage({ id: "globals.name" }) },
         { key: "email", name: formatMessage({ id: "globals.email" }) },
-        { key: "role", name: formatMessage({ id: "globals.role" }) },
-        { key: "group", name: formatMessage({ id: "globals.group" }) }
+        { key: "role", name: formatMessage({ id: "globals.role" }) }
     ]
 };
 
