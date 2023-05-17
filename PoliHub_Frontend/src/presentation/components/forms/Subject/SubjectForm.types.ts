@@ -14,9 +14,12 @@ export type SubjectFormModel = {
     professor: string;
     department: string;
 <<<<<<< HEAD
+<<<<<<< HEAD
     creditsNo: string;
     description: string;
 =======
+=======
+>>>>>>> parent of 6434a11 (Subject, Course, Laboratory Forms and Tables)
     creditsno: string;
     description: string
 >>>>>>> parent of 6434a11 (Subject, Course, Laboratory Forms and Tables)

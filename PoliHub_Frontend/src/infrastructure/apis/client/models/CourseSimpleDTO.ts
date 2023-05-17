@@ -45,12 +45,15 @@ export interface CourseSimpleDTO {
     location?: string | null;
     /**
      * 
+<<<<<<< HEAD
      * @type {string}
      * @memberof CourseSimpleDTO
      */
     series?: string | null;
     /**
      * 
+=======
+>>>>>>> parent of 6434a11 (Subject, Course, Laboratory Forms and Tables)
      * @type {string}
      * @memberof CourseSimpleDTO
      */
@@ -81,8 +84,11 @@ export function CourseSimpleDTOFromJSONTyped(json: any, ignoreDiscriminator: boo
         'duration': !exists(json, 'duration') ? undefined : json['duration'],
         'location': !exists(json, 'location') ? undefined : json['location'],
 <<<<<<< HEAD
+<<<<<<< HEAD
         'dayOfWeek': !exists(json, 'dayOfWeek') ? undefined : json['dayOfWeek'],
         'series': !exists(json, 'series') ? undefined : json['series'],
+=======
+>>>>>>> parent of 6434a11 (Subject, Course, Laboratory Forms and Tables)
 =======
 >>>>>>> parent of 6434a11 (Subject, Course, Laboratory Forms and Tables)
         'subjectId': !exists(json, 'subjectId') ? undefined : json['subjectId'],
@@ -103,8 +109,11 @@ export function CourseSimpleDTOToJSON(value?: CourseSimpleDTO | null): any {
         'duration': value.duration,
         'location': value.location,
 <<<<<<< HEAD
+<<<<<<< HEAD
         'dayOfWeek': value.dayOfWeek,
         'series': value.series,
+=======
+>>>>>>> parent of 6434a11 (Subject, Course, Laboratory Forms and Tables)
 =======
 >>>>>>> parent of 6434a11 (Subject, Course, Laboratory Forms and Tables)
         'subjectId': value.subjectId,

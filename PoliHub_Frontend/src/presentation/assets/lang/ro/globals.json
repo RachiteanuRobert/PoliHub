@@ -2,8 +2,12 @@
     "globals.welcome": "Bine ati venit!",
     "globals.login": "Autentificare",
 <<<<<<< HEAD
+<<<<<<< HEAD
     "globals.students": "Studenti",
     "globals.register": "Inregistrare",
+=======
+    "globals.register": "Inregistreare",
+>>>>>>> parent of 6434a11 (Subject, Course, Laboratory Forms and Tables)
 =======
     "globals.register": "Inregistreare",
 >>>>>>> parent of 6434a11 (Subject, Course, Laboratory Forms and Tables)
