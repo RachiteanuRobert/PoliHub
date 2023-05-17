@@ -59,10 +59,17 @@ public class SubjectService : ISubjectService
         {
             return ServiceResponse.FromError(new(HttpStatusCode.Forbidden, "Subject already exists!", ErrorCodes.CannotAdd));
         }
+<<<<<<< HEAD
 
         var Laboratories = new List<Laboratory>();
         //var NewCourse = new Course();  
 
+=======
+        /*
+        var Laboratories = new List<Laboratory>();
+        //var NewCourse = new Course();  
+
+>>>>>>> parent of b670fb9 (ERROR_DESTROYED_MERGE_TABLE)
         if (subject.Laboratories != null)
         {
             foreach (Guid id in subject.Laboratories)
@@ -76,7 +83,11 @@ public class SubjectService : ISubjectService
             }
         }
 
+<<<<<<< HEAD
         /*
+=======
+        
+>>>>>>> parent of b670fb9 (ERROR_DESTROYED_MERGE_TABLE)
         NewCourse = await _repository.GetAsync(new CourseSpec(subject.Id), cancellationToken);
         if (NewCourse == null)
         {
@@ -91,9 +102,18 @@ public class SubjectService : ISubjectService
             Professor = subject.Professor,
             Department = subject.Department,
             CreditsNo = subject.CreditsNo,
+<<<<<<< HEAD
             Description = subject.Description,
             //Course = NewCourse,
             Laboratories = Laboratories
+=======
+            Description = subject.Description
+
+            /*
+            Course = NewCourse,
+            Laboratories = Laboratories
+            */
+>>>>>>> parent of b670fb9 (ERROR_DESTROYED_MERGE_TABLE)
         });
 
         return ServiceResponse.ForSuccess();
@@ -108,6 +128,10 @@ public class SubjectService : ISubjectService
 
         var entity = await _repository.GetAsync(new SubjectSpec(subject.Id), cancellationToken);
 
+<<<<<<< HEAD
+=======
+        /*
+>>>>>>> parent of b670fb9 (ERROR_DESTROYED_MERGE_TABLE)
         var Laboratories = new List<Laboratory>();
 
         if (subject.Laboratories != null)
@@ -131,8 +155,14 @@ public class SubjectService : ISubjectService
             entity.Department = subject.Department ?? entity.Department;
             entity.CreditsNo = subject.CreditsNo ?? entity.CreditsNo;
             entity.Description = subject.Description ?? entity.Description;
+<<<<<<< HEAD
             //entity.Course = subject.Course ?? entity.Course;
             entity.Laboratories = subject.Laboratories == null ? entity.Laboratories : Laboratories;
+=======
+/*
+            entity.Course = subject.Course ?? entity.Course;
+            entity.Laboratories = subject.Laboratories == null ? entity.Laboratories : Laboratories;*/
+>>>>>>> parent of b670fb9 (ERROR_DESTROYED_MERGE_TABLE)
 
             await _repository.UpdateAsync(entity, cancellationToken);
         }

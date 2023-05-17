@@ -21,6 +21,7 @@ import {
 } from './CourseSimpleDTO';
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 import type { UserSimpleDTO } from './UserSimpleDTO';
 import {
     UserSimpleDTOFromJSON,
@@ -40,6 +41,8 @@ import {
 >>>>>>> parent of 6434a11 (Subject, Course, Laboratory Forms and Tables)
 =======
 >>>>>>> parent of 6434a11 (Subject, Course, Laboratory Forms and Tables)
+=======
+>>>>>>> parent of b670fb9 (ERROR_DESTROYED_MERGE_TABLE)
 
 /**
  * 
@@ -97,6 +100,7 @@ export interface SubjectDTO {
 <<<<<<< HEAD
 <<<<<<< HEAD
     courses?: Array<CourseSimpleDTO> | null;
+<<<<<<< HEAD
     /**
      * 
      * @type {Array<UserSimpleDTO>}
@@ -117,6 +121,8 @@ export interface SubjectDTO {
 >>>>>>> parent of 6434a11 (Subject, Course, Laboratory Forms and Tables)
 =======
 >>>>>>> parent of 6434a11 (Subject, Course, Laboratory Forms and Tables)
+=======
+>>>>>>> parent of b670fb9 (ERROR_DESTROYED_MERGE_TABLE)
 }
 
 /**
@@ -148,6 +154,7 @@ export function SubjectDTOFromJSONTyped(json: any, ignoreDiscriminator: boolean)
 <<<<<<< HEAD
 <<<<<<< HEAD
         'courses': !exists(json, 'courses') ? undefined : (json['courses'] === null ? null : (json['courses'] as Array<any>).map(CourseSimpleDTOFromJSON)),
+<<<<<<< HEAD
         'students': !exists(json, 'students') ? undefined : (json['students'] === null ? null : (json['students'] as Array<any>).map(UserSimpleDTOFromJSON)),
 =======
         'course': !exists(json, 'course') ? undefined : CourseSimpleDTOFromJSON(json['course']),
@@ -157,6 +164,8 @@ export function SubjectDTOFromJSONTyped(json: any, ignoreDiscriminator: boolean)
         'course': !exists(json, 'course') ? undefined : CourseSimpleDTOFromJSON(json['course']),
         'laboratories': !exists(json, 'laboratories') ? undefined : (json['laboratories'] === null ? null : (json['laboratories'] as Array<any>).map(LaboratorySimpleDTOFromJSON)),
 >>>>>>> parent of 6434a11 (Subject, Course, Laboratory Forms and Tables)
+=======
+>>>>>>> parent of b670fb9 (ERROR_DESTROYED_MERGE_TABLE)
     };
 }
 
@@ -179,6 +188,7 @@ export function SubjectDTOToJSON(value?: SubjectDTO | null): any {
 <<<<<<< HEAD
 <<<<<<< HEAD
         'courses': value.courses === undefined ? undefined : (value.courses === null ? null : (value.courses as Array<any>).map(CourseSimpleDTOToJSON)),
+<<<<<<< HEAD
         'students': value.students === undefined ? undefined : (value.students === null ? null : (value.students as Array<any>).map(UserSimpleDTOToJSON)),
 =======
         'course': CourseSimpleDTOToJSON(value.course),
@@ -188,6 +198,8 @@ export function SubjectDTOToJSON(value?: SubjectDTO | null): any {
         'course': CourseSimpleDTOToJSON(value.course),
         'laboratories': value.laboratories === undefined ? undefined : (value.laboratories === null ? null : (value.laboratories as Array<any>).map(LaboratorySimpleDTOToJSON)),
 >>>>>>> parent of 6434a11 (Subject, Course, Laboratory Forms and Tables)
+=======
+>>>>>>> parent of b670fb9 (ERROR_DESTROYED_MERGE_TABLE)
     };
 }
 

@@ -32,7 +32,11 @@ public sealed class SubjectProjectionSpec : BaseSpec<SubjectProjectionSpec, Subj
             Duration = e.Course.Duration,
             Location = e.Course.Location,
             SubjectId = e.Id
+<<<<<<< HEAD
         },*/
+=======
+        },
+>>>>>>> parent of b670fb9 (ERROR_DESTROYED_MERGE_TABLE)
         
         Laboratories = (ICollection<LaboratorySimpleDTO>)e.Laboratories.Select(l => new LaboratorySimpleDTO
         {
@@ -43,6 +47,10 @@ public sealed class SubjectProjectionSpec : BaseSpec<SubjectProjectionSpec, Subj
             AssistantName = l.AssistantName,
             SubjectId = e.Id,
         })
+<<<<<<< HEAD
+=======
+        */
+>>>>>>> parent of b670fb9 (ERROR_DESTROYED_MERGE_TABLE)
     };
 
     public SubjectProjectionSpec(Guid id) : base(id)

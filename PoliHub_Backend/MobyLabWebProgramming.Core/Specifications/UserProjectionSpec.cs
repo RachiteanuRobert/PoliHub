@@ -22,7 +22,10 @@ public sealed class UserProjectionSpec : BaseSpec<UserProjectionSpec, User, User
         Name = e.Name,
         Role = e.Role,
         Group = e.Group,
+<<<<<<< HEAD
         //CourseInstances = (ICollection<Guid>)e.CourseInstances
+=======
+>>>>>>> parent of b670fb9 (ERROR_DESTROYED_MERGE_TABLE)
     };
 
     public UserProjectionSpec(bool orderByCreatedAt = true) : base(orderByCreatedAt)

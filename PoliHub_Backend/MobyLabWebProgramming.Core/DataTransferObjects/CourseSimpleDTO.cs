@@ -13,5 +13,9 @@ public class CourseSimpleDTO
     public int StartTime { get; set; } = default!;
     public int Duration { get; set; } = default!;
     public string Location { get; set; } = default!;
+<<<<<<< HEAD
+=======
+    public int DayOfWeek { get; set; } = default!;
+>>>>>>> parent of b670fb9 (ERROR_DESTROYED_MERGE_TABLE)
     public Guid SubjectId { get; set; } = default!;
 }

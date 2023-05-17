@@ -14,6 +14,11 @@ public class Subject : BaseEntity
     public string Department { get; set; } = default!;
     public char CreditsNo { get; set; } = default!;
     public string Description { get; set; } = default!;
+<<<<<<< HEAD
     public Course Course { get; set; } = default!;
     public ICollection<Laboratory> Laboratories { get; set; } = default!;
+=======
+    public ICollection<Course> Courses { get; set; } = default!;
+    public ICollection<User> Students { get; set; } = default!;
+>>>>>>> parent of b670fb9 (ERROR_DESTROYED_MERGE_TABLE)
 }

@@ -37,10 +37,16 @@ public class SubjectConfiguration : IEntityTypeConfiguration<Subject>
         builder.Property(e => e.UpdatedAt)
             .IsRequired();
 
+<<<<<<< HEAD
         builder.HasOne(e => e.Course)
             .WithOne(s => s.Subject)
             .HasForeignKey<Course>(s => s.SubjectId)
             .IsRequired();
 
+=======
+        builder.HasMany(e => e.Students)
+            .WithMany(l => l.Subjects)
+            .UsingEntity(j => j.ToTable("SubjectsStudents"));
+>>>>>>> parent of b670fb9 (ERROR_DESTROYED_MERGE_TABLE)
     }
 }

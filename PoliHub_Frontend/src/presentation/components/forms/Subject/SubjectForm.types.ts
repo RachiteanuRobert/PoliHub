@@ -16,6 +16,7 @@ export type SubjectFormModel = {
 <<<<<<< HEAD
 <<<<<<< HEAD
     creditsNo: string;
+<<<<<<< HEAD
     description: string;
 =======
 =======
@@ -23,6 +24,9 @@ export type SubjectFormModel = {
     creditsno: string;
     description: string
 >>>>>>> parent of 6434a11 (Subject, Course, Laboratory Forms and Tables)
+=======
+    description: string
+>>>>>>> parent of b670fb9 (ERROR_DESTROYED_MERGE_TABLE)
 };
 
 export type SubjectFormState = {

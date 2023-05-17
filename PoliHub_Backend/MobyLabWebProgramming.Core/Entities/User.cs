@@ -21,6 +21,10 @@ public class User : BaseEntity
     public ICollection<UserFile> UserFiles { get; set; } = default!;
     public ICollection<Course> Courses { get; set; } = default!;
     public ICollection<Laboratory> Laboratories { get; set; } = default!;
+<<<<<<< HEAD
+=======
+    public ICollection<Subject> Subjects { get; set; } = default!;
+>>>>>>> parent of b670fb9 (ERROR_DESTROYED_MERGE_TABLE)
     public ICollection<LaboratoryInstance> LaboratoryInstances { get; set; } = default!;
     public ICollection<CourseInstance> CourseInstances { get; set; } = default!;
 }

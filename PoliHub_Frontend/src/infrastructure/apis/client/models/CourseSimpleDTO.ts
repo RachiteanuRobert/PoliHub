@@ -49,6 +49,7 @@ export interface CourseSimpleDTO {
      * @type {string}
      * @memberof CourseSimpleDTO
      */
+<<<<<<< HEAD
     series?: string | null;
     /**
      * 
@@ -57,6 +58,8 @@ export interface CourseSimpleDTO {
      * @type {string}
      * @memberof CourseSimpleDTO
      */
+=======
+>>>>>>> parent of b670fb9 (ERROR_DESTROYED_MERGE_TABLE)
     subjectId?: string;
 }
 
@@ -86,11 +89,14 @@ export function CourseSimpleDTOFromJSONTyped(json: any, ignoreDiscriminator: boo
 <<<<<<< HEAD
 <<<<<<< HEAD
         'dayOfWeek': !exists(json, 'dayOfWeek') ? undefined : json['dayOfWeek'],
+<<<<<<< HEAD
         'series': !exists(json, 'series') ? undefined : json['series'],
 =======
 >>>>>>> parent of 6434a11 (Subject, Course, Laboratory Forms and Tables)
 =======
 >>>>>>> parent of 6434a11 (Subject, Course, Laboratory Forms and Tables)
+=======
+>>>>>>> parent of b670fb9 (ERROR_DESTROYED_MERGE_TABLE)
         'subjectId': !exists(json, 'subjectId') ? undefined : json['subjectId'],
     };
 }
@@ -111,11 +117,14 @@ export function CourseSimpleDTOToJSON(value?: CourseSimpleDTO | null): any {
 <<<<<<< HEAD
 <<<<<<< HEAD
         'dayOfWeek': value.dayOfWeek,
+<<<<<<< HEAD
         'series': value.series,
 =======
 >>>>>>> parent of 6434a11 (Subject, Course, Laboratory Forms and Tables)
 =======
 >>>>>>> parent of 6434a11 (Subject, Course, Laboratory Forms and Tables)
+=======
+>>>>>>> parent of b670fb9 (ERROR_DESTROYED_MERGE_TABLE)
         'subjectId': value.subjectId,
     };
 }

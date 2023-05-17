@@ -16,6 +16,10 @@ public class UserDTO
     public string Group { get; set; } = default!;
     public ICollection<CourseSimpleDTO> Courses { get; set; } = default!;
     public ICollection<LaboratorySimpleDTO> Laboratories { get; set; } = default!;
+<<<<<<< HEAD
+=======
+    public ICollection<SubjectSimpleDTO> Subjects { get; set; } = default!;
+>>>>>>> parent of b670fb9 (ERROR_DESTROYED_MERGE_TABLE)
     public ICollection<LaboratoryInstance> LaboratoryInstances { get; set; } = default!;
     public ICollection<CourseInstance> CourseInstances { get; set; } = default!;
 }
