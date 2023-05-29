@@ -26,7 +26,7 @@ public sealed class CourseEntityProjectionSpec : BaseSpec<CourseEntityProjection
         DayOfWeek = e.DayOfWeek,
         SubjectId = e.SubjectId,
         Subject = e.Subject,
-        Students = e.Students,
+        CourseUsers = e.CourseUsers,
         CourseInstances = e.CourseInstances,
         Laboratories = e.Laboratories
     };
@@ -47,7 +47,7 @@ public sealed class CourseEntityProjectionSpec : BaseSpec<CourseEntityProjection
 
         Query
             .Include(e => e.CourseInstances)
-            .Include(e => e.Students)
+            .Include(e => e.CourseUsers)
             .Include(e => e.Laboratories)
             .Where(e => EF.Functions.ILike(e.ProfessorName, searchExpr));
     }

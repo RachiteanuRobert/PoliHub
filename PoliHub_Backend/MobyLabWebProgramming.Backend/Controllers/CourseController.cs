@@ -36,14 +36,15 @@ public class CourseController : AuthorizedController
         return this.FromServiceResponse(await _courseService.GetCourses(pagination));
     }
 
+    
     [Authorize]
     [HttpPost]
-    public async Task<ActionResult<RequestResponse>> AddStudentToCourse([FromBody] StudentToCourseAddDTO studentCourseIds)
+    public async Task<ActionResult<RequestResponse>> AddUserToCourse([FromBody] UserToCourseAddDTO userCourseIds)
     {
         var currentUser = await GetCurrentUser();
 
         return currentUser.Result != null ?
-            this.FromServiceResponse(await _courseService.AddStudentToCourse(studentCourseIds, currentUser.Result)) :
+            this.FromServiceResponse(await _courseService.AddUserToCourse(userCourseIds, currentUser.Result)) :
             this.ErrorMessageResult(currentUser.Error);
     }
 

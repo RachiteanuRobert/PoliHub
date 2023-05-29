@@ -37,18 +37,18 @@ export const SingleSubjectPage = memo(() => {
                         <h2>{subject.department}</h2>
                     </ContentCard>
                 </Box>
-                {subject.students && subject.students.length > 0 && <Typography variant="h4">
+                {subject.users && subject.users.length > 0 && <Typography variant="h4">
                     {formatMessage({ id: "globals.students" })}
                 </Typography>}
                 <div style={{ display: 'flex', justifyContent: 'flex-start' }}>
-                    {subject.students?.map(student => (<div style={{ margin: "2rem" }}>
+                    {subject.users?.map(user => (<div style={{ margin: "2rem" }}>
                         <Card>
                             <CardContent>
                                 <Typography variant="subtitle1" component="h2">
-                                    {student.name}
+                                    {user.name}
                                 </Typography>
                                 <Typography variant="body2" color="textSecondary" component="p">
-                                    {student.group}
+                                    {user.group}
                                 </Typography>
                             </CardContent>
                         </Card>

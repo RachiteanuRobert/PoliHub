@@ -9,7 +9,9 @@ export enum AppRoute {
     UserFiles = "/user-files",
     Subjects = "/subjects",
     Courses = "/courses",
+    CourseInstances = "/courseInstances",
     Laboratories = "/laboratories",
+    LaboratoryInstances = "/laboratoryInstances",
     SingleSubject = "/subjects/:subjectId",
     SingleCourse = "/courses/:courseId",
     SingleLaboratory = "/laboratories/:laboratoryId"

@@ -25,8 +25,20 @@ public sealed class CourseProjectionSpec : BaseSpec<CourseProjectionSpec, Course
         Series = e.Series,
         DayOfWeek = e.DayOfWeek,
         SubjectId = e.SubjectId,
+        CourseUsers = e.CourseUsers.Select(u => new JoinUserSimpleDTO
+        {
+            Id = u.Id,
+            UserId = u.UserId,
+            User = new UserSimpleDTO
+            {
+                Id = u.User.Id,
+                Name = u.User.Name,
+                Email = u.User.Email,
+                Role = u.User.Role,
+                Group = u.User.Group
+            }
+        }).ToList(),
         /*
-        Students = (ICollection<Guid>)e.Students,
         CourseInstances = (ICollection<Guid>)e.CourseInstances
         */
     };
@@ -47,7 +59,7 @@ public sealed class CourseProjectionSpec : BaseSpec<CourseProjectionSpec, Course
 
         Query
             .Include(e => e.CourseInstances)
-            .Include(e => e.Students)
+            .Include(e => e.CourseUsers)
             .Where(e => EF.Functions.ILike(e.ProfessorName, searchExpr));
     }
 }

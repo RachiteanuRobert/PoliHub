@@ -18,16 +18,29 @@ public sealed class CourseInstanceProjectionSpec : BaseSpec<CourseInstanceProjec
     protected override Expression<Func<CourseInstance, CourseInstanceDTO>> Spec => e => new()
     {
         Id = e.Id,
+        Name = e.Name,
+        Description = e.Description,
         CourseId = e.CourseId,
-        CourseInstanceDate = e.CourseInstanceDate
-        //Students = (ICollection<Guid>)e.Students
+        CourseInstanceDate = e.CourseInstanceDate,
+        CourseInstanceUsers = e.CourseInstanceUsers.Select(u => new JoinUserSimpleDTO
+        {
+            Id = u.Id,
+            UserId = u.UserId,
+            User = new UserSimpleDTO
+            {
+                Id = u.User.Id,
+                Name = u.User.Name,
+                Email = u.User.Email,
+                Role = u.User.Role,
+                Group = u.User.Group
+            }
+        }).ToList(),
     };
 
     public CourseInstanceProjectionSpec(Guid id) : base(id)
     {
     }
 
-    /*
     public CourseInstanceProjectionSpec(string? search)
     {
         search = !string.IsNullOrWhiteSpace(search) ? search.Trim() : null;
@@ -39,7 +52,8 @@ public sealed class CourseInstanceProjectionSpec : BaseSpec<CourseInstanceProjec
 
         var searchExpr = $"%{search.Replace(" ", "%")}%";
 
-        Query.Where(e => EF.Functions.ILike(e.Name, searchExpr);
+        Query
+            .Include(e => e.CourseInstanceUsers)
+            .Where(e => EF.Functions.ILike(e.Name, searchExpr));
     }
-    */
 }

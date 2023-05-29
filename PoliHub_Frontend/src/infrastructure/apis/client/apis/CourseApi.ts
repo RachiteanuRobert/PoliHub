@@ -20,7 +20,7 @@ import type {
   CourseDTORequestResponse,
   CourseUpdateDTO,
   RequestResponse,
-  StudentToCourseAddDTO,
+  UserToCourseAddDTO,
 } from '../models';
 import {
     CourseAddDTOFromJSON,
@@ -33,16 +33,16 @@ import {
     CourseUpdateDTOToJSON,
     RequestResponseFromJSON,
     RequestResponseToJSON,
-    StudentToCourseAddDTOFromJSON,
-    StudentToCourseAddDTOToJSON,
+    UserToCourseAddDTOFromJSON,
+    UserToCourseAddDTOToJSON,
 } from '../models';
 
 export interface ApiCourseAddPostRequest {
     courseAddDTO?: CourseAddDTO;
 }
 
-export interface ApiCourseAddStudentToCoursePostRequest {
-    studentToCourseAddDTO?: StudentToCourseAddDTO;
+export interface ApiCourseAddUserToCoursePostRequest {
+    userToCourseAddDTO?: UserToCourseAddDTO;
 }
 
 export interface ApiCourseDeleteIdDeleteRequest {
@@ -101,7 +101,7 @@ export class CourseApi extends runtime.BaseAPI {
 
     /**
      */
-    async apiCourseAddStudentToCoursePostRaw(requestParameters: ApiCourseAddStudentToCoursePostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<RequestResponse>> {
+    async apiCourseAddUserToCoursePostRaw(requestParameters: ApiCourseAddUserToCoursePostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<RequestResponse>> {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -113,11 +113,11 @@ export class CourseApi extends runtime.BaseAPI {
         }
 
         const response = await this.request({
-            path: `/api/Course/AddStudentToCourse`,
+            path: `/api/Course/AddUserToCourse`,
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: StudentToCourseAddDTOToJSON(requestParameters.studentToCourseAddDTO),
+            body: UserToCourseAddDTOToJSON(requestParameters.userToCourseAddDTO),
         }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => RequestResponseFromJSON(jsonValue));
@@ -125,8 +125,8 @@ export class CourseApi extends runtime.BaseAPI {
 
     /**
      */
-    async apiCourseAddStudentToCoursePost(requestParameters: ApiCourseAddStudentToCoursePostRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<RequestResponse> {
-        const response = await this.apiCourseAddStudentToCoursePostRaw(requestParameters, initOverrides);
+    async apiCourseAddUserToCoursePost(requestParameters: ApiCourseAddUserToCoursePostRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<RequestResponse> {
+        const response = await this.apiCourseAddUserToCoursePostRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

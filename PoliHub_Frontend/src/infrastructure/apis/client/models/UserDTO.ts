@@ -13,36 +13,36 @@
  */
 
 import { exists, mapValues } from '../runtime';
-import type { CourseInstance } from './CourseInstance';
+import type { JoinUserSimpleCourseDTO } from './JoinUserSimpleCourseDTO';
 import {
-    CourseInstanceFromJSON,
-    CourseInstanceFromJSONTyped,
-    CourseInstanceToJSON,
-} from './CourseInstance';
-import type { CourseSimpleDTO } from './CourseSimpleDTO';
+    JoinUserSimpleCourseDTOFromJSON,
+    JoinUserSimpleCourseDTOFromJSONTyped,
+    JoinUserSimpleCourseDTOToJSON,
+} from './JoinUserSimpleCourseDTO';
+import type { JoinUserSimpleCourseInstanceDTO } from './JoinUserSimpleCourseInstanceDTO';
 import {
-    CourseSimpleDTOFromJSON,
-    CourseSimpleDTOFromJSONTyped,
-    CourseSimpleDTOToJSON,
-} from './CourseSimpleDTO';
-import type { LaboratoryInstance } from './LaboratoryInstance';
+    JoinUserSimpleCourseInstanceDTOFromJSON,
+    JoinUserSimpleCourseInstanceDTOFromJSONTyped,
+    JoinUserSimpleCourseInstanceDTOToJSON,
+} from './JoinUserSimpleCourseInstanceDTO';
+import type { JoinUserSimpleLaboratoryDTO } from './JoinUserSimpleLaboratoryDTO';
 import {
-    LaboratoryInstanceFromJSON,
-    LaboratoryInstanceFromJSONTyped,
-    LaboratoryInstanceToJSON,
-} from './LaboratoryInstance';
-import type { LaboratorySimpleDTO } from './LaboratorySimpleDTO';
+    JoinUserSimpleLaboratoryDTOFromJSON,
+    JoinUserSimpleLaboratoryDTOFromJSONTyped,
+    JoinUserSimpleLaboratoryDTOToJSON,
+} from './JoinUserSimpleLaboratoryDTO';
+import type { JoinUserSimpleLaboratoryInstanceDTO } from './JoinUserSimpleLaboratoryInstanceDTO';
 import {
-    LaboratorySimpleDTOFromJSON,
-    LaboratorySimpleDTOFromJSONTyped,
-    LaboratorySimpleDTOToJSON,
-} from './LaboratorySimpleDTO';
-import type { SubjectSimpleDTO } from './SubjectSimpleDTO';
+    JoinUserSimpleLaboratoryInstanceDTOFromJSON,
+    JoinUserSimpleLaboratoryInstanceDTOFromJSONTyped,
+    JoinUserSimpleLaboratoryInstanceDTOToJSON,
+} from './JoinUserSimpleLaboratoryInstanceDTO';
+import type { JoinUserSimpleSubjectDTO } from './JoinUserSimpleSubjectDTO';
 import {
-    SubjectSimpleDTOFromJSON,
-    SubjectSimpleDTOFromJSONTyped,
-    SubjectSimpleDTOToJSON,
-} from './SubjectSimpleDTO';
+    JoinUserSimpleSubjectDTOFromJSON,
+    JoinUserSimpleSubjectDTOFromJSONTyped,
+    JoinUserSimpleSubjectDTOToJSON,
+} from './JoinUserSimpleSubjectDTO';
 import type { UserRoleEnum } from './UserRoleEnum';
 import {
     UserRoleEnumFromJSON,
@@ -88,34 +88,34 @@ export interface UserDTO {
     group?: string | null;
     /**
      * 
-     * @type {Array<CourseSimpleDTO>}
+     * @type {Array<JoinUserSimpleCourseDTO>}
      * @memberof UserDTO
      */
-    courses?: Array<CourseSimpleDTO> | null;
+    courseUsers?: Array<JoinUserSimpleCourseDTO> | null;
     /**
      * 
-     * @type {Array<LaboratorySimpleDTO>}
+     * @type {Array<JoinUserSimpleLaboratoryDTO>}
      * @memberof UserDTO
      */
-    laboratories?: Array<LaboratorySimpleDTO> | null;
+    laboratoryUsers?: Array<JoinUserSimpleLaboratoryDTO> | null;
     /**
      * 
-     * @type {Array<SubjectSimpleDTO>}
+     * @type {Array<JoinUserSimpleSubjectDTO>}
      * @memberof UserDTO
      */
-    subjects?: Array<SubjectSimpleDTO> | null;
+    subjectUsers?: Array<JoinUserSimpleSubjectDTO> | null;
     /**
      * 
-     * @type {Array<LaboratoryInstance>}
+     * @type {Array<JoinUserSimpleLaboratoryInstanceDTO>}
      * @memberof UserDTO
      */
-    laboratoryInstances?: Array<LaboratoryInstance> | null;
+    laboratoryInstanceUsers?: Array<JoinUserSimpleLaboratoryInstanceDTO> | null;
     /**
      * 
-     * @type {Array<CourseInstance>}
+     * @type {Array<JoinUserSimpleCourseInstanceDTO>}
      * @memberof UserDTO
      */
-    courseInstances?: Array<CourseInstance> | null;
+    courseInstanceUsers?: Array<JoinUserSimpleCourseInstanceDTO> | null;
 }
 
 /**
@@ -142,11 +142,11 @@ export function UserDTOFromJSONTyped(json: any, ignoreDiscriminator: boolean): U
         'email': !exists(json, 'email') ? undefined : json['email'],
         'role': !exists(json, 'role') ? undefined : UserRoleEnumFromJSON(json['role']),
         'group': !exists(json, 'group') ? undefined : json['group'],
-        'courses': !exists(json, 'courses') ? undefined : (json['courses'] === null ? null : (json['courses'] as Array<any>).map(CourseSimpleDTOFromJSON)),
-        'laboratories': !exists(json, 'laboratories') ? undefined : (json['laboratories'] === null ? null : (json['laboratories'] as Array<any>).map(LaboratorySimpleDTOFromJSON)),
-        'subjects': !exists(json, 'subjects') ? undefined : (json['subjects'] === null ? null : (json['subjects'] as Array<any>).map(SubjectSimpleDTOFromJSON)),
-        'laboratoryInstances': !exists(json, 'laboratoryInstances') ? undefined : (json['laboratoryInstances'] === null ? null : (json['laboratoryInstances'] as Array<any>).map(LaboratoryInstanceFromJSON)),
-        'courseInstances': !exists(json, 'courseInstances') ? undefined : (json['courseInstances'] === null ? null : (json['courseInstances'] as Array<any>).map(CourseInstanceFromJSON)),
+        'courseUsers': !exists(json, 'courseUsers') ? undefined : (json['courseUsers'] === null ? null : (json['courseUsers'] as Array<any>).map(JoinUserSimpleCourseDTOFromJSON)),
+        'laboratoryUsers': !exists(json, 'laboratoryUsers') ? undefined : (json['laboratoryUsers'] === null ? null : (json['laboratoryUsers'] as Array<any>).map(JoinUserSimpleLaboratoryDTOFromJSON)),
+        'subjectUsers': !exists(json, 'subjectUsers') ? undefined : (json['subjectUsers'] === null ? null : (json['subjectUsers'] as Array<any>).map(JoinUserSimpleSubjectDTOFromJSON)),
+        'laboratoryInstanceUsers': !exists(json, 'laboratoryInstanceUsers') ? undefined : (json['laboratoryInstanceUsers'] === null ? null : (json['laboratoryInstanceUsers'] as Array<any>).map(JoinUserSimpleLaboratoryInstanceDTOFromJSON)),
+        'courseInstanceUsers': !exists(json, 'courseInstanceUsers') ? undefined : (json['courseInstanceUsers'] === null ? null : (json['courseInstanceUsers'] as Array<any>).map(JoinUserSimpleCourseInstanceDTOFromJSON)),
     };
 }
 
@@ -164,11 +164,11 @@ export function UserDTOToJSON(value?: UserDTO | null): any {
         'email': value.email,
         'role': UserRoleEnumToJSON(value.role),
         'group': value.group,
-        'courses': value.courses === undefined ? undefined : (value.courses === null ? null : (value.courses as Array<any>).map(CourseSimpleDTOToJSON)),
-        'laboratories': value.laboratories === undefined ? undefined : (value.laboratories === null ? null : (value.laboratories as Array<any>).map(LaboratorySimpleDTOToJSON)),
-        'subjects': value.subjects === undefined ? undefined : (value.subjects === null ? null : (value.subjects as Array<any>).map(SubjectSimpleDTOToJSON)),
-        'laboratoryInstances': value.laboratoryInstances === undefined ? undefined : (value.laboratoryInstances === null ? null : (value.laboratoryInstances as Array<any>).map(LaboratoryInstanceToJSON)),
-        'courseInstances': value.courseInstances === undefined ? undefined : (value.courseInstances === null ? null : (value.courseInstances as Array<any>).map(CourseInstanceToJSON)),
+        'courseUsers': value.courseUsers === undefined ? undefined : (value.courseUsers === null ? null : (value.courseUsers as Array<any>).map(JoinUserSimpleCourseDTOToJSON)),
+        'laboratoryUsers': value.laboratoryUsers === undefined ? undefined : (value.laboratoryUsers === null ? null : (value.laboratoryUsers as Array<any>).map(JoinUserSimpleLaboratoryDTOToJSON)),
+        'subjectUsers': value.subjectUsers === undefined ? undefined : (value.subjectUsers === null ? null : (value.subjectUsers as Array<any>).map(JoinUserSimpleSubjectDTOToJSON)),
+        'laboratoryInstanceUsers': value.laboratoryInstanceUsers === undefined ? undefined : (value.laboratoryInstanceUsers === null ? null : (value.laboratoryInstanceUsers as Array<any>).map(JoinUserSimpleLaboratoryInstanceDTOToJSON)),
+        'courseInstanceUsers': value.courseInstanceUsers === undefined ? undefined : (value.courseInstanceUsers === null ? null : (value.courseInstanceUsers as Array<any>).map(JoinUserSimpleCourseInstanceDTOToJSON)),
     };
 }
 

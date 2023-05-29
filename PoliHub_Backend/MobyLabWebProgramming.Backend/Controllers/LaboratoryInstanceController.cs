@@ -5,6 +5,7 @@ using MobyLabWebProgramming.Core.Requests;
 using MobyLabWebProgramming.Core.Responses;
 using MobyLabWebProgramming.Infrastructure.Authorization;
 using MobyLabWebProgramming.Infrastructure.Extensions;
+using MobyLabWebProgramming.Infrastructure.Services.Implementations;
 using MobyLabWebProgramming.Infrastructure.Services.Interfaces;
 
 namespace MobyLabWebProgramming.Backend.Controllers;
@@ -28,6 +29,23 @@ public class LaboratoryInstanceController : AuthorizedController
         return currentUser.Result != null ?
             this.FromServiceResponse(await _laboratoryInstanceService.GetLaboratoryInstance(id)) :
             this.ErrorMessageResult<LaboratoryInstanceDTO>(currentUser.Error);
+    }
+
+    [HttpGet]
+    public async Task<ActionResult<RequestResponse<PagedResponse<LaboratoryInstanceDTO>>>> GetPage([FromQuery] PaginationSearchQueryParams pagination)
+    {
+        return this.FromServiceResponse(await _laboratoryInstanceService.GetLaboratoryInstances(pagination));
+    }
+
+    [Authorize]
+    [HttpPost]
+    public async Task<ActionResult<RequestResponse>> AddUserToLaboratoryInstance([FromBody] UserToLaboratoryInstanceAddDTO userLaboratoryInstanceIds)
+    {
+        var currentUser = await GetCurrentUser();
+
+        return currentUser.Result != null ?
+            this.FromServiceResponse(await _laboratoryInstanceService.AddUserToLaboratoryInstance(userLaboratoryInstanceIds, currentUser.Result)) :
+            this.ErrorMessageResult(currentUser.Error);
     }
 
     [Authorize]

@@ -15,6 +15,6 @@ public class SubjectAddDTO
     public string Department { get; set; } = default!;
     public char CreditsNo { get; set; } = default!;
     public string Description { get; set; } = default!;
-    //public ICollection<Guid> StudentIds { get; set; } = default!;
+    //public ICollection<Guid> UserIds { get; set; } = default!;
     
 }

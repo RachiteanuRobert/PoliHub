@@ -16,23 +16,33 @@
 import * as runtime from '../runtime';
 import type {
   LaboratoryInstanceAddDTO,
+  LaboratoryInstanceDTOPagedResponseRequestResponse,
   LaboratoryInstanceDTORequestResponse,
   LaboratoryInstanceUpdateDTO,
   RequestResponse,
+  UserToLaboratoryInstanceAddDTO,
 } from '../models';
 import {
     LaboratoryInstanceAddDTOFromJSON,
     LaboratoryInstanceAddDTOToJSON,
+    LaboratoryInstanceDTOPagedResponseRequestResponseFromJSON,
+    LaboratoryInstanceDTOPagedResponseRequestResponseToJSON,
     LaboratoryInstanceDTORequestResponseFromJSON,
     LaboratoryInstanceDTORequestResponseToJSON,
     LaboratoryInstanceUpdateDTOFromJSON,
     LaboratoryInstanceUpdateDTOToJSON,
     RequestResponseFromJSON,
     RequestResponseToJSON,
+    UserToLaboratoryInstanceAddDTOFromJSON,
+    UserToLaboratoryInstanceAddDTOToJSON,
 } from '../models';
 
 export interface ApiLaboratoryInstanceAddPostRequest {
     laboratoryInstanceAddDTO?: LaboratoryInstanceAddDTO;
+}
+
+export interface ApiLaboratoryInstanceAddUserToLaboratoryInstancePostRequest {
+    userToLaboratoryInstanceAddDTO?: UserToLaboratoryInstanceAddDTO;
 }
 
 export interface ApiLaboratoryInstanceDeleteIdDeleteRequest {
@@ -41,6 +51,12 @@ export interface ApiLaboratoryInstanceDeleteIdDeleteRequest {
 
 export interface ApiLaboratoryInstanceGetByIdIdGetRequest {
     id: string;
+}
+
+export interface ApiLaboratoryInstanceGetPageGetRequest {
+    search?: string;
+    page?: number;
+    pageSize?: number;
 }
 
 export interface ApiLaboratoryInstanceUpdatePutRequest {
@@ -80,6 +96,37 @@ export class LaboratoryInstanceApi extends runtime.BaseAPI {
      */
     async apiLaboratoryInstanceAddPost(requestParameters: ApiLaboratoryInstanceAddPostRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<RequestResponse> {
         const response = await this.apiLaboratoryInstanceAddPostRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     */
+    async apiLaboratoryInstanceAddUserToLaboratoryInstancePostRaw(requestParameters: ApiLaboratoryInstanceAddUserToLaboratoryInstancePostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<RequestResponse>> {
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["Authorization"] = this.configuration.apiKey("Authorization"); // Bearer authentication
+        }
+
+        const response = await this.request({
+            path: `/api/LaboratoryInstance/AddUserToLaboratoryInstance`,
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+            body: UserToLaboratoryInstanceAddDTOToJSON(requestParameters.userToLaboratoryInstanceAddDTO),
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => RequestResponseFromJSON(jsonValue));
+    }
+
+    /**
+     */
+    async apiLaboratoryInstanceAddUserToLaboratoryInstancePost(requestParameters: ApiLaboratoryInstanceAddUserToLaboratoryInstancePostRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<RequestResponse> {
+        const response = await this.apiLaboratoryInstanceAddUserToLaboratoryInstancePostRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
@@ -144,6 +191,46 @@ export class LaboratoryInstanceApi extends runtime.BaseAPI {
      */
     async apiLaboratoryInstanceGetByIdIdGet(requestParameters: ApiLaboratoryInstanceGetByIdIdGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<LaboratoryInstanceDTORequestResponse> {
         const response = await this.apiLaboratoryInstanceGetByIdIdGetRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     */
+    async apiLaboratoryInstanceGetPageGetRaw(requestParameters: ApiLaboratoryInstanceGetPageGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<LaboratoryInstanceDTOPagedResponseRequestResponse>> {
+        const queryParameters: any = {};
+
+        if (requestParameters.search !== undefined) {
+            queryParameters['Search'] = requestParameters.search;
+        }
+
+        if (requestParameters.page !== undefined) {
+            queryParameters['Page'] = requestParameters.page;
+        }
+
+        if (requestParameters.pageSize !== undefined) {
+            queryParameters['PageSize'] = requestParameters.pageSize;
+        }
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["Authorization"] = this.configuration.apiKey("Authorization"); // Bearer authentication
+        }
+
+        const response = await this.request({
+            path: `/api/LaboratoryInstance/GetPage`,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => LaboratoryInstanceDTOPagedResponseRequestResponseFromJSON(jsonValue));
+    }
+
+    /**
+     */
+    async apiLaboratoryInstanceGetPageGet(requestParameters: ApiLaboratoryInstanceGetPageGetRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<LaboratoryInstanceDTOPagedResponseRequestResponse> {
+        const response = await this.apiLaboratoryInstanceGetPageGetRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

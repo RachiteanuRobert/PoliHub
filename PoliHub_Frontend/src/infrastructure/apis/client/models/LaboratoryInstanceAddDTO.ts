@@ -33,10 +33,16 @@ export interface LaboratoryInstanceAddDTO {
     laboratoryInstanceDate?: Date;
     /**
      * 
-     * @type {Array<string>}
+     * @type {string}
      * @memberof LaboratoryInstanceAddDTO
      */
-    students?: Array<string> | null;
+    name?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof LaboratoryInstanceAddDTO
+     */
+    description?: string | null;
 }
 
 /**
@@ -60,7 +66,8 @@ export function LaboratoryInstanceAddDTOFromJSONTyped(json: any, ignoreDiscrimin
         
         'laboratoryId': !exists(json, 'laboratoryId') ? undefined : json['laboratoryId'],
         'laboratoryInstanceDate': !exists(json, 'laboratoryInstanceDate') ? undefined : (new Date(json['laboratoryInstanceDate'])),
-        'students': !exists(json, 'students') ? undefined : json['students'],
+        'name': !exists(json, 'name') ? undefined : json['name'],
+        'description': !exists(json, 'description') ? undefined : json['description'],
     };
 }
 
@@ -75,7 +82,8 @@ export function LaboratoryInstanceAddDTOToJSON(value?: LaboratoryInstanceAddDTO 
         
         'laboratoryId': value.laboratoryId,
         'laboratoryInstanceDate': value.laboratoryInstanceDate === undefined ? undefined : (value.laboratoryInstanceDate.toISOString()),
-        'students': value.students,
+        'name': value.name,
+        'description': value.description,
     };
 }
 

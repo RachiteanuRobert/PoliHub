@@ -19,12 +19,12 @@ import {
     CourseSimpleDTOFromJSONTyped,
     CourseSimpleDTOToJSON,
 } from './CourseSimpleDTO';
-import type { UserSimpleDTO } from './UserSimpleDTO';
+import type { JoinUserSimpleDTO } from './JoinUserSimpleDTO';
 import {
-    UserSimpleDTOFromJSON,
-    UserSimpleDTOFromJSONTyped,
-    UserSimpleDTOToJSON,
-} from './UserSimpleDTO';
+    JoinUserSimpleDTOFromJSON,
+    JoinUserSimpleDTOFromJSONTyped,
+    JoinUserSimpleDTOToJSON,
+} from './JoinUserSimpleDTO';
 
 /**
  * 
@@ -82,10 +82,10 @@ export interface SubjectDTO {
     courses?: Array<CourseSimpleDTO> | null;
     /**
      * 
-     * @type {Array<UserSimpleDTO>}
+     * @type {Array<JoinUserSimpleDTO>}
      * @memberof SubjectDTO
      */
-    students?: Array<UserSimpleDTO> | null;
+    subjectUsers?: Array<JoinUserSimpleDTO> | null;
 }
 
 /**
@@ -115,7 +115,7 @@ export function SubjectDTOFromJSONTyped(json: any, ignoreDiscriminator: boolean)
         'creditsNo': !exists(json, 'creditsNo') ? undefined : json['creditsNo'],
         'description': !exists(json, 'description') ? undefined : json['description'],
         'courses': !exists(json, 'courses') ? undefined : (json['courses'] === null ? null : (json['courses'] as Array<any>).map(CourseSimpleDTOFromJSON)),
-        'students': !exists(json, 'students') ? undefined : (json['students'] === null ? null : (json['students'] as Array<any>).map(UserSimpleDTOFromJSON)),
+        'subjectUsers': !exists(json, 'subjectUsers') ? undefined : (json['subjectUsers'] === null ? null : (json['subjectUsers'] as Array<any>).map(JoinUserSimpleDTOFromJSON)),
     };
 }
 
@@ -136,7 +136,7 @@ export function SubjectDTOToJSON(value?: SubjectDTO | null): any {
         'creditsNo': value.creditsNo,
         'description': value.description,
         'courses': value.courses === undefined ? undefined : (value.courses === null ? null : (value.courses as Array<any>).map(CourseSimpleDTOToJSON)),
-        'students': value.students === undefined ? undefined : (value.students === null ? null : (value.students as Array<any>).map(UserSimpleDTOToJSON)),
+        'subjectUsers': value.subjectUsers === undefined ? undefined : (value.subjectUsers === null ? null : (value.subjectUsers as Array<any>).map(JoinUserSimpleDTOToJSON)),
     };
 }
 

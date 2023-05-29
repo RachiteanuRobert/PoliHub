@@ -16,17 +16,15 @@
 import * as runtime from '../runtime';
 import type {
   RequestResponse,
-  StudentToSubjectAddDTO,
   SubjectAddDTO,
   SubjectDTOPagedResponseRequestResponse,
   SubjectDTORequestResponse,
   SubjectUpdateDTO,
+  UserToSubjectAddDTO,
 } from '../models';
 import {
     RequestResponseFromJSON,
     RequestResponseToJSON,
-    StudentToSubjectAddDTOFromJSON,
-    StudentToSubjectAddDTOToJSON,
     SubjectAddDTOFromJSON,
     SubjectAddDTOToJSON,
     SubjectDTOPagedResponseRequestResponseFromJSON,
@@ -35,14 +33,16 @@ import {
     SubjectDTORequestResponseToJSON,
     SubjectUpdateDTOFromJSON,
     SubjectUpdateDTOToJSON,
+    UserToSubjectAddDTOFromJSON,
+    UserToSubjectAddDTOToJSON,
 } from '../models';
 
 export interface ApiSubjectAddPostRequest {
     subjectAddDTO?: SubjectAddDTO;
 }
 
-export interface ApiSubjectAddStudentToSubjectPostRequest {
-    studentToSubjectAddDTO?: StudentToSubjectAddDTO;
+export interface ApiSubjectAddUserToSubjectPostRequest {
+    userToSubjectAddDTO?: UserToSubjectAddDTO;
 }
 
 export interface ApiSubjectDeleteIdDeleteRequest {
@@ -106,7 +106,7 @@ export class SubjectApi extends runtime.BaseAPI {
 
     /**
      */
-    async apiSubjectAddStudentToSubjectPostRaw(requestParameters: ApiSubjectAddStudentToSubjectPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<RequestResponse>> {
+    async apiSubjectAddUserToSubjectPostRaw(requestParameters: ApiSubjectAddUserToSubjectPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<RequestResponse>> {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -118,11 +118,11 @@ export class SubjectApi extends runtime.BaseAPI {
         }
 
         const response = await this.request({
-            path: `/api/Subject/AddStudentToSubject`,
+            path: `/api/Subject/AddUserToSubject`,
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: StudentToSubjectAddDTOToJSON(requestParameters.studentToSubjectAddDTO),
+            body: UserToSubjectAddDTOToJSON(requestParameters.userToSubjectAddDTO),
         }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => RequestResponseFromJSON(jsonValue));
@@ -130,8 +130,8 @@ export class SubjectApi extends runtime.BaseAPI {
 
     /**
      */
-    async apiSubjectAddStudentToSubjectPost(requestParameters: ApiSubjectAddStudentToSubjectPostRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<RequestResponse> {
-        const response = await this.apiSubjectAddStudentToSubjectPostRaw(requestParameters, initOverrides);
+    async apiSubjectAddUserToSubjectPost(requestParameters: ApiSubjectAddUserToSubjectPostRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<RequestResponse> {
+        const response = await this.apiSubjectAddUserToSubjectPostRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

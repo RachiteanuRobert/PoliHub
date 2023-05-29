@@ -10,28 +10,40 @@ import { RegisterForm } from "@presentation/components/forms/Register/RegisterFo
 const divStyles: React.CSSProperties = {
     display: "flex",
     justifyContent: "center",
-    alignItems: "center"
-}
+    alignItems: "center",
+};
 
 export const RegisterPage = memo(() => {
-    const { formatMessage } = useIntl()
+    const { formatMessage } = useIntl();
     return (
         <Fragment>
             <Seo title="MobyLab Web App | Register" />
             <WebsiteLayout>
-                <RegisterForm />
-                <div style={divStyles}>
-                    <div style={{ marginRight: ".5rem" }}>
+                <div
+                    style={{
+                        backgroundImage: `url(public/upb-rectorat.jpg)`,
+                        backgroundSize: "cover",
+                        backgroundPosition: "center",
+                        minHeight: "100vh",
+                        position: "fixed",
+                        left: 0,
+                        right: 0,
+                        top: 0,
+                    }}
+                >
+                    <RegisterForm />
+                    <div style={divStyles}>
+                        <div style={{ marginRight: ".5rem" }}>
+                            <Typography variant="h6">
+                                {formatMessage({ id: "globals.existingAccount" })}
+                            </Typography>
+                        </div>
                         <Typography variant="h6">
-                            {formatMessage({ id: "globals.existingAccount" })}
+                            <Link to={AppRoute.Login}>
+                                {formatMessage({ id: "globals.login" })}
+                            </Link>
                         </Typography>
                     </div>
-                    <Typography variant="h6">
-                        <Link to={AppRoute.Login}>
-                            {formatMessage({ id: "globals.login" })}
-                        </Link>
-                    </Typography>
-
                 </div>
             </WebsiteLayout>
         </Fragment>

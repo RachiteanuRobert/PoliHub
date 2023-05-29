@@ -11,5 +11,8 @@ public class SubjectUserAddDTO
 {
     public Guid SubjectId { get; set; } = default!;
     public Guid UserId { get; set; } = default!;
+
+    public Subject Subject { get; set; } = default!;
+    public User User { get; set; } = default!;
     
 }

@@ -10,6 +10,8 @@ public class LaboratoryInstanceSimpleDTO
 {
     public Guid Id { get; set; }
     public Guid LaboratoryId { get; set; } = default!;
+    public string Name { get; set; } = default!;
+    public string Description { get; set; } = default!;
     public DateTime LaboratoryInstanceDate { get; set; } = default!;
 
 }

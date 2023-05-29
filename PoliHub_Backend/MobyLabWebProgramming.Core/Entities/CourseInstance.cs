@@ -7,9 +7,10 @@ namespace MobyLabWebProgramming.Core.Entities;
 /// </summary>
 public class CourseInstance : BaseEntity
 {
+    public string Name { get; set; } = default!;
+    public string Description { get; set; } = default!;
     public Course Course { get; set; } = default!;
     public Guid CourseId { get; set; } = default!;
     public DateTime CourseInstanceDate { get; set; } = default!;
-    public ICollection<User> Students { get; set; } = default!;
-
+    public ICollection<CourseInstanceUser> CourseInstanceUsers { get; set; } = default!;
 }

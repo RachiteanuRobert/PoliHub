@@ -1,6 +1,6 @@
 # MobyLabWebProgramming
 
-This is a example application to teach students the basics of web programming.
+This is a example application to teach users the basics of web programming.
 
 # Prerequisites
 You will need the latest LTS version of NodeJs (https://nodejs.org/en/) and a IDE of you choice, we recommend VSCode (https://code.visualstudio.com/) with plugins for Javascript, Typescript, CSS and SonarLint or WebStorm (https://www.jetbrains.com/webstorm/).

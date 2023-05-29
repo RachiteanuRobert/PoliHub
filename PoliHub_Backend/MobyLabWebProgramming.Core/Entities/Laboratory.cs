@@ -15,5 +15,5 @@ public class Laboratory : BaseEntity
     public Course Course { get; set; } = default!;
     public Guid CourseId { get; set; } = default!;
     public ICollection<LaboratoryInstance> LaboratoryInstances { get; set; } = default!;
-    public ICollection<User> Students { get; set; } = default!;
+    public ICollection<LaboratoryUser> LaboratoryUsers { get; set; } = default!;
 }

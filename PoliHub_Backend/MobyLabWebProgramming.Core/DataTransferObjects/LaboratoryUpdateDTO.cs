@@ -8,4 +8,3 @@ namespace MobyLabWebProgramming.Core.DataTransferObjects;
 public record LaboratoryUpdateDTO(Guid Id, string? StartTime = null, int? Duration = null, string? Location = null,
     string? AssistantName = null, int? DayOfWeek = null, Guid? CourseId = null);
 
-   // ICollection<Guid>? LaboratoryInstances = null, ICollection<Guid>? Students = null);

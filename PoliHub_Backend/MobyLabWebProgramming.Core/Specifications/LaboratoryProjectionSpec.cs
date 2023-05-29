@@ -23,9 +23,21 @@ public sealed class LaboratoryProjectionSpec : BaseSpec<LaboratoryProjectionSpec
         Location = e.Location,
         AssistantName = e.AssistantName,
         DayOfWeek = e.DayOfWeek,
-        CourseId = e.CourseId
+        CourseId = e.CourseId,
+        LaboratoryUsers = e.LaboratoryUsers.Select(u => new JoinUserSimpleDTO
+        {
+            Id = u.Id,
+            UserId = u.UserId,
+            User = new UserSimpleDTO
+            {
+                Id = u.User.Id,
+                Name = u.User.Name,
+                Email = u.User.Email,
+                Role = u.User.Role,
+                Group = u.User.Group
+            }
+        }).ToList(),
         /*
-        Students = (ICollection<Guid>)e.Students,
         LaboratoryInstances = (ICollection<Guid>)e.LaboratoryInstances
         */
     };
@@ -47,7 +59,7 @@ public sealed class LaboratoryProjectionSpec : BaseSpec<LaboratoryProjectionSpec
 
         Query
             .Include(e => e.LaboratoryInstances)
-            .Include(e => e.Students)
+            .Include(e => e.LaboratoryUsers)
             .Where(e => EF.Functions.ILike(e.AssistantName, searchExpr));
     }
 }

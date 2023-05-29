@@ -14,6 +14,8 @@ import { LaboratoriesPage } from "@presentation/pages/LaboratoriesPage";
 import {SingleSubjectPage} from "@presentation/pages/SingleSubjectPage";
 import {SingleCoursePage} from "@presentation/pages/SingleCoursePage";
 import {SingleLaboratoryPage} from "@presentation/pages/SingleLaboratoryPage";
+import {CourseInstancesPage} from "@presentation/pages/CourseInstancesPage";
+import {LaboratoryInstancesPage} from "@presentation/pages/LaboratoryInstancesPage";
 import { AppRoute } from "routes";
 
 export function App() {
@@ -33,6 +35,8 @@ export function App() {
         {isAdmin && <Route path={AppRoute.UserFiles} element={<UserFilesPage />} />}
         {isAdmin && <Route path={AppRoute.Subjects} element={<SubjectsPage />} />}
         {isAdmin && <Route path={AppRoute.Courses} element={<CoursesPage />} />}
+        {isAdmin && <Route path={AppRoute.CourseInstances} element={<CourseInstancesPage />} />}
+        {isAdmin && <Route path={AppRoute.LaboratoryInstances} element={<LaboratoryInstancesPage />} />}
         {isAdmin && <Route path={AppRoute.Laboratories} element={<LaboratoriesPage />} />}
       </Routes>
     </AppIntlProvider>

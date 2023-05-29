@@ -51,4 +51,5 @@ public abstract class BaseSpec<TDerived, T, TOut> : Specification<T, TOut> where
     protected BaseSpec(bool orderByCreatedAt = true) => Query.Select(Derived.Spec).OrderByDescending(x => x.CreatedAt, orderByCreatedAt);
     protected BaseSpec(Guid id) => Query.Select(Derived.Spec).Where(e => e.Id == id);
     protected BaseSpec(ICollection<Guid> ids, bool orderByCreatedAt = true) => Query.Select(Derived.Spec).Where(e => ids.Contains(e.Id)).OrderByDescending(e => e.CreatedAt, orderByCreatedAt);
+
 }

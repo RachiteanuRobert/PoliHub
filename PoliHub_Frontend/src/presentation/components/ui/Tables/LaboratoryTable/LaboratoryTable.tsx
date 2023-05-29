@@ -12,6 +12,7 @@ import { LaboratoryUpdateDialog } from "../../Dialogs/LaboratoryDialog/Laborator
 import { setLaboratoryToUpdate } from "@application/state-slices/laboratory";
 import { Laboratory } from "@application/state-slices/laboratory/laboratorySlice.types";
 import SearchIcon from '@mui/icons-material/Search';
+import {Link} from "react-router-dom";
 
 const useHeader = (): { key: keyof LaboratoryDTO; name: string }[] => {
     const { formatMessage } = useIntl();
@@ -103,6 +104,10 @@ export const LaboratoryTable = () => {
                                 {entry.id !== ownUserId && <IconButton color="error" onClick={() => remove(entry.id || '')}>
                                     <DeleteIcon color="error" fontSize='small' />
                                 </IconButton>}
+                            </TableCell>
+                            <TableCell>
+                                <Link to={`/laboratories/${entry.id}`}>Info
+                                </Link>
                             </TableCell>
                         </TableRow>)
                     }

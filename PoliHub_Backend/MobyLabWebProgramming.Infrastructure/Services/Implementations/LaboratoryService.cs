@@ -21,15 +21,6 @@ public class LaboratoryService : ILaboratoryService
         _repository = repository;
     }
 
-    public async Task<ServiceResponse<LaboratoryDTO>> GetLaboratoryByName(string assistantName, CancellationToken cancellationToken = default)
-    {
-        var result = await _repository.GetAsync(new LaboratoryProjectionSpec(assistantName), cancellationToken);
-
-        return result != null ?
-            ServiceResponse<LaboratoryDTO>.ForSuccess(result) :
-            ServiceResponse<LaboratoryDTO>.FromError(new(HttpStatusCode.Forbidden, "Laboratory not found!", ErrorCodes.EntityNotFound));
-    }
-
     public async Task<ServiceResponse<LaboratoryDTO>> GetLaboratoryById(Guid Id, CancellationToken cancellationToken = default)
     {
         var result = await _repository.GetAsync(new LaboratoryProjectionSpec(Id), cancellationToken);
@@ -45,45 +36,42 @@ public class LaboratoryService : ILaboratoryService
         return ServiceResponse<PagedResponse<LaboratoryDTO>>.ForSuccess(result);
     }
 
-    public async Task<ServiceResponse> AddStudentToLaboratory(StudentToLaboratoryAddDTO studentLaboratoryIds, UserDTO? requestingUser, CancellationToken cancellationToken)
+    public async Task<ServiceResponse> AddUserToLaboratory(UserToLaboratoryAddDTO userLaboratoryIds, UserDTO? requestingUser, CancellationToken cancellationToken)
     {
 
         if (requestingUser != null && requestingUser.Role != UserRoleEnum.Admin)
         {
-            return ServiceResponse.FromError(new(HttpStatusCode.Forbidden, "Only the admin can add students!", ErrorCodes.CannotAdd));
+            return ServiceResponse.FromError(new(HttpStatusCode.Forbidden, "Only the admin can add users!", ErrorCodes.CannotAdd));
         }
 
-        var laboratory = await _repository.GetAsync(new LaboratoryEntityProjectionSpec(studentLaboratoryIds.LaboratoryId), cancellationToken);
+        var laboratory = await _repository.GetAsync(new LaboratorySpec(userLaboratoryIds.LaboratoryId), cancellationToken);
         if (laboratory == null)
         {
-            return ServiceResponse.FromError(new(HttpStatusCode.Forbidden, "Bad laboratory Id provided!", ErrorCodes.EntityNotFound));
+            return ServiceResponse.FromError(new(HttpStatusCode.Forbidden, "Bad Laboratory Id provided!", ErrorCodes.EntityNotFound));
         }
 
-        var student = await _repository.GetAsync(new UserSpec(studentLaboratoryIds.StudentId), cancellationToken);
-        if (student == null)
+        var user = await _repository.GetAsync(new UserSpec(userLaboratoryIds.UserId), cancellationToken);
+        if (user == null)
         {
-            return ServiceResponse.FromError(new(HttpStatusCode.NotFound, "Bad student id provided!", ErrorCodes.EntityNotFound));
+            return ServiceResponse.FromError(new(HttpStatusCode.NotFound, "Bad user id provided!", ErrorCodes.EntityNotFound));
         }
 
-        // Verify if student is enrolled
-        foreach (User StudentInLaboratory in laboratory.Students)
+        // Verify if user is enrolled
+        var searchSubjectUser = await _repository.GetAsync(new LaboratoryUserProjectionSpec(userLaboratoryIds.UserId, userLaboratoryIds.LaboratoryId), cancellationToken);
+        if (searchSubjectUser != null)
         {
-            if (StudentInLaboratory.Id == student.Id)
-            {
-                return ServiceResponse.FromError(new(HttpStatusCode.NotFound, "Student already enroled!", ErrorCodes.UserAlreadyExists));
-            }
+            return ServiceResponse.FromError(new(HttpStatusCode.NotFound, "User already enroled!", ErrorCodes.UserAlreadyExists));
         }
 
-        if (laboratory.Students != null)
+        LaboratoryUser newLaboratoryUser = new LaboratoryUser
         {
-            laboratory.Students.Add(student);
-        }
-        else
-        {
-            var Students = new List<User>();
-            Students.Add(student);
-            laboratory.Students = Students;
-        }
+            Laboratory = laboratory,
+            User = user,
+            LaboratoryId = laboratory.Id,
+            UserId = user.Id,
+        };
+
+        await _repository.AddAsync(newLaboratoryUser);
 
         await _repository.UpdateAsync(laboratory, cancellationToken);
 
@@ -104,19 +92,19 @@ public class LaboratoryService : ILaboratoryService
         }
 
         /*
-        var Students = new List<User>();
+        var Users = new List<User>();
         var LaboratoryInstances = new List<LaboratoryInstance>();
 
-        if (laboratory.Students != null)
+        if (laboratory.Users != null)
         {
-            foreach (Guid id in laboratory.Students)
+            foreach (Guid id in laboratory.Users)
             {
-                var student = await _repository.GetAsync(new UserSpec(id), cancellationToken);
-                if (student == null)
+                var user = await _repository.GetAsync(new UserSpec(id), cancellationToken);
+                if (user == null)
                 {
-                    return ServiceResponse.FromError(new(HttpStatusCode.NotFound, "Bad student id provided", ErrorCodes.EntityNotFound));
+                    return ServiceResponse.FromError(new(HttpStatusCode.NotFound, "Bad user id provided", ErrorCodes.EntityNotFound));
                 }
-                Students.Add(student);
+                Users.Add(user);
             }
         }
 
@@ -145,7 +133,7 @@ public class LaboratoryService : ILaboratoryService
             /*
             SubjectId = laboratory.SubjectId
             Subject = laboratory.Subject,
-            Students = Students,
+            Users = Users,
             LaboratoryInstances = LaboratoryInstances
             */
         });
@@ -163,19 +151,19 @@ public class LaboratoryService : ILaboratoryService
         var entity = await _repository.GetAsync(new LaboratorySpec(laboratory.Id), cancellationToken);
 
         /*
-        var Students = new List<User>();
+        var Users = new List<User>();
         var LaboratoryInstances = new List<LaboratoryInstance>();
 
-        if (laboratory.Students != null)
+        if (laboratory.User != null)
         {
-            foreach (Guid id in laboratory.Students)
+            foreach (Guid id in laboratory.Users)
             {
-                var student = await _repository.GetAsync(new UserSpec(id), cancellationToken);
-                if (student == null)
+                var user = await _repository.GetAsync(new UserSpec(id), cancellationToken);
+                if (user == null)
                 {
-                    return ServiceResponse.FromError(new(HttpStatusCode.NotFound, "Bad student id provided", ErrorCodes.EntityNotFound));
+                    return ServiceResponse.FromError(new(HttpStatusCode.NotFound, "Bad user id provided", ErrorCodes.EntityNotFound));
                 }
-                Students.Add(student);
+                Users.Add(user);
             }
         }
 
@@ -204,7 +192,7 @@ public class LaboratoryService : ILaboratoryService
             entity.CourseId = laboratory.CourseId ?? entity.CourseId;
             /*
             entity.Subject = laboratory.Subject ?? entity.Subject;
-            entity.Students = laboratory.Students == null ? entity.Students : Students;
+            entity.Users = laboratory.Users == null ? entity.Users : Users;
             entity.LaboratoryInstances = laboratory.LaboratoryInstances == null ? entity.LaboratoryInstances : LaboratoryInstances;
             */
 

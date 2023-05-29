@@ -11,8 +11,8 @@ public class SubjectUserDTO
 {
     public Guid Id { get; set; }
     public Guid UserId { get; set; }
-    public UserSimpleDTO User { get; set; }
+    public UserSimpleDTO User { get; set; } = default!;
     public Guid SubjectId { get; set; }
-    public SubjectSimpleDTO Subject { get; set; }
+    public SubjectSimpleDTO Subject { get; set; } = default!;
 
 }

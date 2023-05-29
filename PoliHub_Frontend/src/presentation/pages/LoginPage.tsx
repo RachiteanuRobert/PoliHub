@@ -10,29 +10,38 @@ import { AppRoute } from "routes";
 const divStyles: React.CSSProperties = {
     display: "flex",
     justifyContent: "center",
-    alignItems: "center"
-}
+    alignItems: "center",
+};
 
-const rectoratePicture = new URL("public/upb-rectorat.jpg", import.meta.url)
 export const LoginPage = memo(() => {
-    const { formatMessage } = useIntl()
+    const { formatMessage } = useIntl();
     return (
         <Fragment>
             <Seo title="MobyLab Web App | Login" />
             <WebsiteLayout>
-                <LoginForm />
-                <div style={divStyles}>
-                    <div style={{ marginRight: ".5rem" }}>
-                        <Typography variant="h6">
-                            {formatMessage({ id: "globals.noAccount" })}
+                <div
+                    style={{
+                        backgroundImage: `url(public/upb-rectorat.jpg)`,
+                        backgroundSize: "cover",
+                        backgroundPosition: "center",
+                        minHeight: "100vh",
+                        position: "fixed", // Set the position to fixed
+                        left: 0, // Position the div from the left edge of the viewport
+                        right: 0, // Position the div from the right edge of the viewport
+                        top: 0, // Position the div from the top edge of the viewport
+                    }}
+                >
+                    <LoginForm />
+                    <div style={divStyles}>
+                        <div style={{ marginRight: ".5rem" }}>
+                            <Typography variant="h6" style={{ color: "white", fontSize: "170%" }}>
+                                {formatMessage({ id: "globals.noAccount" })}
+                            </Typography>
+                        </div>
+                        <Typography variant="h6" style={{ fontSize: "170%" }}>
+                            <Link to={AppRoute.Register}>{formatMessage({ id: "globals.register" })}</Link>
                         </Typography>
                     </div>
-                    <Typography variant="h6">
-                        <Link to={AppRoute.Register}>
-                            {formatMessage({ id: "globals.register" })}
-                        </Link>
-                    </Typography>
-
                 </div>
             </WebsiteLayout>
         </Fragment>

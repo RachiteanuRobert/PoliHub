@@ -9,6 +9,8 @@ public class LaboratoryInstance : BaseEntity
 {
     public Guid LaboratoryId { get; set; } = default!;
     public DateTime LaboratoryInstanceDate { get; set; } = default!;
+    public string Name { get; set; } = default!;
+    public string Description { get; set; } = default!;
     public Laboratory Laboratory { get; set; } = default!;
-    public ICollection<User> Students { get; set; } = default!;
+    public ICollection<LaboratoryInstanceUser> LaboratoryInstanceUsers { get; set; } = default!;
 }

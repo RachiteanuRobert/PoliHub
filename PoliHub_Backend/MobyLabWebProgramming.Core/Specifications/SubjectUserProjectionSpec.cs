@@ -1,5 +1,6 @@
 ﻿using System.Linq.Expressions;
 using Ardalis.Specification;
+using Ardalis.Specification.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using MobyLabWebProgramming.Core.DataTransferObjects;
 using MobyLabWebProgramming.Core.Entities;
@@ -22,7 +23,7 @@ public sealed class SubjectUserProjectionSpec : BaseSpec<SubjectUserProjectionSp
         SubjectId = e.SubjectId,
         Subject = new SubjectSimpleDTO
         {
-            SubjectId = e.Subject.SubjectId,
+            Id = e.Subject.Id,
             Name = e.Subject.Name,
             Year = e.Subject.Year,
             Semester = e.Subject.Semester,
@@ -43,5 +44,12 @@ public sealed class SubjectUserProjectionSpec : BaseSpec<SubjectUserProjectionSp
 
     public SubjectUserProjectionSpec(Guid id) : base(id)
     {
+    }
+
+    public SubjectUserProjectionSpec(Guid userId, Guid subjectId)
+    {
+        Query.Select(Derived.Spec).Where(e => e.UserId == userId && e.SubjectId == subjectId)
+            .Include(e => e.Subject)
+            .Include(e => e.User);
     }
 }

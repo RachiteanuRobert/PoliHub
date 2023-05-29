@@ -13,12 +13,12 @@
  */
 
 import { exists, mapValues } from '../runtime';
-import type { UserSimpleDTO } from './UserSimpleDTO';
+import type { JoinUserSimpleDTO } from './JoinUserSimpleDTO';
 import {
-    UserSimpleDTOFromJSON,
-    UserSimpleDTOFromJSONTyped,
-    UserSimpleDTOToJSON,
-} from './UserSimpleDTO';
+    JoinUserSimpleDTOFromJSON,
+    JoinUserSimpleDTOFromJSONTyped,
+    JoinUserSimpleDTOToJSON,
+} from './JoinUserSimpleDTO';
 
 /**
  * 
@@ -37,6 +37,18 @@ export interface LaboratoryInstanceDTO {
      * @type {string}
      * @memberof LaboratoryInstanceDTO
      */
+    name?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof LaboratoryInstanceDTO
+     */
+    description?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof LaboratoryInstanceDTO
+     */
     laboratoryId?: string;
     /**
      * 
@@ -46,10 +58,10 @@ export interface LaboratoryInstanceDTO {
     laboratoryInstanceDate?: Date;
     /**
      * 
-     * @type {Array<UserSimpleDTO>}
+     * @type {Array<JoinUserSimpleDTO>}
      * @memberof LaboratoryInstanceDTO
      */
-    students?: Array<UserSimpleDTO> | null;
+    laboratoryInstanceUsers?: Array<JoinUserSimpleDTO> | null;
 }
 
 /**
@@ -72,9 +84,11 @@ export function LaboratoryInstanceDTOFromJSONTyped(json: any, ignoreDiscriminato
     return {
         
         'id': !exists(json, 'id') ? undefined : json['id'],
+        'name': !exists(json, 'name') ? undefined : json['name'],
+        'description': !exists(json, 'description') ? undefined : json['description'],
         'laboratoryId': !exists(json, 'laboratoryId') ? undefined : json['laboratoryId'],
         'laboratoryInstanceDate': !exists(json, 'laboratoryInstanceDate') ? undefined : (new Date(json['laboratoryInstanceDate'])),
-        'students': !exists(json, 'students') ? undefined : (json['students'] === null ? null : (json['students'] as Array<any>).map(UserSimpleDTOFromJSON)),
+        'laboratoryInstanceUsers': !exists(json, 'laboratoryInstanceUsers') ? undefined : (json['laboratoryInstanceUsers'] === null ? null : (json['laboratoryInstanceUsers'] as Array<any>).map(JoinUserSimpleDTOFromJSON)),
     };
 }
 
@@ -88,9 +102,11 @@ export function LaboratoryInstanceDTOToJSON(value?: LaboratoryInstanceDTO | null
     return {
         
         'id': value.id,
+        'name': value.name,
+        'description': value.description,
         'laboratoryId': value.laboratoryId,
         'laboratoryInstanceDate': value.laboratoryInstanceDate === undefined ? undefined : (value.laboratoryInstanceDate.toISOString()),
-        'students': value.students === undefined ? undefined : (value.students === null ? null : (value.students as Array<any>).map(UserSimpleDTOToJSON)),
+        'laboratoryInstanceUsers': value.laboratoryInstanceUsers === undefined ? undefined : (value.laboratoryInstanceUsers === null ? null : (value.laboratoryInstanceUsers as Array<any>).map(JoinUserSimpleDTOToJSON)),
     };
 }
 

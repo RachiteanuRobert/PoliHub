@@ -31,13 +31,23 @@ public class CourseInstanceController : AuthorizedController
             this.ErrorMessageResult<CourseInstanceDTO>(currentUser.Error);
     }
 
-    /*
+    
     [HttpGet]
     public async Task<ActionResult<RequestResponse<PagedResponse<CourseInstanceDTO>>>> GetPage([FromQuery] PaginationSearchQueryParams pagination)
     {
         return this.FromServiceResponse(await _courseInstanceService.GetCourseInstances(pagination));
     }
-    */
+
+    [Authorize]
+    [HttpPost]
+    public async Task<ActionResult<RequestResponse>> AddUserToCourseInstance([FromBody] UserToCourseInstanceAddDTO userCourseInstanceIds)
+    {
+        var currentUser = await GetCurrentUser();
+
+        return currentUser.Result != null ?
+            this.FromServiceResponse(await _courseInstanceService.AddUserToCourseInstance(userCourseInstanceIds, currentUser.Result)) :
+            this.ErrorMessageResult(currentUser.Error);
+    }
 
     [Authorize]
     [HttpPost]

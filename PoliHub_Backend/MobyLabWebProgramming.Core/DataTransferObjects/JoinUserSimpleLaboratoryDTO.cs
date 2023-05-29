@@ -7,10 +7,10 @@ namespace MobyLabWebProgramming.Core.DataTransferObjects;
 /// This DTO is used to transfer information about a user within the application and to client application.
 /// Note that it doesn't contain a password property and that is why you should use DTO rather than entities to use only the data that you need or protect sensible information.
 /// </summary>
-public class SubjectUserSimpleDTO
+public class JoinUserSimpleLaboratoryDTO
 {
     public Guid Id { get; set; }
-    public Guid UserId { get; set; }
-    public UserSimpleDTO User { get; set; }
+    public Guid LaboratoryId { get; set; }
+    public LaboratorySimpleDTO Laboratory { get; set; } = default!;
 
 }

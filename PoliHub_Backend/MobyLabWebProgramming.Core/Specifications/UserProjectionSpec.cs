@@ -22,38 +22,78 @@ public sealed class UserProjectionSpec : BaseSpec<UserProjectionSpec, User, User
         Name = e.Name,
         Role = e.Role,
         Group = e.Group,
-        Courses = e.Courses.Select(c => new CourseSimpleDTO
+        SubjectUsers = e.SubjectUsers.Select(u => new JoinUserSimpleSubjectDTO
         {
-            Id = c.Id,
-            ProfessorName = c.ProfessorName,
-            StartTime = c.StartTime,
-            Duration = c.Duration,
-            Location = c.Location,
-            Series = c.Series,
-            DayOfWeek = c.DayOfWeek,
-            SubjectId =c.SubjectId
+            Id = u.Id,
+            SubjectId = u.SubjectId,
+            Subject = new SubjectSimpleDTO
+            {
+                Id = u.Subject.Id,
+                Name = u.Subject.Name,
+                Semester = u.Subject.Semester,
+                Year = u.Subject.Year,
+                Department = u.Subject.Department,
+                CreditsNo = u.Subject.CreditsNo,
+                Description = u.Subject.Description
+            }
         }).ToList(),
-
-        Subjects = e.Subjects.Select(s => new SubjectSimpleDTO
+        CourseUsers = e.CourseUsers.Select(u => new JoinUserSimpleCourseDTO
         {
-            Id = s.Id,
-            Name = s.Name,
-            Year = s.Year,
-            Semester = s.Semester,
-            Department = s.Department,
-            CreditsNo = s.CreditsNo,
-            Description = s.Description
+            Id = u.Id,
+            CourseId = u.CourseId,
+            Course = new CourseSimpleDTO
+            {
+                Id = u.Course.Id,
+                ProfessorName = u.Course.ProfessorName,
+                StartTime = u.Course.StartTime,
+                Duration = u.Course.Duration,
+                Location = u.Course.Location,
+                Series = u.Course.Series,
+                DayOfWeek = u.Course.DayOfWeek,
+                SubjectId = u.Course.SubjectId,
+            }
         }).ToList(),
-        Laboratories = e.Laboratories.Select(l => new LaboratorySimpleDTO
+        LaboratoryUsers = e.LaboratoryUsers.Select(u => new JoinUserSimpleLaboratoryDTO
         {
-            Id = l.Id,
-            AssistantName = l.AssistantName,
-            StartTime = l.StartTime,
-            Duration = l.Duration,
-            Location = l.Location,
-            DayOfWeek = l.DayOfWeek,
-            CourseId = l.CourseId
-        }).ToList()
+            Id = u.Id,
+            LaboratoryId = u.LaboratoryId,
+            Laboratory = new LaboratorySimpleDTO
+            {
+                Id = u.Laboratory.Id,
+                AssistantName = u.Laboratory.AssistantName,
+                StartTime = u.Laboratory.StartTime,
+                Duration = u.Laboratory.Duration,
+                Location = u.Laboratory.Location,
+                DayOfWeek = u.Laboratory.DayOfWeek,
+                CourseId = u.Laboratory.CourseId,
+            }
+        }).ToList(),
+        CourseInstanceUsers = e.CourseInstanceUsers.Select(u => new JoinUserSimpleCourseInstanceDTO
+        {
+            Id = u.Id,
+            CourseInstanceId = u.CourseInstanceId,
+            CourseInstance = new CourseInstanceSimpleDTO
+            {
+                Id = u.CourseInstance.Id,
+                CourseId = u.CourseInstance.CourseId,
+                Name = u.CourseInstance.Name,
+                Description = u.CourseInstance.Description,
+                CourseInstanceDate = u.CourseInstance.CourseInstanceDate,
+            }
+        }).ToList(),
+        LaboratoryInstanceUsers = e.LaboratoryInstanceUsers.Select(u => new JoinUserSimpleLaboratoryInstanceDTO
+        {
+            Id = u.Id,
+            LaboratoryInstanceId = u.LaboratoryInstanceId,
+            LaboratoryInstance = new LaboratoryInstanceSimpleDTO
+            {
+                Id = u.LaboratoryInstance.Id,
+                LaboratoryId = u.LaboratoryInstance.LaboratoryId,
+                Name = u.LaboratoryInstance.Name,
+                Description = u.LaboratoryInstance.Description,
+                LaboratoryInstanceDate = u.LaboratoryInstance.LaboratoryInstanceDate,
+            }
+        }).ToList(),
     };
 
     public UserProjectionSpec(bool orderByCreatedAt = true) : base(orderByCreatedAt)

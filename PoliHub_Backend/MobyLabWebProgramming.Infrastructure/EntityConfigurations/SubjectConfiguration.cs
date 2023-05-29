@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore;
 using MobyLabWebProgramming.Core.Entities;
+using System.Reflection.Emit;
 
 namespace MobyLabWebProgramming.Infrastructure.EntityConfigurations;
 
@@ -11,9 +12,9 @@ public class SubjectConfiguration : IEntityTypeConfiguration<Subject>
 {
     public void Configure(EntityTypeBuilder<Subject> builder)
     {
-        builder.Property(e => e.SubjectId)
+        builder.Property(e => e.Id)
             .IsRequired();
-        builder.HasKey(x => x.SubjectId);         
+        builder.HasKey(x => x.Id);           
         builder.Property(e => e.Name)
             .HasMaxLength(255)
             .IsRequired();
@@ -35,16 +36,6 @@ public class SubjectConfiguration : IEntityTypeConfiguration<Subject>
         builder.Property(e => e.CreatedAt)
             .IsRequired();
         builder.Property(e => e.UpdatedAt)
-            .IsRequired();
-
-        builder.HasMany(e => e.Students)
-            .WithMany(l => l.Subjects)
-            .UsingEntity(j => j.ToTable("SubjectsStudents"));
-
-        builder.HasMany(s => s.SubjectUsers)
-             .WithOne(e => e.Subject)
-             .HasForeignKey(s => s.Id)
-             .HasPrincipalKey(e => e.SubjectId)
             .IsRequired();
     }
 }

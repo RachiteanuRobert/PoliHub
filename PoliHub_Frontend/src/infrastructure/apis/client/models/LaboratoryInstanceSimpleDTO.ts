@@ -33,6 +33,18 @@ export interface LaboratoryInstanceSimpleDTO {
     laboratoryId?: string;
     /**
      * 
+     * @type {string}
+     * @memberof LaboratoryInstanceSimpleDTO
+     */
+    name?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof LaboratoryInstanceSimpleDTO
+     */
+    description?: string | null;
+    /**
+     * 
      * @type {Date}
      * @memberof LaboratoryInstanceSimpleDTO
      */
@@ -60,6 +72,8 @@ export function LaboratoryInstanceSimpleDTOFromJSONTyped(json: any, ignoreDiscri
         
         'id': !exists(json, 'id') ? undefined : json['id'],
         'laboratoryId': !exists(json, 'laboratoryId') ? undefined : json['laboratoryId'],
+        'name': !exists(json, 'name') ? undefined : json['name'],
+        'description': !exists(json, 'description') ? undefined : json['description'],
         'laboratoryInstanceDate': !exists(json, 'laboratoryInstanceDate') ? undefined : (new Date(json['laboratoryInstanceDate'])),
     };
 }
@@ -75,6 +89,8 @@ export function LaboratoryInstanceSimpleDTOToJSON(value?: LaboratoryInstanceSimp
         
         'id': value.id,
         'laboratoryId': value.laboratoryId,
+        'name': value.name,
+        'description': value.description,
         'laboratoryInstanceDate': value.laboratoryInstanceDate === undefined ? undefined : (value.laboratoryInstanceDate.toISOString()),
     };
 }

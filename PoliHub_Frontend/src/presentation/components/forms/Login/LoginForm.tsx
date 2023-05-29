@@ -21,8 +21,26 @@ export const LoginForm = () => {
     const { state, actions, computed } = useLoginFormController(); // Use the controller.
 
     return (
-        <div style={{ display: "flex", justifyContent: "center", flexGrow: 1 }}>
-            <form onSubmit={actions.handleSubmit(actions.submit)}> {/* Wrap your form into a form tag and use the handle submit callback to validate the form and call the data submission. */}
+        <div
+            style={{
+                display: "flex",
+                justifyContent: "center",
+                flexGrow: 1,
+                backgroundColor: "transparent", // Set the background color of the form to transparent
+            }}
+        >
+            <form
+                onSubmit={actions.handleSubmit(actions.submit)}
+                style={{
+                    width: "100%",
+                    maxWidth: "400px", // Set the maximum width of the form for flexibility
+                    margin: "auto", // Center the form horizontally
+                    padding: "1rem", // Add padding for spacing
+                    backgroundColor: "rgba(255, 255, 255, 0.8)", // Set a transparent background color for the form
+                    borderRadius: "8px", // Add rounded corners
+                    boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)", // Add a subtle box shadow
+                }}
+            >
                 <Stack spacing={4} style={{ width: "100%" }}>
                     <ContentCard title={formatMessage({ id: "globals.login" })}>
                         <Grid container item direction="row" xs={12} columnSpacing={4}>
@@ -30,26 +48,25 @@ export const LoginForm = () => {
                                 <FormControl
                                     fullWidth
                                     error={!isUndefined(state.errors.email)}
-                                > {/* Wrap the input into a form control and use the errors to show the input invalid if needed. */}
+                                >
                                     <FormLabel required>
                                         <FormattedMessage id="globals.email" />
-                                    </FormLabel> {/* Add a form label to indicate what the input means. */}
+                                    </FormLabel>
                                     <OutlinedInput
-                                        {...actions.register("email")} // Bind the form variable to the UI input.
+                                        {...actions.register("email")}
                                         placeholder={formatMessage(
                                             { id: "globals.placeholders.textInput" },
                                             {
                                                 fieldName: formatMessage({
                                                     id: "globals.email",
                                                 }),
-                                            })}
+                                            }
+                                        )}
                                         autoComplete="username"
-                                    /> {/* Add a input like a textbox shown here. */}
-                                    <FormHelperText
-                                        hidden={isUndefined(state.errors.email)}
-                                    >
+                                    />
+                                    <FormHelperText hidden={isUndefined(state.errors.email)}>
                                         {state.errors.email?.message}
-                                    </FormHelperText> {/* Add a helper text that is shown then the input has a invalid value. */}
+                                    </FormHelperText>
                                 </FormControl>
                             </Grid>
                             <Grid container item direction="column" xs={12} md={12}>
@@ -69,12 +86,11 @@ export const LoginForm = () => {
                                                 fieldName: formatMessage({
                                                     id: "globals.password",
                                                 }),
-                                            })}
+                                            }
+                                        )}
                                         autoComplete="current-password"
                                     />
-                                    <FormHelperText
-                                        hidden={isUndefined(state.errors.password)}
-                                    >
+                                    <FormHelperText hidden={isUndefined(state.errors.password)}>
                                         {state.errors.password?.message}
                                     </FormHelperText>
                                 </FormControl>
@@ -84,7 +100,11 @@ export const LoginForm = () => {
                     <Grid container item direction="row" xs={12} className="padding-top-sm">
                         <Grid container item direction="column" xs={12} md={7}></Grid>
                         <Grid container item direction="column" xs={5}>
-                            <Button type="submit" disabled={!isEmpty(state.errors) || computed.isSubmitting}> {/* Add a button with type submit to call the submission callback if the button is a descended of the form element. */}
+                            <Button
+                                type="submit"
+                                disabled={!isEmpty(state.errors) || computed.isSubmitting}
+                                style={{ width: "100%" }}
+                            >
                                 {!computed.isSubmitting && <FormattedMessage id="globals.submit" />}
                                 {computed.isSubmitting && <CircularProgress />}
                             </Button>

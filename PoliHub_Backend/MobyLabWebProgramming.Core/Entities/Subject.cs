@@ -8,8 +8,6 @@ namespace MobyLabWebProgramming.Core.Entities;
 /// </summary>
 public class Subject : BaseEntity
 {
-    public Guid Id { get; set; }
-    public Guid SubjectId { get; set; }
     public string Name { get; set; } = default!;
     public char Year { get; set; } = default!;
     public char Semester { get; set; } = default!;
@@ -17,6 +15,5 @@ public class Subject : BaseEntity
     public char CreditsNo { get; set; } = default!;
     public string Description { get; set; } = default!;
     public ICollection<Course> Courses { get; set; } = default!;
-    public ICollection<User> Students { get; set; } = default!;
     public ICollection<SubjectUser> SubjectUsers { get; set; } = default!;
 }

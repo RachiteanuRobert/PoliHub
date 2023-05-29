@@ -25,7 +25,7 @@ public sealed class LaboratoryEntityProjectionSpec : BaseSpec<LaboratoryEntityPr
         DayOfWeek = e.DayOfWeek,
         CourseId = e.CourseId,
         Course = e.Course,
-        Students = e.Students,
+        LaboratoryUsers = e.LaboratoryUsers,
         LaboratoryInstances = e.LaboratoryInstances
     };
 
@@ -46,7 +46,7 @@ public sealed class LaboratoryEntityProjectionSpec : BaseSpec<LaboratoryEntityPr
 
         Query
             .Include(e => e.LaboratoryInstances)
-            .Include(e => e.Students)
+            .Include(e => e.LaboratoryUsers)
             .Where(e => EF.Functions.ILike(e.AssistantName, searchExpr));
     }
 }

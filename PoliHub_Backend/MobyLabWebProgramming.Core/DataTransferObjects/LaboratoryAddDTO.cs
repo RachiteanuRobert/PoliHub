@@ -18,6 +18,6 @@ public class LaboratoryAddDTO
 
     /*
     public ICollection<Guid> LaboratoryInstances { get; set; } = default!;
-    public ICollection<Guid> Students { get; set; } = default!;
+    public ICollection<Guid> Users { get; set; } = default!;
     */
 }

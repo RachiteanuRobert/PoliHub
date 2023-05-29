@@ -10,4 +10,7 @@ public class CourseInstanceSimpleDTO
 {
     public Guid Id { get; set; }
     public Guid CourseId { get; set; } = default!;
+    public string Name { get; set; } = default!;
+    public string Description { get; set; } = default!;
+    public DateTime CourseInstanceDate { get; set; }
 }

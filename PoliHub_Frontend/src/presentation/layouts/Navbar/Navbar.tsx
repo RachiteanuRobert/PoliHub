@@ -43,9 +43,25 @@ export const Navbar = () => {
           padding: "0 10%"
         }}>
           <Grid container item direction="column" xs={1}>
-            <Link
-              to={AppRoute.Index}> {/* Add a button to redirect to the home page. */}
-              <HomeIcon style={{ color: 'white' }} fontSize='large' />
+            <Link to={AppRoute.Index}>
+              <div
+                  style={{
+                    background: 'white',
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    width: '180px',
+                    height: '80px',
+                    borderRadius: '10px',
+                    overflow: 'hidden',
+                  }}
+              >
+                <img
+                    src="public/PoliHub_Logo.png"
+                    alt="Logo"
+                    style={{ width: '100%', height: '100%' }}
+                />
+              </div>
             </Link>
           </Grid>
           <Grid container item direction="column" xs={8}>
@@ -93,6 +109,20 @@ export const Navbar = () => {
                   </Link>
                 </Button>
               </Grid>
+              <Grid container item direction="column" xs={1}>
+                <Button color="inherit">
+                  <Link style={{ color: 'white' }} to={AppRoute.CourseInstances}>
+                    {formatMessage({ id: "globals.courseInstances" })}
+                  </Link>
+                </Button>
+              </Grid>
+              <Grid container item direction="column" xs={1}>
+                <Button color="inherit">
+                  <Link style={{ color: 'white' }} to={AppRoute.LaboratoryInstances}>
+                    {formatMessage({ id: "globals.laboratoryInstances" })}
+                  </Link>
+                </Button>
+              </Grid>
             </Grid>}
           </Grid>
           <div style={{ display: 'flex', alignItems: 'center' }}>
@@ -109,7 +139,6 @@ export const Navbar = () => {
             {loggedIn && <Button onClick={logout} color="inherit" > {/* Otherwise show the logout button. */}
               {formatMessage({ id: "globals.logout" })}
             </Button>}
-            <NavbarLanguageSelector />
           </div>
         </div>
       </Toolbar>

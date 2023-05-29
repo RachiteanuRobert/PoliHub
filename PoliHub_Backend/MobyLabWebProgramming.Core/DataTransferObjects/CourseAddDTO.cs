@@ -18,6 +18,6 @@ public class CourseAddDTO
     public Guid SubjectId { get; set; } = default!;
     /*
     public ICollection<Guid> CourseInstances { get; set; } = default!;
-    public ICollection<Guid> Students { get; set; } = default!;
+    public ICollection<Guid> Users { get; set; } = default!;
     */
 }

@@ -5,6 +5,8 @@ import { profileReducer } from "./state-slices";
 import { subjectReducer } from "./state-slices";
 import { laboratoryReducer } from "./state-slices";
 import { courseReducer } from "./state-slices";
+import { courseInstanceReducer } from "./state-slices";
+import { laboratoryInstanceReducer} from "./state-slices";
 
 /** 
  *  This is the store to register each reduces with its own slice.
@@ -14,7 +16,9 @@ export const store = configureStore({
     profileReducer,
     subjectReducer,
     laboratoryReducer,
-    courseReducer
+    courseReducer,
+    courseInstanceReducer,
+    laboratoryInstanceReducer,
   }
 });
 

@@ -19,12 +19,12 @@ import {
     CourseFromJSONTyped,
     CourseToJSON,
 } from './Course';
-import type { User } from './User';
+import type { SubjectUser } from './SubjectUser';
 import {
-    UserFromJSON,
-    UserFromJSONTyped,
-    UserToJSON,
-} from './User';
+    SubjectUserFromJSON,
+    SubjectUserFromJSONTyped,
+    SubjectUserToJSON,
+} from './SubjectUser';
 
 /**
  * 
@@ -94,10 +94,10 @@ export interface Subject {
     courses?: Array<Course> | null;
     /**
      * 
-     * @type {Array<User>}
+     * @type {Array<SubjectUser>}
      * @memberof Subject
      */
-    students?: Array<User> | null;
+    subjectUsers?: Array<SubjectUser> | null;
 }
 
 /**
@@ -129,7 +129,7 @@ export function SubjectFromJSONTyped(json: any, ignoreDiscriminator: boolean): S
         'creditsNo': !exists(json, 'creditsNo') ? undefined : json['creditsNo'],
         'description': !exists(json, 'description') ? undefined : json['description'],
         'courses': !exists(json, 'courses') ? undefined : (json['courses'] === null ? null : (json['courses'] as Array<any>).map(CourseFromJSON)),
-        'students': !exists(json, 'students') ? undefined : (json['students'] === null ? null : (json['students'] as Array<any>).map(UserFromJSON)),
+        'subjectUsers': !exists(json, 'subjectUsers') ? undefined : (json['subjectUsers'] === null ? null : (json['subjectUsers'] as Array<any>).map(SubjectUserFromJSON)),
     };
 }
 
@@ -152,7 +152,7 @@ export function SubjectToJSON(value?: Subject | null): any {
         'creditsNo': value.creditsNo,
         'description': value.description,
         'courses': value.courses === undefined ? undefined : (value.courses === null ? null : (value.courses as Array<any>).map(CourseToJSON)),
-        'students': value.students === undefined ? undefined : (value.students === null ? null : (value.students as Array<any>).map(UserToJSON)),
+        'subjectUsers': value.subjectUsers === undefined ? undefined : (value.subjectUsers === null ? null : (value.subjectUsers as Array<any>).map(SubjectUserToJSON)),
     };
 }
 

@@ -9,7 +9,7 @@ namespace MobyLabWebProgramming.Core.DataTransferObjects;
 /// </summary>
 public class SubjectSimpleDTO
 {
-    public Guid SubjectId { get; set; }
+    public Guid Id { get; set; }
     public string Name { get; set; } = default!;
     public char Year { get; set; } = default!;
     public char Semester { get; set; } = default!;

@@ -58,12 +58,12 @@ public class SubjectController : AuthorizedController
 
     [Authorize]
     [HttpPost]
-    public async Task<ActionResult<RequestResponse>> AddStudentToSubject([FromBody] StudentToSubjectAddDTO studentSubjectIds)
+    public async Task<ActionResult<RequestResponse>> AddUserToSubject([FromBody] UserToSubjectAddDTO userSubjectIds)
     {
         var currentUser = await GetCurrentUser();
 
         return currentUser.Result != null ?
-            this.FromServiceResponse(await _subjectService.AddStudentToSubject(studentSubjectIds, currentUser.Result)) :
+            this.FromServiceResponse(await _subjectService.AddUserToSubject(userSubjectIds, currentUser.Result)) :
             this.ErrorMessageResult(currentUser.Error);
     }
 

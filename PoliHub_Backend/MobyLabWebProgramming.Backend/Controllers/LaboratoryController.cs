@@ -38,26 +38,19 @@ public class LaboratoryController : AuthorizedController
         return this.FromServiceResponse(await _laboratoryService.GetLaboratories(pagination));
     }
 
-    [HttpGet]
-    public async Task<ActionResult<RequestResponse<LaboratoryDTO>>> GetByName([FromRoute] string assistantName)
-    {
-        var currentUser = await GetCurrentUser();
-
-        return currentUser.Result != null ?
-            this.FromServiceResponse(await _laboratoryService.GetLaboratoryByName(assistantName)) :
-            this.ErrorMessageResult<LaboratoryDTO>(currentUser.Error);
-    }
-
+    
     [Authorize]
     [HttpPost]
-    public async Task<ActionResult<RequestResponse>> AddStudentToLaboratory([FromBody] StudentToLaboratoryAddDTO studentLaboratoryIds)
+    public async Task<ActionResult<RequestResponse>> AddUserToLaboratory([FromBody] UserToLaboratoryAddDTO 
+    userLaboratoryIds)
     {
         var currentUser = await GetCurrentUser();
 
         return currentUser.Result != null ?
-            this.FromServiceResponse(await _laboratoryService.AddStudentToLaboratory(studentLaboratoryIds, currentUser.Result)) :
+            this.FromServiceResponse(await _laboratoryService.AddUserToLaboratory(userLaboratoryIds, currentUser.Result)) :
             this.ErrorMessageResult(currentUser.Error);
     }
+    
 
     [Authorize]
     [HttpPost]

@@ -39,10 +39,16 @@ export interface CourseInstanceUpdateDTO {
     courseInstanceDate?: Date;
     /**
      * 
-     * @type {Array<string>}
+     * @type {string}
      * @memberof CourseInstanceUpdateDTO
      */
-    students?: Array<string> | null;
+    description?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof CourseInstanceUpdateDTO
+     */
+    name?: string | null;
 }
 
 /**
@@ -67,7 +73,8 @@ export function CourseInstanceUpdateDTOFromJSONTyped(json: any, ignoreDiscrimina
         'id': !exists(json, 'id') ? undefined : json['id'],
         'courseId': !exists(json, 'courseId') ? undefined : json['courseId'],
         'courseInstanceDate': !exists(json, 'courseInstanceDate') ? undefined : (new Date(json['courseInstanceDate'])),
-        'students': !exists(json, 'students') ? undefined : json['students'],
+        'description': !exists(json, 'description') ? undefined : json['description'],
+        'name': !exists(json, 'name') ? undefined : json['name'],
     };
 }
 
@@ -83,7 +90,8 @@ export function CourseInstanceUpdateDTOToJSON(value?: CourseInstanceUpdateDTO | 
         'id': value.id,
         'courseId': value.courseId,
         'courseInstanceDate': value.courseInstanceDate === undefined ? undefined : (value.courseInstanceDate.toISOString()),
-        'students': value.students,
+        'description': value.description,
+        'name': value.name,
     };
 }
 

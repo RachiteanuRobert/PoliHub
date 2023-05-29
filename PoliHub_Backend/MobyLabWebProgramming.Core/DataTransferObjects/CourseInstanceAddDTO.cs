@@ -11,5 +11,7 @@ public class CourseInstanceAddDTO
 {
     public DateTime CourseInstanceDate { get; set; } = default!;
     public Guid CourseId { get; set; } = default!;
-    public ICollection<Guid> Students { get; set; } = default!; 
+    public string Name { get; set; } = default!;
+    public string Description { get; set; } = default!;
+    //public ICollection<Guid> Users { get; set; } = default!; 
 }

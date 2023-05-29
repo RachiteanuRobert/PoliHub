@@ -42,9 +42,5 @@ public class LaboratoryConfiguration : IEntityTypeConfiguration<Laboratory>
             .HasPrincipalKey(e => e.Id) // This specifies the referenced key in the referenced table.
             .IsRequired()
             .OnDelete(DeleteBehavior.Cascade); // This specifies the delete behavior when the referenced entity is removed.
-
-        builder.HasMany(e => e.Students)
-            .WithMany(l => l.Laboratories)
-            .UsingEntity(j => j.ToTable("LaboratoriesStudents"));
     }
 }

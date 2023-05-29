@@ -20,6 +20,12 @@ public class LaboratoryInstanceConfiguration : IEntityTypeConfiguration<Laborato
             .IsRequired();
         builder.Property(e => e.UpdatedAt)
             .IsRequired();
+        builder.Property(e => e.Name)
+            .HasMaxLength(100)
+            .IsRequired();
+        builder.Property(e => e.Description)
+            .HasMaxLength(200)
+            .IsRequired();
 
         builder.HasOne(e => e.Laboratory) // This specifies a one-to-many relation.
             .WithMany(e => e.LaboratoryInstances) // This provides the reverse mapping for the one-to-many relation. 
@@ -27,9 +33,5 @@ public class LaboratoryInstanceConfiguration : IEntityTypeConfiguration<Laborato
             .HasPrincipalKey(e => e.Id) // This specifies the referenced key in the referenced table.
             .IsRequired()
             .OnDelete(DeleteBehavior.NoAction); // This specifies the delete behavior when the referenced entity is removed.
-
-        builder.HasMany(e => e.Students)
-            .WithMany(l => l.LaboratoryInstances)
-            .UsingEntity(j => j.ToTable("LaboratoryInstancesStudents"));
     }
 }

@@ -31,6 +31,24 @@ export interface CourseInstanceSimpleDTO {
      * @memberof CourseInstanceSimpleDTO
      */
     courseId?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CourseInstanceSimpleDTO
+     */
+    name?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof CourseInstanceSimpleDTO
+     */
+    description?: string | null;
+    /**
+     * 
+     * @type {Date}
+     * @memberof CourseInstanceSimpleDTO
+     */
+    courseInstanceDate?: Date;
 }
 
 /**
@@ -54,6 +72,9 @@ export function CourseInstanceSimpleDTOFromJSONTyped(json: any, ignoreDiscrimina
         
         'id': !exists(json, 'id') ? undefined : json['id'],
         'courseId': !exists(json, 'courseId') ? undefined : json['courseId'],
+        'name': !exists(json, 'name') ? undefined : json['name'],
+        'description': !exists(json, 'description') ? undefined : json['description'],
+        'courseInstanceDate': !exists(json, 'courseInstanceDate') ? undefined : (new Date(json['courseInstanceDate'])),
     };
 }
 
@@ -68,6 +89,9 @@ export function CourseInstanceSimpleDTOToJSON(value?: CourseInstanceSimpleDTO | 
         
         'id': value.id,
         'courseId': value.courseId,
+        'name': value.name,
+        'description': value.description,
+        'courseInstanceDate': value.courseInstanceDate === undefined ? undefined : (value.courseInstanceDate.toISOString()),
     };
 }
 

@@ -33,10 +33,16 @@ export interface CourseInstanceAddDTO {
     courseId?: string;
     /**
      * 
-     * @type {Array<string>}
+     * @type {string}
      * @memberof CourseInstanceAddDTO
      */
-    students?: Array<string> | null;
+    name?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof CourseInstanceAddDTO
+     */
+    description?: string | null;
 }
 
 /**
@@ -60,7 +66,8 @@ export function CourseInstanceAddDTOFromJSONTyped(json: any, ignoreDiscriminator
         
         'courseInstanceDate': !exists(json, 'courseInstanceDate') ? undefined : (new Date(json['courseInstanceDate'])),
         'courseId': !exists(json, 'courseId') ? undefined : json['courseId'],
-        'students': !exists(json, 'students') ? undefined : json['students'],
+        'name': !exists(json, 'name') ? undefined : json['name'],
+        'description': !exists(json, 'description') ? undefined : json['description'],
     };
 }
 
@@ -75,7 +82,8 @@ export function CourseInstanceAddDTOToJSON(value?: CourseInstanceAddDTO | null):
         
         'courseInstanceDate': value.courseInstanceDate === undefined ? undefined : (value.courseInstanceDate.toISOString()),
         'courseId': value.courseId,
-        'students': value.students,
+        'name': value.name,
+        'description': value.description,
     };
 }
 

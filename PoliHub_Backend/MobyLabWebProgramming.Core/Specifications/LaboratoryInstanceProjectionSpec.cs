@@ -18,12 +18,42 @@ public sealed class LaboratoryInstanceProjectionSpec : BaseSpec<LaboratoryInstan
     protected override Expression<Func<LaboratoryInstance, LaboratoryInstanceDTO>> Spec => e => new()
     {
         Id = e.Id,
+        Name = e.Name,
+        Description = e.Description,
         LaboratoryId = e.LaboratoryId,
         LaboratoryInstanceDate = e.LaboratoryInstanceDate,
-        //Students = (ICollection<Guid>)e.Students
+        LaboratoryInstanceUsers = e.LaboratoryInstanceUsers.Select(u => new JoinUserSimpleDTO
+        {
+            Id = u.Id,
+            UserId = u.UserId,
+            User = new UserSimpleDTO
+            {
+                Id = u.User.Id,
+                Name = u.User.Name,
+                Email = u.User.Email,
+                Role = u.User.Role,
+                Group = u.User.Group
+            }
+        }).ToList(),
     };
 
     public LaboratoryInstanceProjectionSpec(Guid id) : base(id)
     {
+    }
+
+    public LaboratoryInstanceProjectionSpec(string? search)
+    {
+        search = !string.IsNullOrWhiteSpace(search) ? search.Trim() : null;
+
+        if (search == null)
+        {
+            return;
+        }
+
+        var searchExpr = $"%{search.Replace(" ", "%")}%";
+
+        Query
+            .Include(e => e.LaboratoryInstanceUsers)
+            .Where(e => EF.Functions.ILike(e.Name, searchExpr));
     }
 }

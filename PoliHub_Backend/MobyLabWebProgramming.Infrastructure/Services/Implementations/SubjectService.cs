@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System.Collections.Specialized;
+using System.Net;
 using System.Xml.Linq;
 using Ardalis.Specification;
 using MobyLabWebProgramming.Core.DataTransferObjects;
@@ -12,15 +13,16 @@ using MobyLabWebProgramming.Infrastructure.Database;
 using MobyLabWebProgramming.Infrastructure.Repositories.Interfaces;
 using MobyLabWebProgramming.Infrastructure.Services.Interfaces;
 
+
 namespace MobyLabWebProgramming.Infrastructure.Services.Implementations;
 
 public class SubjectService : ISubjectService
 {
     private readonly IRepository<WebAppDatabaseContext> _repository;
-    private readonly ISubjectUserService _subjectUser;
     public SubjectService(IRepository<WebAppDatabaseContext> repository)
     {
         _repository = repository;
+        //_subjectUser = subjectUser;
     }
 
     public async Task<ServiceResponse<SubjectDTO>> GetSubjectById(Guid id, CancellationToken cancellationToken = default)
@@ -48,58 +50,42 @@ public class SubjectService : ISubjectService
             ServiceResponse<SubjectDTO>.FromError(new(HttpStatusCode.Forbidden, "Subject not found!", ErrorCodes.EntityNotFound));
     }
 
-    public async Task<ServiceResponse> AddStudentToSubject(StudentToSubjectAddDTO studentSubjectIds, UserDTO? requestingUser, CancellationToken cancellationToken)
+    public async Task<ServiceResponse> AddUserToSubject(UserToSubjectAddDTO userSubjectIds, UserDTO? requestingUser, CancellationToken cancellationToken)
     {
 
         if (requestingUser != null && requestingUser.Role != UserRoleEnum.Admin) 
         {
-            return ServiceResponse.FromError(new(HttpStatusCode.Forbidden, "Only the admin can add students!", ErrorCodes.CannotAdd));
+            return ServiceResponse.FromError(new(HttpStatusCode.Forbidden, "Only the admin can add users!", ErrorCodes.CannotAdd));
         }
 
-        var subject = await _repository.GetAsync(new SubjectEntityProjectionSpec(studentSubjectIds.SubjectId), cancellationToken);
+        var subject = await _repository.GetAsync(new SubjectSpec(userSubjectIds.SubjectId), cancellationToken);
         if (subject == null)
         {
             return ServiceResponse.FromError(new(HttpStatusCode.Forbidden, "Bad subject Id provided!", ErrorCodes.EntityNotFound));
         }
 
-        var student = await _repository.GetAsync(new UserSpec(studentSubjectIds.StudentId), cancellationToken);
-        if (student == null)
+        var user = await _repository.GetAsync(new UserSpec(userSubjectIds.UserId), cancellationToken);
+        if (user == null)
         {
-            return ServiceResponse.FromError(new(HttpStatusCode.NotFound, "Bad student id provided!", ErrorCodes.EntityNotFound));
+            return ServiceResponse.FromError(new(HttpStatusCode.NotFound, "Bad user id provided!", ErrorCodes.EntityNotFound));
         }
 
-        // Verify if student is enrolled
-        foreach (SubjectUser SubjectUser in subject.SubjectUsers) { 
-            if((SubjectUser.UserId ==  student.Id) || (SubjectUser.SubjectId == subject.SubjectId)){
-                return ServiceResponse.FromError(new(HttpStatusCode.NotFound, "Student already enroled!", ErrorCodes.UserAlreadyExists));
-            }
-        }
-
-        var SubjectUserResult = await _subjectUser.AddSubjectUser(subject.SubjectId, student.Id, requestingUser, cancellationToken);
-        if (SubjectUserResult == null)
+        // Verify if user is enrolled
+        var searchSubjectUser = await _repository.GetAsync(new SubjectUserProjectionSpec(userSubjectIds.UserId, userSubjectIds.SubjectId), cancellationToken);
+        if (searchSubjectUser != null)
         {
-            return ServiceResponse.FromError(new(HttpStatusCode.Forbidden, "Subject User could not be added provided!", ErrorCodes.CannotAdd));
+            return ServiceResponse.FromError(new(HttpStatusCode.NotFound, "User already enroled!", ErrorCodes.UserAlreadyExists));
         }
+        
         SubjectUser newSubjectUser = new SubjectUser
         {
             Subject = subject,
-            User = student,
-            SubjectId = subject.SubjectId,
-            UserId = student.Id,
+            User = user,
+            SubjectId = subject.Id,
+            UserId = user.Id,
         };
 
-        
-        if (subject.SubjectUsers != null) {
-            subject.SubjectUsers.Add(newSubjectUser);
-        }
-        else {
-            var SubjectUsers = new List<SubjectUser>();
-            SubjectUsers.Add(newSubjectUser);
-            subject.SubjectUsers = SubjectUsers;   
-        }
-      
-        await _repository.UpdateAsync(subject, cancellationToken);  
-        
+        await _repository.AddAsync(newSubjectUser);
 
         return ServiceResponse.ForSuccess();
     }
@@ -116,20 +102,20 @@ public class SubjectService : ISubjectService
         {
             return ServiceResponse.FromError(new(HttpStatusCode.Forbidden, "Subject already exists!", ErrorCodes.CannotAdd));
         }
-        
-        /*
-        var Students = new List<User>();
 
-        if (subject.StudentIds != null)
+        /*
+        var Users = new List<User>();
+
+        if (subject.UserIds != null)
         {
-            foreach (Guid id in subject.StudentIds)
+            foreach (Guid id in subject.UserIds)
             {
-                var student = await _repository.GetAsync(new UserSpec(id), cancellationToken);
-                if (student == null)
+                var user = await _repository.GetAsync(new UserSpec(id), cancellationToken);
+                if (user == null)
                 {
-                    return ServiceResponse.FromError(new(HttpStatusCode.NotFound, "Bad student id provided", ErrorCodes.EntityNotFound));
+                    return ServiceResponse.FromError(new(HttpStatusCode.NotFound, "Bad User id provided", ErrorCodes.EntityNotFound));
                 }
-                Students.Add(student);
+                User.Add(user);
             }
         }
         */
@@ -142,7 +128,7 @@ public class SubjectService : ISubjectService
             Department = subject.Department,
             CreditsNo = subject.CreditsNo,
             Description = subject.Description,
-           // Students = Students
+            // Users = Users
             /*
             Course = NewCourse,
             */
@@ -161,19 +147,18 @@ public class SubjectService : ISubjectService
         var entity = await _repository.GetAsync(new SubjectSpec(subject.Id), cancellationToken);
 
         /*
-        var Students = new List<User>();
-        Students = null;
+        var Users = new List<User>();
 
-        if (subject.StudentIds != null)
+        if (subject.UserIds != null)
         {
-            foreach (Guid id in subject.StudentIds)
+            foreach (Guid id in subject.UserIds)
             {
-                var student = await _repository.GetAsync(new UserSpec(id), cancellationToken);
-                if (student == null)
+                var user = await _repository.GetAsync(new UserSpec(id), cancellationToken);
+                if (user == null)
                 {
-                    return ServiceResponse.FromError(new(HttpStatusCode.NotFound, "Bad student id provided", ErrorCodes.EntityNotFound));
+                    return ServiceResponse.FromError(new(HttpStatusCode.NotFound, "Bad user id provided", ErrorCodes.EntityNotFound));
                 }
-                Students.Add(student);
+                Users.Add(user);
             }
         }
         */
@@ -186,7 +171,8 @@ public class SubjectService : ISubjectService
             entity.Department = subject.Department ?? entity.Department;
             entity.CreditsNo = subject.CreditsNo ?? entity.CreditsNo;
             entity.Description = subject.Description ?? entity.Description;
-            //entity.Students = Students ?? entity.Students;
+            entity.SubjectUsers = subject.SubjectUsers ?? entity.SubjectUsers;
+            //entity.Users = Users ?? entity.Users;
             /*
             
             entity.Course = subject.Course ?? entity.Course;

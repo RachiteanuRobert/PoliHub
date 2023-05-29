@@ -13,36 +13,36 @@
  */
 
 import { exists, mapValues } from '../runtime';
-import type { Course } from './Course';
+import type { CourseInstanceUser } from './CourseInstanceUser';
 import {
-    CourseFromJSON,
-    CourseFromJSONTyped,
-    CourseToJSON,
-} from './Course';
-import type { CourseInstance } from './CourseInstance';
+    CourseInstanceUserFromJSON,
+    CourseInstanceUserFromJSONTyped,
+    CourseInstanceUserToJSON,
+} from './CourseInstanceUser';
+import type { CourseUser } from './CourseUser';
 import {
-    CourseInstanceFromJSON,
-    CourseInstanceFromJSONTyped,
-    CourseInstanceToJSON,
-} from './CourseInstance';
-import type { Laboratory } from './Laboratory';
+    CourseUserFromJSON,
+    CourseUserFromJSONTyped,
+    CourseUserToJSON,
+} from './CourseUser';
+import type { LaboratoryInstanceUser } from './LaboratoryInstanceUser';
 import {
-    LaboratoryFromJSON,
-    LaboratoryFromJSONTyped,
-    LaboratoryToJSON,
-} from './Laboratory';
-import type { LaboratoryInstance } from './LaboratoryInstance';
+    LaboratoryInstanceUserFromJSON,
+    LaboratoryInstanceUserFromJSONTyped,
+    LaboratoryInstanceUserToJSON,
+} from './LaboratoryInstanceUser';
+import type { LaboratoryUser } from './LaboratoryUser';
 import {
-    LaboratoryInstanceFromJSON,
-    LaboratoryInstanceFromJSONTyped,
-    LaboratoryInstanceToJSON,
-} from './LaboratoryInstance';
-import type { Subject } from './Subject';
+    LaboratoryUserFromJSON,
+    LaboratoryUserFromJSONTyped,
+    LaboratoryUserToJSON,
+} from './LaboratoryUser';
+import type { SubjectUser } from './SubjectUser';
 import {
-    SubjectFromJSON,
-    SubjectFromJSONTyped,
-    SubjectToJSON,
-} from './Subject';
+    SubjectUserFromJSON,
+    SubjectUserFromJSONTyped,
+    SubjectUserToJSON,
+} from './SubjectUser';
 import type { UserFile } from './UserFile';
 import {
     UserFileFromJSON,
@@ -118,34 +118,34 @@ export interface User {
     userFiles?: Array<UserFile> | null;
     /**
      * 
-     * @type {Array<Course>}
+     * @type {Array<CourseUser>}
      * @memberof User
      */
-    courses?: Array<Course> | null;
+    courseUsers?: Array<CourseUser> | null;
     /**
      * 
-     * @type {Array<Laboratory>}
+     * @type {Array<LaboratoryUser>}
      * @memberof User
      */
-    laboratories?: Array<Laboratory> | null;
+    laboratoryUsers?: Array<LaboratoryUser> | null;
     /**
      * 
-     * @type {Array<Subject>}
+     * @type {Array<SubjectUser>}
      * @memberof User
      */
-    subjects?: Array<Subject> | null;
+    subjectUsers?: Array<SubjectUser> | null;
     /**
      * 
-     * @type {Array<LaboratoryInstance>}
+     * @type {Array<LaboratoryInstanceUser>}
      * @memberof User
      */
-    laboratoryInstances?: Array<LaboratoryInstance> | null;
+    laboratoryInstanceUsers?: Array<LaboratoryInstanceUser> | null;
     /**
      * 
-     * @type {Array<CourseInstance>}
+     * @type {Array<CourseInstanceUser>}
      * @memberof User
      */
-    courseInstances?: Array<CourseInstance> | null;
+    courseInstanceUsers?: Array<CourseInstanceUser> | null;
 }
 
 /**
@@ -176,11 +176,11 @@ export function UserFromJSONTyped(json: any, ignoreDiscriminator: boolean): User
         'role': !exists(json, 'role') ? undefined : UserRoleEnumFromJSON(json['role']),
         'group': !exists(json, 'group') ? undefined : json['group'],
         'userFiles': !exists(json, 'userFiles') ? undefined : (json['userFiles'] === null ? null : (json['userFiles'] as Array<any>).map(UserFileFromJSON)),
-        'courses': !exists(json, 'courses') ? undefined : (json['courses'] === null ? null : (json['courses'] as Array<any>).map(CourseFromJSON)),
-        'laboratories': !exists(json, 'laboratories') ? undefined : (json['laboratories'] === null ? null : (json['laboratories'] as Array<any>).map(LaboratoryFromJSON)),
-        'subjects': !exists(json, 'subjects') ? undefined : (json['subjects'] === null ? null : (json['subjects'] as Array<any>).map(SubjectFromJSON)),
-        'laboratoryInstances': !exists(json, 'laboratoryInstances') ? undefined : (json['laboratoryInstances'] === null ? null : (json['laboratoryInstances'] as Array<any>).map(LaboratoryInstanceFromJSON)),
-        'courseInstances': !exists(json, 'courseInstances') ? undefined : (json['courseInstances'] === null ? null : (json['courseInstances'] as Array<any>).map(CourseInstanceFromJSON)),
+        'courseUsers': !exists(json, 'courseUsers') ? undefined : (json['courseUsers'] === null ? null : (json['courseUsers'] as Array<any>).map(CourseUserFromJSON)),
+        'laboratoryUsers': !exists(json, 'laboratoryUsers') ? undefined : (json['laboratoryUsers'] === null ? null : (json['laboratoryUsers'] as Array<any>).map(LaboratoryUserFromJSON)),
+        'subjectUsers': !exists(json, 'subjectUsers') ? undefined : (json['subjectUsers'] === null ? null : (json['subjectUsers'] as Array<any>).map(SubjectUserFromJSON)),
+        'laboratoryInstanceUsers': !exists(json, 'laboratoryInstanceUsers') ? undefined : (json['laboratoryInstanceUsers'] === null ? null : (json['laboratoryInstanceUsers'] as Array<any>).map(LaboratoryInstanceUserFromJSON)),
+        'courseInstanceUsers': !exists(json, 'courseInstanceUsers') ? undefined : (json['courseInstanceUsers'] === null ? null : (json['courseInstanceUsers'] as Array<any>).map(CourseInstanceUserFromJSON)),
     };
 }
 
@@ -202,11 +202,11 @@ export function UserToJSON(value?: User | null): any {
         'role': UserRoleEnumToJSON(value.role),
         'group': value.group,
         'userFiles': value.userFiles === undefined ? undefined : (value.userFiles === null ? null : (value.userFiles as Array<any>).map(UserFileToJSON)),
-        'courses': value.courses === undefined ? undefined : (value.courses === null ? null : (value.courses as Array<any>).map(CourseToJSON)),
-        'laboratories': value.laboratories === undefined ? undefined : (value.laboratories === null ? null : (value.laboratories as Array<any>).map(LaboratoryToJSON)),
-        'subjects': value.subjects === undefined ? undefined : (value.subjects === null ? null : (value.subjects as Array<any>).map(SubjectToJSON)),
-        'laboratoryInstances': value.laboratoryInstances === undefined ? undefined : (value.laboratoryInstances === null ? null : (value.laboratoryInstances as Array<any>).map(LaboratoryInstanceToJSON)),
-        'courseInstances': value.courseInstances === undefined ? undefined : (value.courseInstances === null ? null : (value.courseInstances as Array<any>).map(CourseInstanceToJSON)),
+        'courseUsers': value.courseUsers === undefined ? undefined : (value.courseUsers === null ? null : (value.courseUsers as Array<any>).map(CourseUserToJSON)),
+        'laboratoryUsers': value.laboratoryUsers === undefined ? undefined : (value.laboratoryUsers === null ? null : (value.laboratoryUsers as Array<any>).map(LaboratoryUserToJSON)),
+        'subjectUsers': value.subjectUsers === undefined ? undefined : (value.subjectUsers === null ? null : (value.subjectUsers as Array<any>).map(SubjectUserToJSON)),
+        'laboratoryInstanceUsers': value.laboratoryInstanceUsers === undefined ? undefined : (value.laboratoryInstanceUsers === null ? null : (value.laboratoryInstanceUsers as Array<any>).map(LaboratoryInstanceUserToJSON)),
+        'courseInstanceUsers': value.courseInstanceUsers === undefined ? undefined : (value.courseInstanceUsers === null ? null : (value.courseInstanceUsers as Array<any>).map(CourseInstanceUserToJSON)),
     };
 }
 

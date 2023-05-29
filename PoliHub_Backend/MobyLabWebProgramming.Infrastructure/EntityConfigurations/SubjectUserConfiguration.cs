@@ -13,7 +13,7 @@ public class SubjectUserConfiguration : IEntityTypeConfiguration<SubjectUser>
     {
         builder.Property(e => e.Id)
             .IsRequired();
-        builder.HasKey(x => x.Id);         
+        builder.HasKey(x => x.Id);
         builder.Property(e => e.CreatedAt)
             .IsRequired();
         builder.Property(e => e.UpdatedAt)

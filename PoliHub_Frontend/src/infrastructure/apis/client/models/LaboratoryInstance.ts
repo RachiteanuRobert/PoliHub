@@ -19,12 +19,12 @@ import {
     LaboratoryFromJSONTyped,
     LaboratoryToJSON,
 } from './Laboratory';
-import type { User } from './User';
+import type { LaboratoryInstanceUser } from './LaboratoryInstanceUser';
 import {
-    UserFromJSON,
-    UserFromJSONTyped,
-    UserToJSON,
-} from './User';
+    LaboratoryInstanceUserFromJSON,
+    LaboratoryInstanceUserFromJSONTyped,
+    LaboratoryInstanceUserToJSON,
+} from './LaboratoryInstanceUser';
 
 /**
  * 
@@ -64,16 +64,28 @@ export interface LaboratoryInstance {
     laboratoryInstanceDate?: Date;
     /**
      * 
+     * @type {string}
+     * @memberof LaboratoryInstance
+     */
+    name?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof LaboratoryInstance
+     */
+    description?: string | null;
+    /**
+     * 
      * @type {Laboratory}
      * @memberof LaboratoryInstance
      */
     laboratory?: Laboratory;
     /**
      * 
-     * @type {Array<User>}
+     * @type {Array<LaboratoryInstanceUser>}
      * @memberof LaboratoryInstance
      */
-    students?: Array<User> | null;
+    laboratoryInstanceUsers?: Array<LaboratoryInstanceUser> | null;
 }
 
 /**
@@ -100,8 +112,10 @@ export function LaboratoryInstanceFromJSONTyped(json: any, ignoreDiscriminator: 
         'updatedAt': !exists(json, 'updatedAt') ? undefined : (new Date(json['updatedAt'])),
         'laboratoryId': !exists(json, 'laboratoryId') ? undefined : json['laboratoryId'],
         'laboratoryInstanceDate': !exists(json, 'laboratoryInstanceDate') ? undefined : (new Date(json['laboratoryInstanceDate'])),
+        'name': !exists(json, 'name') ? undefined : json['name'],
+        'description': !exists(json, 'description') ? undefined : json['description'],
         'laboratory': !exists(json, 'laboratory') ? undefined : LaboratoryFromJSON(json['laboratory']),
-        'students': !exists(json, 'students') ? undefined : (json['students'] === null ? null : (json['students'] as Array<any>).map(UserFromJSON)),
+        'laboratoryInstanceUsers': !exists(json, 'laboratoryInstanceUsers') ? undefined : (json['laboratoryInstanceUsers'] === null ? null : (json['laboratoryInstanceUsers'] as Array<any>).map(LaboratoryInstanceUserFromJSON)),
     };
 }
 
@@ -119,8 +133,10 @@ export function LaboratoryInstanceToJSON(value?: LaboratoryInstance | null): any
         'updatedAt': value.updatedAt === undefined ? undefined : (value.updatedAt.toISOString()),
         'laboratoryId': value.laboratoryId,
         'laboratoryInstanceDate': value.laboratoryInstanceDate === undefined ? undefined : (value.laboratoryInstanceDate.toISOString()),
+        'name': value.name,
+        'description': value.description,
         'laboratory': LaboratoryToJSON(value.laboratory),
-        'students': value.students === undefined ? undefined : (value.students === null ? null : (value.students as Array<any>).map(UserToJSON)),
+        'laboratoryInstanceUsers': value.laboratoryInstanceUsers === undefined ? undefined : (value.laboratoryInstanceUsers === null ? null : (value.laboratoryInstanceUsers as Array<any>).map(LaboratoryInstanceUserToJSON)),
     };
 }
 

@@ -23,5 +23,5 @@ public class Course : BaseEntity
     /// </summary>
     public ICollection<CourseInstance> CourseInstances { get; set; } = default!;
     public ICollection<Laboratory> Laboratories { get; set; } = default!;
-    public ICollection<User> Students { get; set; } = default!;
+    public ICollection<CourseUser> CourseUsers { get; set; } = default!;
 }

@@ -17,7 +17,7 @@ public sealed class SubjectProjectionSpec : BaseSpec<SubjectProjectionSpec, Subj
     /// </summary>
     protected override Expression<Func<Subject, SubjectDTO>> Spec => e => new()
     {
-        SubjectId = e.SubjectId,
+        Id = e.Id,
         Name = e.Name,
         Year = e.Year,
         Semester = e.Semester,
@@ -34,39 +34,28 @@ public sealed class SubjectProjectionSpec : BaseSpec<SubjectProjectionSpec, Subj
             Location = c.Location,
             Series = c.Series,
             DayOfWeek = c.DayOfWeek,
-            SubjectId = e.SubjectId
+            SubjectId = e.Id
         }).ToList(),
 
-        /*
-        Students = e.Students.Select(u => new UserSimpleDTO
+        SubjectUsers = e.SubjectUsers.Select(u => new JoinUserSimpleDTO
         {
             Id = u.Id,
-            Name = u.Name,
-            Email = u.Email,
-            Role = u.Role,
-            Group = u.Group
-        }).ToList(),
-        */
-
-        SubjectUsers = e.SubjectUsers.Select(n => new SubjectUserSimpleDTO 
-        { 
-            Id = n.Id,
-            UserId = n.UserId,
+            UserId = u.UserId,
             User = new UserSimpleDTO
             {
-                Id = n.User.Id,
-                Name = n.User.Name, 
-                Email = n.User.Email,  
-                Role = n.User.Role,
-                Group = n.User.Group
+                Id = u.User.Id,
+                Name = u.User.Name,
+                Email = u.User.Email,
+                Role = u.User.Role,
+                Group = u.User.Group
             }
-
         }).ToList(),
     };
 
     public SubjectProjectionSpec(Guid id) : base(id)
     {
     }
+
     public SubjectProjectionSpec(string? search)
     {
         search = !string.IsNullOrWhiteSpace(search) ? search.Trim() : null;

@@ -39,10 +39,16 @@ export interface LaboratoryInstanceUpdateDTO {
     laboratoryInstanceDate?: Date;
     /**
      * 
-     * @type {Array<string>}
+     * @type {string}
      * @memberof LaboratoryInstanceUpdateDTO
      */
-    students?: Array<string> | null;
+    name?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof LaboratoryInstanceUpdateDTO
+     */
+    description?: string | null;
 }
 
 /**
@@ -67,7 +73,8 @@ export function LaboratoryInstanceUpdateDTOFromJSONTyped(json: any, ignoreDiscri
         'id': !exists(json, 'id') ? undefined : json['id'],
         'laboratoryId': !exists(json, 'laboratoryId') ? undefined : json['laboratoryId'],
         'laboratoryInstanceDate': !exists(json, 'laboratoryInstanceDate') ? undefined : (new Date(json['laboratoryInstanceDate'])),
-        'students': !exists(json, 'students') ? undefined : json['students'],
+        'name': !exists(json, 'name') ? undefined : json['name'],
+        'description': !exists(json, 'description') ? undefined : json['description'],
     };
 }
 
@@ -83,7 +90,8 @@ export function LaboratoryInstanceUpdateDTOToJSON(value?: LaboratoryInstanceUpda
         'id': value.id,
         'laboratoryId': value.laboratoryId,
         'laboratoryInstanceDate': value.laboratoryInstanceDate === undefined ? undefined : (value.laboratoryInstanceDate.toISOString()),
-        'students': value.students,
+        'name': value.name,
+        'description': value.description,
     };
 }
 

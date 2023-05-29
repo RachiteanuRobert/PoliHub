@@ -23,66 +23,6 @@ namespace MobyLabWebProgramming.Infrastructure.Migrations
             NpgsqlModelBuilderExtensions.HasPostgresExtension(modelBuilder, "unaccent");
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("CourseInstanceUser", b =>
-                {
-                    b.Property<Guid>("CourseInstancesId")
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("StudentsId")
-                        .HasColumnType("uuid");
-
-                    b.HasKey("CourseInstancesId", "StudentsId");
-
-                    b.HasIndex("StudentsId");
-
-                    b.ToTable("CourseInstancesStudents", (string)null);
-                });
-
-            modelBuilder.Entity("CourseUser", b =>
-                {
-                    b.Property<Guid>("CoursesId")
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("StudentsId")
-                        .HasColumnType("uuid");
-
-                    b.HasKey("CoursesId", "StudentsId");
-
-                    b.HasIndex("StudentsId");
-
-                    b.ToTable("CourseStudents", (string)null);
-                });
-
-            modelBuilder.Entity("LaboratoryInstanceUser", b =>
-                {
-                    b.Property<Guid>("LaboratoryInstancesId")
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("StudentsId")
-                        .HasColumnType("uuid");
-
-                    b.HasKey("LaboratoryInstancesId", "StudentsId");
-
-                    b.HasIndex("StudentsId");
-
-                    b.ToTable("LaboratoryInstancesStudents", (string)null);
-                });
-
-            modelBuilder.Entity("LaboratoryUser", b =>
-                {
-                    b.Property<Guid>("LaboratoriesId")
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("StudentsId")
-                        .HasColumnType("uuid");
-
-                    b.HasKey("LaboratoriesId", "StudentsId");
-
-                    b.HasIndex("StudentsId");
-
-                    b.ToTable("LaboratoriesStudents", (string)null);
-                });
-
             modelBuilder.Entity("MobyLabWebProgramming.Core.Entities.Course", b =>
                 {
                     b.Property<Guid>("Id")
@@ -147,6 +87,16 @@ namespace MobyLabWebProgramming.Infrastructure.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp without time zone");
 
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("timestamp without time zone");
 
@@ -155,6 +105,60 @@ namespace MobyLabWebProgramming.Infrastructure.Migrations
                     b.HasIndex("CourseId");
 
                     b.ToTable("CourseInstance");
+                });
+
+            modelBuilder.Entity("MobyLabWebProgramming.Core.Entities.CourseInstanceUser", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("CourseInstanceId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CourseInstanceId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("CourseInstanceUser");
+                });
+
+            modelBuilder.Entity("MobyLabWebProgramming.Core.Entities.CourseUser", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("CourseId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CourseId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("CourseUser");
                 });
 
             modelBuilder.Entity("MobyLabWebProgramming.Core.Entities.Laboratory", b =>
@@ -211,11 +215,21 @@ namespace MobyLabWebProgramming.Infrastructure.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp without time zone");
 
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
+
                     b.Property<Guid>("LaboratoryId")
                         .HasColumnType("uuid");
 
                     b.Property<DateTime>("LaboratoryInstanceDate")
                         .HasColumnType("timestamp without time zone");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
 
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("timestamp without time zone");
@@ -225,6 +239,60 @@ namespace MobyLabWebProgramming.Infrastructure.Migrations
                     b.HasIndex("LaboratoryId");
 
                     b.ToTable("LaboratoryInstance");
+                });
+
+            modelBuilder.Entity("MobyLabWebProgramming.Core.Entities.LaboratoryInstanceUser", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<Guid>("LaboratoryInstanceId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("LaboratoryInstanceId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("LaboratoryInstanceUser");
+                });
+
+            modelBuilder.Entity("MobyLabWebProgramming.Core.Entities.LaboratoryUser", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<Guid>("LaboratoryId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("LaboratoryId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("LaboratoryUser");
                 });
 
             modelBuilder.Entity("MobyLabWebProgramming.Core.Entities.Subject", b =>
@@ -268,6 +336,33 @@ namespace MobyLabWebProgramming.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Subject");
+                });
+
+            modelBuilder.Entity("MobyLabWebProgramming.Core.Entities.SubjectUser", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<Guid>("SubjectId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SubjectId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("SubjectUser");
                 });
 
             modelBuilder.Entity("MobyLabWebProgramming.Core.Entities.User", b =>
@@ -350,87 +445,12 @@ namespace MobyLabWebProgramming.Infrastructure.Migrations
                     b.ToTable("UserFile");
                 });
 
-            modelBuilder.Entity("SubjectUser", b =>
-                {
-                    b.Property<Guid>("StudentsId")
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("SubjectsId")
-                        .HasColumnType("uuid");
-
-                    b.HasKey("StudentsId", "SubjectsId");
-
-                    b.HasIndex("SubjectsId");
-
-                    b.ToTable("SubjectsStudents", (string)null);
-                });
-
-            modelBuilder.Entity("CourseInstanceUser", b =>
-                {
-                    b.HasOne("MobyLabWebProgramming.Core.Entities.CourseInstance", null)
-                        .WithMany()
-                        .HasForeignKey("CourseInstancesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("MobyLabWebProgramming.Core.Entities.User", null)
-                        .WithMany()
-                        .HasForeignKey("StudentsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("CourseUser", b =>
-                {
-                    b.HasOne("MobyLabWebProgramming.Core.Entities.Course", null)
-                        .WithMany()
-                        .HasForeignKey("CoursesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("MobyLabWebProgramming.Core.Entities.User", null)
-                        .WithMany()
-                        .HasForeignKey("StudentsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("LaboratoryInstanceUser", b =>
-                {
-                    b.HasOne("MobyLabWebProgramming.Core.Entities.LaboratoryInstance", null)
-                        .WithMany()
-                        .HasForeignKey("LaboratoryInstancesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("MobyLabWebProgramming.Core.Entities.User", null)
-                        .WithMany()
-                        .HasForeignKey("StudentsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("LaboratoryUser", b =>
-                {
-                    b.HasOne("MobyLabWebProgramming.Core.Entities.Laboratory", null)
-                        .WithMany()
-                        .HasForeignKey("LaboratoriesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("MobyLabWebProgramming.Core.Entities.User", null)
-                        .WithMany()
-                        .HasForeignKey("StudentsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("MobyLabWebProgramming.Core.Entities.Course", b =>
                 {
                     b.HasOne("MobyLabWebProgramming.Core.Entities.Subject", "Subject")
                         .WithMany("Courses")
                         .HasForeignKey("SubjectId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Subject");
@@ -445,6 +465,44 @@ namespace MobyLabWebProgramming.Infrastructure.Migrations
                         .IsRequired();
 
                     b.Navigation("Course");
+                });
+
+            modelBuilder.Entity("MobyLabWebProgramming.Core.Entities.CourseInstanceUser", b =>
+                {
+                    b.HasOne("MobyLabWebProgramming.Core.Entities.CourseInstance", "CourseInstance")
+                        .WithMany("CourseInstanceUsers")
+                        .HasForeignKey("CourseInstanceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MobyLabWebProgramming.Core.Entities.User", "User")
+                        .WithMany("CourseInstanceUsers")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("CourseInstance");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("MobyLabWebProgramming.Core.Entities.CourseUser", b =>
+                {
+                    b.HasOne("MobyLabWebProgramming.Core.Entities.Course", "Course")
+                        .WithMany("CourseUsers")
+                        .HasForeignKey("CourseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MobyLabWebProgramming.Core.Entities.User", "User")
+                        .WithMany("CourseUsers")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Course");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("MobyLabWebProgramming.Core.Entities.Laboratory", b =>
@@ -469,6 +527,63 @@ namespace MobyLabWebProgramming.Infrastructure.Migrations
                     b.Navigation("Laboratory");
                 });
 
+            modelBuilder.Entity("MobyLabWebProgramming.Core.Entities.LaboratoryInstanceUser", b =>
+                {
+                    b.HasOne("MobyLabWebProgramming.Core.Entities.LaboratoryInstance", "LaboratoryInstance")
+                        .WithMany("LaboratoryInstanceUsers")
+                        .HasForeignKey("LaboratoryInstanceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MobyLabWebProgramming.Core.Entities.User", "User")
+                        .WithMany("LaboratoryInstanceUsers")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("LaboratoryInstance");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("MobyLabWebProgramming.Core.Entities.LaboratoryUser", b =>
+                {
+                    b.HasOne("MobyLabWebProgramming.Core.Entities.Laboratory", "Laboratory")
+                        .WithMany("LaboratoryUsers")
+                        .HasForeignKey("LaboratoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MobyLabWebProgramming.Core.Entities.User", "User")
+                        .WithMany("LaboratoryUsers")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Laboratory");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("MobyLabWebProgramming.Core.Entities.SubjectUser", b =>
+                {
+                    b.HasOne("MobyLabWebProgramming.Core.Entities.Subject", "Subject")
+                        .WithMany("SubjectUsers")
+                        .HasForeignKey("SubjectId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MobyLabWebProgramming.Core.Entities.User", "User")
+                        .WithMany("SubjectUsers")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Subject");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("MobyLabWebProgramming.Core.Entities.UserFile", b =>
                 {
                     b.HasOne("MobyLabWebProgramming.Core.Entities.User", "User")
@@ -480,40 +595,51 @@ namespace MobyLabWebProgramming.Infrastructure.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("SubjectUser", b =>
-                {
-                    b.HasOne("MobyLabWebProgramming.Core.Entities.User", null)
-                        .WithMany()
-                        .HasForeignKey("StudentsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("MobyLabWebProgramming.Core.Entities.Subject", null)
-                        .WithMany()
-                        .HasForeignKey("SubjectsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("MobyLabWebProgramming.Core.Entities.Course", b =>
                 {
                     b.Navigation("CourseInstances");
 
+                    b.Navigation("CourseUsers");
+
                     b.Navigation("Laboratories");
+                });
+
+            modelBuilder.Entity("MobyLabWebProgramming.Core.Entities.CourseInstance", b =>
+                {
+                    b.Navigation("CourseInstanceUsers");
                 });
 
             modelBuilder.Entity("MobyLabWebProgramming.Core.Entities.Laboratory", b =>
                 {
                     b.Navigation("LaboratoryInstances");
+
+                    b.Navigation("LaboratoryUsers");
+                });
+
+            modelBuilder.Entity("MobyLabWebProgramming.Core.Entities.LaboratoryInstance", b =>
+                {
+                    b.Navigation("LaboratoryInstanceUsers");
                 });
 
             modelBuilder.Entity("MobyLabWebProgramming.Core.Entities.Subject", b =>
                 {
                     b.Navigation("Courses");
+
+                    b.Navigation("SubjectUsers");
                 });
 
             modelBuilder.Entity("MobyLabWebProgramming.Core.Entities.User", b =>
                 {
+                    b.Navigation("CourseInstanceUsers");
+
+                    b.Navigation("CourseUsers");
+
+                    b.Navigation("LaboratoryInstanceUsers");
+
+                    b.Navigation("LaboratoryUsers");
+
+                    b.Navigation("SubjectUsers");
+
                     b.Navigation("UserFiles");
                 });
 #pragma warning restore 612, 618

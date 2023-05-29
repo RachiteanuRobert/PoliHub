@@ -8,6 +8,13 @@
     "labels.addSubject": "Adauga materie",
     "labels.addCourse": "Adauga curs",
     "labels.addLaboratory": "Adauga laborator",
+    "labels.addLaboratoryInstance": "Adauga Instanta de Laborator",
+    "labels.addCourseInstance": "Adauga Instanta de Curs",
+    "labels.updateCourse": "Actualizare Curs",
+    "labels.updateSubject": "Actualizare Materie",
+    "labels.updateLaboratory": "Actualizare Laborator",
+    "labels.updateCourseInstance": "Actualizare Instanta de Curs",
+    "labels.updateLaboratoryInstance": "Actualizare Instanta de Laborator",
     "labels.addUser": "Adauga utilizator",
     "labels.addUserFile": "Adauga fisier"
 }

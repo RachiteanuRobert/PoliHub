@@ -19,12 +19,12 @@ import {
     CourseFromJSONTyped,
     CourseToJSON,
 } from './Course';
-import type { User } from './User';
+import type { CourseInstanceUser } from './CourseInstanceUser';
 import {
-    UserFromJSON,
-    UserFromJSONTyped,
-    UserToJSON,
-} from './User';
+    CourseInstanceUserFromJSON,
+    CourseInstanceUserFromJSONTyped,
+    CourseInstanceUserToJSON,
+} from './CourseInstanceUser';
 
 /**
  * 
@@ -52,6 +52,18 @@ export interface CourseInstance {
     updatedAt?: Date;
     /**
      * 
+     * @type {string}
+     * @memberof CourseInstance
+     */
+    name?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof CourseInstance
+     */
+    description?: string | null;
+    /**
+     * 
      * @type {Course}
      * @memberof CourseInstance
      */
@@ -70,10 +82,10 @@ export interface CourseInstance {
     courseInstanceDate?: Date;
     /**
      * 
-     * @type {Array<User>}
+     * @type {Array<CourseInstanceUser>}
      * @memberof CourseInstance
      */
-    students?: Array<User> | null;
+    courseInstanceUsers?: Array<CourseInstanceUser> | null;
 }
 
 /**
@@ -98,10 +110,12 @@ export function CourseInstanceFromJSONTyped(json: any, ignoreDiscriminator: bool
         'id': !exists(json, 'id') ? undefined : json['id'],
         'createdAt': !exists(json, 'createdAt') ? undefined : (new Date(json['createdAt'])),
         'updatedAt': !exists(json, 'updatedAt') ? undefined : (new Date(json['updatedAt'])),
+        'name': !exists(json, 'name') ? undefined : json['name'],
+        'description': !exists(json, 'description') ? undefined : json['description'],
         'course': !exists(json, 'course') ? undefined : CourseFromJSON(json['course']),
         'courseId': !exists(json, 'courseId') ? undefined : json['courseId'],
         'courseInstanceDate': !exists(json, 'courseInstanceDate') ? undefined : (new Date(json['courseInstanceDate'])),
-        'students': !exists(json, 'students') ? undefined : (json['students'] === null ? null : (json['students'] as Array<any>).map(UserFromJSON)),
+        'courseInstanceUsers': !exists(json, 'courseInstanceUsers') ? undefined : (json['courseInstanceUsers'] === null ? null : (json['courseInstanceUsers'] as Array<any>).map(CourseInstanceUserFromJSON)),
     };
 }
 
@@ -117,10 +131,12 @@ export function CourseInstanceToJSON(value?: CourseInstance | null): any {
         'id': value.id,
         'createdAt': value.createdAt === undefined ? undefined : (value.createdAt.toISOString()),
         'updatedAt': value.updatedAt === undefined ? undefined : (value.updatedAt.toISOString()),
+        'name': value.name,
+        'description': value.description,
         'course': CourseToJSON(value.course),
         'courseId': value.courseId,
         'courseInstanceDate': value.courseInstanceDate === undefined ? undefined : (value.courseInstanceDate.toISOString()),
-        'students': value.students === undefined ? undefined : (value.students === null ? null : (value.students as Array<any>).map(UserToJSON)),
+        'courseInstanceUsers': value.courseInstanceUsers === undefined ? undefined : (value.courseInstanceUsers === null ? null : (value.courseInstanceUsers as Array<any>).map(CourseInstanceUserToJSON)),
     };
 }
 

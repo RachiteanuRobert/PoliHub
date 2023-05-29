@@ -25,12 +25,12 @@ import {
     LaboratoryInstanceFromJSONTyped,
     LaboratoryInstanceToJSON,
 } from './LaboratoryInstance';
-import type { User } from './User';
+import type { LaboratoryUser } from './LaboratoryUser';
 import {
-    UserFromJSON,
-    UserFromJSONTyped,
-    UserToJSON,
-} from './User';
+    LaboratoryUserFromJSON,
+    LaboratoryUserFromJSONTyped,
+    LaboratoryUserToJSON,
+} from './LaboratoryUser';
 
 /**
  * 
@@ -106,10 +106,10 @@ export interface Laboratory {
     laboratoryInstances?: Array<LaboratoryInstance> | null;
     /**
      * 
-     * @type {Array<User>}
+     * @type {Array<LaboratoryUser>}
      * @memberof Laboratory
      */
-    students?: Array<User> | null;
+    laboratoryUsers?: Array<LaboratoryUser> | null;
 }
 
 /**
@@ -142,7 +142,7 @@ export function LaboratoryFromJSONTyped(json: any, ignoreDiscriminator: boolean)
         'course': !exists(json, 'course') ? undefined : CourseFromJSON(json['course']),
         'courseId': !exists(json, 'courseId') ? undefined : json['courseId'],
         'laboratoryInstances': !exists(json, 'laboratoryInstances') ? undefined : (json['laboratoryInstances'] === null ? null : (json['laboratoryInstances'] as Array<any>).map(LaboratoryInstanceFromJSON)),
-        'students': !exists(json, 'students') ? undefined : (json['students'] === null ? null : (json['students'] as Array<any>).map(UserFromJSON)),
+        'laboratoryUsers': !exists(json, 'laboratoryUsers') ? undefined : (json['laboratoryUsers'] === null ? null : (json['laboratoryUsers'] as Array<any>).map(LaboratoryUserFromJSON)),
     };
 }
 
@@ -166,7 +166,7 @@ export function LaboratoryToJSON(value?: Laboratory | null): any {
         'course': CourseToJSON(value.course),
         'courseId': value.courseId,
         'laboratoryInstances': value.laboratoryInstances === undefined ? undefined : (value.laboratoryInstances === null ? null : (value.laboratoryInstances as Array<any>).map(LaboratoryInstanceToJSON)),
-        'students': value.students === undefined ? undefined : (value.students === null ? null : (value.students as Array<any>).map(UserToJSON)),
+        'laboratoryUsers': value.laboratoryUsers === undefined ? undefined : (value.laboratoryUsers === null ? null : (value.laboratoryUsers as Array<any>).map(LaboratoryUserToJSON)),
     };
 }
 

@@ -11,5 +11,7 @@ public class LaboratoryInstanceAddDTO
 {
     public Guid LaboratoryId { get; set; } = default!;
     public DateTime LaboratoryInstanceDate { get; set; } = default!;
-    public ICollection<Guid> Students { get; set; } = default!;
+    public string Name { get; set; } = default!;
+    public string Description { get; set; } = default!;
+    //public ICollection<Guid> Users { get; set; } = default!;
 }

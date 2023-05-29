@@ -12,6 +12,7 @@ import { CourseUpdateDialog } from "../../Dialogs/CourseDialog/CourseUpdateDialo
 import { setCourseToUpdate } from "@application/state-slices/course";
 import { Course } from "@application/state-slices/course/courseSlice.types";
 import SearchIcon from '@mui/icons-material/Search';
+import {Link} from "react-router-dom";
 
 const useHeader = (): { key: keyof CourseDTO; name: string }[] => {
     const { formatMessage } = useIntl();
@@ -105,6 +106,10 @@ export const CourseTable = () => {
                                 {entry.id !== ownUserId && <IconButton color="error" onClick={() => remove(entry.id || '')}>
                                     <DeleteIcon color="error" fontSize='small' />
                                 </IconButton>}
+                            </TableCell>
+                            <TableCell>
+                                <Link to={`/courses/${entry.id}`}>Info
+                                </Link>
                             </TableCell>
                         </TableRow>)
                     }

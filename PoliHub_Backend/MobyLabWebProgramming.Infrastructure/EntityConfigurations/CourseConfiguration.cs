@@ -38,15 +38,11 @@ public class CourseConfiguration : IEntityTypeConfiguration<Course>
         builder.Property(e => e.UpdatedAt)
             .IsRequired();
 
-        builder.HasMany(e => e.Students)
-            .WithMany(l => l.Courses)
-            .UsingEntity(j => j.ToTable("CourseStudents"));
-
         builder.HasOne(e => e.Subject)
              .WithMany(s => s.Courses)
              .HasForeignKey(s => s.SubjectId)
              .HasPrincipalKey(e => e.Id) 
             .IsRequired()
-            .OnDelete(DeleteBehavior.Cascade);
+            .OnDelete(DeleteBehavior.NoAction);
     }
 }
