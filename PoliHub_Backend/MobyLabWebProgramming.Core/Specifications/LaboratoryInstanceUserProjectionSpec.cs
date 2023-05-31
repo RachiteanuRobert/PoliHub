@@ -38,11 +38,8 @@ public sealed class LaboratoryInstanceUserProjectionSpec : BaseSpec<LaboratoryIn
         }
     };
 
-    public LaboratoryInstanceUserProjectionSpec(Guid laboratoryInstanceId)
+    public LaboratoryInstanceUserProjectionSpec(Guid id) : base(id)
     {
-        Query.Select(Derived.Spec).Where(e => e.LaboratoryInstanceId == laboratoryInstanceId)
-            .Include(e => e.LaboratoryInstance)
-            .Include(e => e.User);
     }
 
     public LaboratoryInstanceUserProjectionSpec(Guid userId, Guid laboratoryInstanceId)

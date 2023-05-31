@@ -17,6 +17,9 @@ import {SingleLaboratoryPage} from "@presentation/pages/SingleLaboratoryPage";
 import {CourseInstancesPage} from "@presentation/pages/CourseInstancesPage";
 import {LaboratoryInstancesPage} from "@presentation/pages/LaboratoryInstancesPage";
 import { AppRoute } from "routes";
+import {SingleLaboratoryInstancePage} from "@presentation/pages/SingleLaboratoryInstancePage";
+import {SingleCourseInstancePage} from "@presentation/pages/SingleCourseInstancePage";
+
 
 export function App() {
   const isAdmin = useOwnUserHasRole(UserRoleEnum.Admin);
@@ -31,6 +34,8 @@ export function App() {
           <Route path ={AppRoute.SingleSubject} element = {<SingleSubjectPage/>}/>
           <Route path ={AppRoute.SingleCourse} element = {<SingleCoursePage/>}/>
           <Route path ={AppRoute.SingleLaboratory} element = {<SingleLaboratoryPage/>}/>
+          <Route path ={AppRoute.SingleLaboratoryInstance} element = {<SingleLaboratoryInstancePage/>}/>
+          <Route path ={AppRoute.SingleCourseInstance} element = {<SingleCourseInstancePage/>}/>
         {isAdmin && <Route path={AppRoute.Users} element={<UsersPage />} />} {/* If the user doesn't have the right role this route shouldn't be used. */}
         {isAdmin && <Route path={AppRoute.UserFiles} element={<UserFilesPage />} />}
         {isAdmin && <Route path={AppRoute.Subjects} element={<SubjectsPage />} />}

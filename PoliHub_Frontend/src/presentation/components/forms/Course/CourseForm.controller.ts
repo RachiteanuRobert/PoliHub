@@ -22,7 +22,7 @@ const getDefaultValues = (initialData?: CourseFormModel) => {
         location: "",
         series: "",
         dayOfWeek: 0,
-        subjectId: ""
+        subjectId: "",
     };
 
     if (!isUndefined(initialData)) {

@@ -14,9 +14,9 @@ public class UserDTO
     public string Email { get; set; } = default!;
     public UserRoleEnum Role { get; set; } = default!;
     public string Group { get; set; } = default!;
-    public ICollection<JoinUserSimpleCourseDTO> CourseUsers { get; set; } = default!;
-    public ICollection<JoinUserSimpleLaboratoryDTO> LaboratoryUsers { get; set; } = default!;
-    public ICollection<JoinUserSimpleSubjectDTO> SubjectUsers { get; set; } = default!;
-    public ICollection<JoinUserSimpleLaboratoryInstanceDTO> LaboratoryInstanceUsers { get; set; } = default!;
-    public ICollection<JoinUserSimpleCourseInstanceDTO> CourseInstanceUsers { get; set; } = default!;
+    public ICollection<CourseSimpleDTO> CourseUsers { get; set; } = default!;
+    public ICollection<LaboratorySimpleDTO> LaboratoryUsers { get; set; } = default!;
+    public ICollection<SubjectSimpleDTO> SubjectUsers { get; set; } = default!;
+    public ICollection<LaboratoryInstanceSimpleDTO> LaboratoryInstanceUsers { get; set; } = default!;
+    public ICollection<CourseInstanceSimpleDTO> CourseInstanceUsers { get; set; } = default!;
 }

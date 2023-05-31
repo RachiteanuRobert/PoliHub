@@ -41,15 +41,6 @@ public class SubjectService : ISubjectService
         return ServiceResponse<PagedResponse<SubjectDTO>>.ForSuccess(result);
     }
 
-    public async Task<ServiceResponse<SubjectDTO>> GetSubjectByName(string subjectName, CancellationToken cancellationToken = default)
-    {
-        var result = await _repository.GetAsync(new SubjectProjectionSpec(subjectName), cancellationToken);
-
-        return result != null ?
-            ServiceResponse<SubjectDTO>.ForSuccess(result) :
-            ServiceResponse<SubjectDTO>.FromError(new(HttpStatusCode.Forbidden, "Subject not found!", ErrorCodes.EntityNotFound));
-    }
-
     public async Task<ServiceResponse> AddUserToSubject(UserToSubjectAddDTO userSubjectIds, UserDTO? requestingUser, CancellationToken cancellationToken)
     {
 

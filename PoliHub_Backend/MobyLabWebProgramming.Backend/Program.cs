@@ -11,6 +11,6 @@ builder.AddCorsConfiguration()
     .AddApi();
 
 var app = builder.Build();
-
 app.ConfigureApplication();
+app.UseCors(); //cross comm
 app.Run();

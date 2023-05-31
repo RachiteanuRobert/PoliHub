@@ -13,5 +13,5 @@ public class CourseInstanceDTO
     public string Name { get; set; } = default!;
     public string Description { get; set; } = default!;
     public DateTime CourseInstanceDate { get; set; } = default!;
-    public ICollection<JoinUserSimpleDTO> CourseInstanceUsers { get; set; } = default!;
+    public ICollection<UserSimpleDTO> CourseInstanceUsers { get; set; } = default!;
 }

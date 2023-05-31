@@ -13,12 +13,12 @@
  */
 
 import { exists, mapValues } from '../runtime';
-import type { JoinUserSimpleDTO } from './JoinUserSimpleDTO';
+import type { UserSimpleDTO } from './UserSimpleDTO';
 import {
-    JoinUserSimpleDTOFromJSON,
-    JoinUserSimpleDTOFromJSONTyped,
-    JoinUserSimpleDTOToJSON,
-} from './JoinUserSimpleDTO';
+    UserSimpleDTOFromJSON,
+    UserSimpleDTOFromJSONTyped,
+    UserSimpleDTOToJSON,
+} from './UserSimpleDTO';
 
 /**
  * 
@@ -58,10 +58,10 @@ export interface CourseInstanceDTO {
     courseInstanceDate?: Date;
     /**
      * 
-     * @type {Array<JoinUserSimpleDTO>}
+     * @type {Array<UserSimpleDTO>}
      * @memberof CourseInstanceDTO
      */
-    courseInstanceUsers?: Array<JoinUserSimpleDTO> | null;
+    courseInstanceUsers?: Array<UserSimpleDTO> | null;
 }
 
 /**
@@ -88,7 +88,7 @@ export function CourseInstanceDTOFromJSONTyped(json: any, ignoreDiscriminator: b
         'name': !exists(json, 'name') ? undefined : json['name'],
         'description': !exists(json, 'description') ? undefined : json['description'],
         'courseInstanceDate': !exists(json, 'courseInstanceDate') ? undefined : (new Date(json['courseInstanceDate'])),
-        'courseInstanceUsers': !exists(json, 'courseInstanceUsers') ? undefined : (json['courseInstanceUsers'] === null ? null : (json['courseInstanceUsers'] as Array<any>).map(JoinUserSimpleDTOFromJSON)),
+        'courseInstanceUsers': !exists(json, 'courseInstanceUsers') ? undefined : (json['courseInstanceUsers'] === null ? null : (json['courseInstanceUsers'] as Array<any>).map(UserSimpleDTOFromJSON)),
     };
 }
 
@@ -106,7 +106,7 @@ export function CourseInstanceDTOToJSON(value?: CourseInstanceDTO | null): any {
         'name': value.name,
         'description': value.description,
         'courseInstanceDate': value.courseInstanceDate === undefined ? undefined : (value.courseInstanceDate.toISOString()),
-        'courseInstanceUsers': value.courseInstanceUsers === undefined ? undefined : (value.courseInstanceUsers === null ? null : (value.courseInstanceUsers as Array<any>).map(JoinUserSimpleDTOToJSON)),
+        'courseInstanceUsers': value.courseInstanceUsers === undefined ? undefined : (value.courseInstanceUsers === null ? null : (value.courseInstanceUsers as Array<any>).map(UserSimpleDTOToJSON)),
     };
 }
 

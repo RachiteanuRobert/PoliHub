@@ -16,6 +16,7 @@ export type CourseFormModel = {
     series: string;
     dayOfWeek: number;
     subjectId: string;
+
 };
 
 export type CourseFormState = {

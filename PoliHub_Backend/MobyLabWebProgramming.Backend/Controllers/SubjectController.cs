@@ -35,16 +35,6 @@ public class SubjectController : AuthorizedController
         return this.FromServiceResponse(await _subjectService.GetSubjects(pagination));
     }
 
-    [HttpGet("{id:guid}")]
-    public async Task<ActionResult<RequestResponse<SubjectDTO>>> GetByName([FromRoute] string subjectName)
-    {
-        var currentUser = await GetCurrentUser();
-
-        return currentUser.Result != null ?
-            this.FromServiceResponse(await _subjectService.GetSubjectByName(subjectName)) :
-            this.ErrorMessageResult<SubjectDTO>(currentUser.Error);
-    }
-
     [Authorize]
     [HttpPost]
     public async Task<ActionResult<RequestResponse>> Add([FromBody] SubjectAddDTO subject)

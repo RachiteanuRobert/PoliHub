@@ -37,18 +37,13 @@ public sealed class SubjectProjectionSpec : BaseSpec<SubjectProjectionSpec, Subj
             SubjectId = e.Id
         }).ToList(),
 
-        SubjectUsers = e.SubjectUsers.Select(u => new JoinUserSimpleDTO
+        SubjectUsers = e.SubjectUsers.Select(u => new UserSimpleDTO 
         {
             Id = u.Id,
-            UserId = u.UserId,
-            User = new UserSimpleDTO
-            {
-                Id = u.User.Id,
-                Name = u.User.Name,
-                Email = u.User.Email,
-                Role = u.User.Role,
-                Group = u.User.Group
-            }
+            Name = u.User.Name,
+            Email = u.User.Email,
+            Role = u.User.Role,
+            Group = u.User.Group
         }).ToList(),
     };
 

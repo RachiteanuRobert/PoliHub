@@ -33,8 +33,8 @@ export const RegisterPage = memo(() => {
                 >
                     <RegisterForm />
                     <div style={divStyles}>
-                        <div style={{ marginRight: ".5rem" }}>
-                            <Typography variant="h6">
+                        <div style={{ color: 'white', marginRight: ".5rem" }}>
+                            <Typography variant="h6" style={{ color: "white", fontSize: "150%" }}>
                                 {formatMessage({ id: "globals.existingAccount" })}
                             </Typography>
                         </div>

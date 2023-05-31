@@ -10,7 +10,7 @@ export const SubjectsPage = memo(() => {
         <Fragment>
             <Seo title="Subjects" />
             <WebsiteLayout>
-                <Box sx={{ padding: "0px 50px 00px 50px", justifyItems: "center" }}>
+                <Box sx={{ padding: "20px" }}>
                     <ContentCard>
                         <SubjectTable />
                     </ContentCard>

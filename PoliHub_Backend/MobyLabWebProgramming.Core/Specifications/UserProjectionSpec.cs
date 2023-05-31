@@ -22,77 +22,57 @@ public sealed class UserProjectionSpec : BaseSpec<UserProjectionSpec, User, User
         Name = e.Name,
         Role = e.Role,
         Group = e.Group,
-        SubjectUsers = e.SubjectUsers.Select(u => new JoinUserSimpleSubjectDTO
+        SubjectUsers = e.SubjectUsers.Select(u => new SubjectSimpleDTO
         {
-            Id = u.Id,
-            SubjectId = u.SubjectId,
-            Subject = new SubjectSimpleDTO
-            {
-                Id = u.Subject.Id,
-                Name = u.Subject.Name,
-                Semester = u.Subject.Semester,
-                Year = u.Subject.Year,
-                Department = u.Subject.Department,
-                CreditsNo = u.Subject.CreditsNo,
-                Description = u.Subject.Description
-            }
+            Id = u.Subject.Id,
+            Name = u.Subject.Name,
+            Semester = u.Subject.Semester,
+            Year = u.Subject.Year,
+            Department = u.Subject.Department,
+            CreditsNo = u.Subject.CreditsNo,
+            Description = u.Subject.Description
+            
         }).ToList(),
-        CourseUsers = e.CourseUsers.Select(u => new JoinUserSimpleCourseDTO
+        CourseUsers = e.CourseUsers.Select(u => new CourseSimpleDTO
         {
-            Id = u.Id,
-            CourseId = u.CourseId,
-            Course = new CourseSimpleDTO
-            {
-                Id = u.Course.Id,
-                ProfessorName = u.Course.ProfessorName,
-                StartTime = u.Course.StartTime,
-                Duration = u.Course.Duration,
-                Location = u.Course.Location,
-                Series = u.Course.Series,
-                DayOfWeek = u.Course.DayOfWeek,
-                SubjectId = u.Course.SubjectId,
-            }
+            Id = u.Course.Id,
+            ProfessorName = u.Course.ProfessorName,
+            StartTime = u.Course.StartTime,
+            Duration = u.Course.Duration,
+            Location = u.Course.Location,
+            Series = u.Course.Series,
+            DayOfWeek = u.Course.DayOfWeek,
+            SubjectId = u.Course.SubjectId,
+
         }).ToList(),
-        LaboratoryUsers = e.LaboratoryUsers.Select(u => new JoinUserSimpleLaboratoryDTO
+        LaboratoryUsers = e.LaboratoryUsers.Select(u => new LaboratorySimpleDTO
         {
-            Id = u.Id,
-            LaboratoryId = u.LaboratoryId,
-            Laboratory = new LaboratorySimpleDTO
-            {
-                Id = u.Laboratory.Id,
-                AssistantName = u.Laboratory.AssistantName,
-                StartTime = u.Laboratory.StartTime,
-                Duration = u.Laboratory.Duration,
-                Location = u.Laboratory.Location,
-                DayOfWeek = u.Laboratory.DayOfWeek,
-                CourseId = u.Laboratory.CourseId,
-            }
+            Id = u.Laboratory.Id,
+            AssistantName = u.Laboratory.AssistantName,
+            StartTime = u.Laboratory.StartTime,
+            Duration = u.Laboratory.Duration,
+            Location = u.Laboratory.Location,
+            DayOfWeek = u.Laboratory.DayOfWeek,
+            CourseId = u.Laboratory.CourseId,
         }).ToList(),
-        CourseInstanceUsers = e.CourseInstanceUsers.Select(u => new JoinUserSimpleCourseInstanceDTO
+
+        CourseInstanceUsers = e.CourseInstanceUsers.Select(u => new CourseInstanceSimpleDTO
         {
-            Id = u.Id,
-            CourseInstanceId = u.CourseInstanceId,
-            CourseInstance = new CourseInstanceSimpleDTO
-            {
-                Id = u.CourseInstance.Id,
-                CourseId = u.CourseInstance.CourseId,
-                Name = u.CourseInstance.Name,
-                Description = u.CourseInstance.Description,
-                CourseInstanceDate = u.CourseInstance.CourseInstanceDate,
-            }
+            Id = u.CourseInstance.Id,
+            CourseId = u.CourseInstance.CourseId,
+            Name = u.CourseInstance.Name,
+            Description = u.CourseInstance.Description,
+            CourseInstanceDate = u.CourseInstance.CourseInstanceDate,
         }).ToList(),
-        LaboratoryInstanceUsers = e.LaboratoryInstanceUsers.Select(u => new JoinUserSimpleLaboratoryInstanceDTO
+
+        LaboratoryInstanceUsers = e.LaboratoryInstanceUsers.Select(u => new LaboratoryInstanceSimpleDTO
         {
-            Id = u.Id,
-            LaboratoryInstanceId = u.LaboratoryInstanceId,
-            LaboratoryInstance = new LaboratoryInstanceSimpleDTO
-            {
-                Id = u.LaboratoryInstance.Id,
-                LaboratoryId = u.LaboratoryInstance.LaboratoryId,
-                Name = u.LaboratoryInstance.Name,
-                Description = u.LaboratoryInstance.Description,
-                LaboratoryInstanceDate = u.LaboratoryInstance.LaboratoryInstanceDate,
-            }
+            Id = u.LaboratoryInstance.Id,
+            LaboratoryId = u.LaboratoryInstance.LaboratoryId,
+            Name = u.LaboratoryInstance.Name,
+            Description = u.LaboratoryInstance.Description,
+            LaboratoryInstanceDate = u.LaboratoryInstance.LaboratoryInstanceDate,
+           
         }).ToList(),
     };
 

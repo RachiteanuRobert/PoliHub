@@ -16,8 +16,10 @@ public class CourseAddDTO
     public string Series { get; set; } = default!;
     public int DayOfWeek { get; set; } = default!;
     public Guid SubjectId { get; set; } = default!;
+    //public ICollection<Guid> UserIds { get; set; } = default!;
+    //public ICollection<Guid> CourseInstanceIds { get; set; } = default!;
     /*
-    public ICollection<Guid> CourseInstances { get; set; } = default!;
+   
     public ICollection<Guid> Users { get; set; } = default!;
     */
 }

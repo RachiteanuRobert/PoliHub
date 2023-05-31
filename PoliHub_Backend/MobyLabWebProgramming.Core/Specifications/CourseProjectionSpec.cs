@@ -25,18 +25,13 @@ public sealed class CourseProjectionSpec : BaseSpec<CourseProjectionSpec, Course
         Series = e.Series,
         DayOfWeek = e.DayOfWeek,
         SubjectId = e.SubjectId,
-        CourseUsers = e.CourseUsers.Select(u => new JoinUserSimpleDTO
+        CourseUsers = e.CourseUsers.Select(u => new UserSimpleDTO
         {
             Id = u.Id,
-            UserId = u.UserId,
-            User = new UserSimpleDTO
-            {
-                Id = u.User.Id,
-                Name = u.User.Name,
-                Email = u.User.Email,
-                Role = u.User.Role,
-                Group = u.User.Group
-            }
+            Name = u.User.Name,
+            Email = u.User.Email,
+            Role = u.User.Role,
+            Group = u.User.Group
         }).ToList(),
         /*
         CourseInstances = (ICollection<Guid>)e.CourseInstances

@@ -99,28 +99,29 @@ public class CourseService : ICourseService
             return ServiceResponse.FromError(new(HttpStatusCode.Forbidden, "Course already exists!", ErrorCodes.CannotAdd));
         }
 
-        /*
-        var Users = new List<User>();
+        
+        //var Users = new List<User>();
         var CourseInstances = new List<CourseInstance>();
 
-        if (course.Users != null)
+        /*
+        if (course.UserIds != null)
         {
-            foreach (Guid id in course.User)
+            foreach (Guid id in course.UserIds)
             {
-                var user = await _repository.GetAsync(new UserSpec(id), cancellationToken);
-                if (user == null)
+                UserToCourseAddDTO userToCourseIds = new UserToCourseAddDTO
                 {
-                    return ServiceResponse.FromError(new(HttpStatusCode.NotFound, "Bad user id provided", ErrorCodes.EntityNotFound));
-                }
-                Users.Add(user);
+                    CourseId = course.Id,
+                    UserId = user.Id,
+                };
+                AddUserToCourse()
             }
         }
         
 
         
-        if (course.CourseInstances != null)
+        if (course.CourseInstanceIds != null)
         {
-            foreach (Guid id in course.CourseInstances)
+            foreach (Guid id in course.CourseInstanceIds)
             {
                 var courseInstance = await _repository.GetAsync(new CourseInstanceSpec(id), cancellationToken);
                 if (courseInstance == null)
@@ -140,12 +141,9 @@ public class CourseService : ICourseService
             Location = course.Location,
             Series = course.Series,
             DayOfWeek = course.DayOfWeek,
-            SubjectId = course.SubjectId
-            /*
-            Subject = course.Subject,
-            Users = Users,
+            SubjectId = course.SubjectId,
+            //Users = Users,
             CourseInstances = CourseInstances
-            */
         }) ;
 
         return ServiceResponse.ForSuccess();
@@ -164,6 +162,7 @@ public class CourseService : ICourseService
         var Users = new List<User>();
         var CourseInstances = new List<CourseInstance>();
 
+        
         if (course.Users != null)
         {
             foreach (Guid id in course.Users)
@@ -176,10 +175,11 @@ public class CourseService : ICourseService
                 Users.Add(user);
             }
         }
+        
 
-        if (course.CourseInstances != null)
+        if (course.CourseInstanceIds != null)
         {
-            foreach (Guid id in course.CourseInstances)
+            foreach (Guid id in course.CourseInstanceIds)
             {
                 var courseInstance = await _repository.GetAsync(new CourseInstanceSpec(id), cancellationToken);
                 if (courseInstance == null)
@@ -201,11 +201,9 @@ public class CourseService : ICourseService
             entity.Series = course.Series ?? entity.Series;
             entity.DayOfWeek = course.DayOfWeek ?? entity.DayOfWeek;
             entity.SubjectId = course.SubjectId ?? entity.SubjectId;
-            /*
-            entity.Subject = course.Subject ?? entity.Subject;
-            entity.Users = course.Users == null ? entity.Users : Users;
-            entity.CourseInstances = course.CourseInstances == null ? entity.CourseInstances : CourseInstances;
-            */
+            //entity.Users = course.Users == null ? entity.Users : Users;
+            //entity.CourseInstances = course.CourseInstanceIds == null ? entity.CourseInstances : CourseInstances;
+            
 
             await _repository.UpdateAsync(entity, cancellationToken);
         }

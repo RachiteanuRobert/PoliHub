@@ -24,18 +24,13 @@ public sealed class LaboratoryProjectionSpec : BaseSpec<LaboratoryProjectionSpec
         AssistantName = e.AssistantName,
         DayOfWeek = e.DayOfWeek,
         CourseId = e.CourseId,
-        LaboratoryUsers = e.LaboratoryUsers.Select(u => new JoinUserSimpleDTO
+        LaboratoryUsers = e.LaboratoryUsers.Select(u => new UserSimpleDTO
         {
             Id = u.Id,
-            UserId = u.UserId,
-            User = new UserSimpleDTO
-            {
-                Id = u.User.Id,
-                Name = u.User.Name,
-                Email = u.User.Email,
-                Role = u.User.Role,
-                Group = u.User.Group
-            }
+            Name = u.User.Name,
+            Email = u.User.Email,
+            Role = u.User.Role,
+            Group = u.User.Group
         }).ToList(),
         /*
         LaboratoryInstances = (ICollection<Guid>)e.LaboratoryInstances

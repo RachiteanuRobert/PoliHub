@@ -19,5 +19,5 @@ public class CourseDTO
     public Guid SubjectId { get; set; } = default!;
     public ICollection<CourseInstanceSimpleDTO> CourseInstances { get; set; } = default!;
     public ICollection<LaboratorySimpleDTO> Laboratories { get; set; } = default!;
-    public ICollection<JoinUserSimpleDTO> CourseUsers { get; set; } = default!;
+    public ICollection<UserSimpleDTO> CourseUsers { get; set; } = default!;
 }

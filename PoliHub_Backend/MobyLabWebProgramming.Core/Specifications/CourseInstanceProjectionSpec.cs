@@ -22,18 +22,13 @@ public sealed class CourseInstanceProjectionSpec : BaseSpec<CourseInstanceProjec
         Description = e.Description,
         CourseId = e.CourseId,
         CourseInstanceDate = e.CourseInstanceDate,
-        CourseInstanceUsers = e.CourseInstanceUsers.Select(u => new JoinUserSimpleDTO
+        CourseInstanceUsers = e.CourseInstanceUsers.Select(u => new UserSimpleDTO
         {
             Id = u.Id,
-            UserId = u.UserId,
-            User = new UserSimpleDTO
-            {
-                Id = u.User.Id,
-                Name = u.User.Name,
-                Email = u.User.Email,
-                Role = u.User.Role,
-                Group = u.User.Group
-            }
+            Name = u.User.Name,
+            Email = u.User.Email,
+            Role = u.User.Role,
+            Group = u.User.Group
         }).ToList(),
     };
 

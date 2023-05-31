@@ -14,5 +14,7 @@ export enum AppRoute {
     LaboratoryInstances = "/laboratoryInstances",
     SingleSubject = "/subjects/:subjectId",
     SingleCourse = "/courses/:courseId",
-    SingleLaboratory = "/laboratories/:laboratoryId"
+    SingleLaboratory = "/laboratories/:laboratoryId",
+    SingleLaboratoryInstance = "/laboratoryInstances/:laboratoryInstanceId",
+    SingleCourseInstance = "/courseInstances/:courseInstanceId"
 }

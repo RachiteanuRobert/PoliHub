@@ -29,12 +29,6 @@ models/CourseUser.ts
 models/ErrorCodes.ts
 models/ErrorMessage.ts
 models/HttpStatusCode.ts
-models/JoinUserSimpleCourseDTO.ts
-models/JoinUserSimpleCourseInstanceDTO.ts
-models/JoinUserSimpleDTO.ts
-models/JoinUserSimpleLaboratoryDTO.ts
-models/JoinUserSimpleLaboratoryInstanceDTO.ts
-models/JoinUserSimpleSubjectDTO.ts
 models/Laboratory.ts
 models/LaboratoryAddDTO.ts
 models/LaboratoryDTO.ts

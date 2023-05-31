@@ -20,6 +20,7 @@ using Serilog;
 using Serilog.Events;
 using MobyLabWebProgramming.Infrastructure.Repositories.Interfaces;
 using MobyLabWebProgramming.Infrastructure.Repositories.Implementation;
+using Autofac.Core;
 
 namespace MobyLabWebProgramming.Infrastructure.Extensions;
 
@@ -180,7 +181,15 @@ public static class WebApplicationBuilderExtensions
             .AddTransient<ICourseService, CourseService>()
             .AddTransient<ILaboratoryService, LaboratoryService>()
             .AddTransient<ISubjectService, SubjectService>();
-
+        
+        builder.Services   // cross comm
+            .AddCors(options =>
+            {
+                options.AddDefaultPolicy(builder =>
+                {
+                    builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
+                });
+            });
         return builder;
     }
 

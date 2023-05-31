@@ -22,18 +22,13 @@ public sealed class LaboratoryInstanceProjectionSpec : BaseSpec<LaboratoryInstan
         Description = e.Description,
         LaboratoryId = e.LaboratoryId,
         LaboratoryInstanceDate = e.LaboratoryInstanceDate,
-        LaboratoryInstanceUsers = e.LaboratoryInstanceUsers.Select(u => new JoinUserSimpleDTO
+        LaboratoryInstanceUsers = e.LaboratoryInstanceUsers.Select(u => new UserSimpleDTO
         {
             Id = u.Id,
-            UserId = u.UserId,
-            User = new UserSimpleDTO
-            {
-                Id = u.User.Id,
-                Name = u.User.Name,
-                Email = u.User.Email,
-                Role = u.User.Role,
-                Group = u.User.Group
-            }
+            Name = u.User.Name,
+            Email = u.User.Email,
+            Role = u.User.Role,
+            Group = u.User.Group
         }).ToList(),
     };
 

@@ -18,5 +18,5 @@ public class LaboratoryDTO
     public Guid CourseId { get; set; } = default!;
     //public course course { get; set; } = default!;
     public ICollection<LaboratoryInstanceSimpleDTO> LaboratoryInstances { get; set; } = default!;
-    public ICollection<JoinUserSimpleDTO> LaboratoryUsers { get; set; } = default!;
+    public ICollection<UserSimpleDTO> LaboratoryUsers { get; set; } = default!;
 }

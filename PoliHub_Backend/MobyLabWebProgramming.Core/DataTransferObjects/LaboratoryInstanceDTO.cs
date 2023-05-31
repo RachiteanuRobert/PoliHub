@@ -13,5 +13,5 @@ public class LaboratoryInstanceDTO
     public string Description { get; set; } = default!;
     public Guid LaboratoryId { get; set; } = default!;
     public DateTime LaboratoryInstanceDate { get; set; } = default!;
-    public ICollection<JoinUserSimpleDTO> LaboratoryInstanceUsers { get; set; } = default!;
+    public ICollection<UserSimpleDTO> LaboratoryInstanceUsers { get; set; } = default!;
 }

@@ -17,5 +17,5 @@ public class SubjectDTO
     public char CreditsNo { get; set; } = default!;
     public string Description { get; set; } = default!;
     public ICollection<CourseSimpleDTO> Courses { get; set; } = default!;
-    public ICollection<JoinUserSimpleDTO> SubjectUsers { get; set; } = default!;
+    public ICollection<UserSimpleDTO> SubjectUsers { get; set; } = default!;
 }

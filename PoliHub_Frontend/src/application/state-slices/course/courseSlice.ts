@@ -11,7 +11,7 @@ const initialState: CourseState = {
         location: "",
         series: "",
         dayOfWeek: 0,
-        subjectId: ""
+        subjectId: "",
     }
 }
 

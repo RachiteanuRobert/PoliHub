@@ -53,11 +53,6 @@ export interface ApiSubjectGetByIdIdGetRequest {
     id: string;
 }
 
-export interface ApiSubjectGetByNameIdGetRequest {
-    subjectName: string;
-    id: string;
-}
-
 export interface ApiSubjectGetPageGetRequest {
     search?: string;
     page?: number;
@@ -196,42 +191,6 @@ export class SubjectApi extends runtime.BaseAPI {
      */
     async apiSubjectGetByIdIdGet(requestParameters: ApiSubjectGetByIdIdGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SubjectDTORequestResponse> {
         const response = await this.apiSubjectGetByIdIdGetRaw(requestParameters, initOverrides);
-        return await response.value();
-    }
-
-    /**
-     */
-    async apiSubjectGetByNameIdGetRaw(requestParameters: ApiSubjectGetByNameIdGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<SubjectDTORequestResponse>> {
-        if (requestParameters.subjectName === null || requestParameters.subjectName === undefined) {
-            throw new runtime.RequiredError('subjectName','Required parameter requestParameters.subjectName was null or undefined when calling apiSubjectGetByNameIdGet.');
-        }
-
-        if (requestParameters.id === null || requestParameters.id === undefined) {
-            throw new runtime.RequiredError('id','Required parameter requestParameters.id was null or undefined when calling apiSubjectGetByNameIdGet.');
-        }
-
-        const queryParameters: any = {};
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        if (this.configuration && this.configuration.apiKey) {
-            headerParameters["Authorization"] = this.configuration.apiKey("Authorization"); // Bearer authentication
-        }
-
-        const response = await this.request({
-            path: `/api/Subject/GetByName/{id}`.replace(`{${"subjectName"}}`, encodeURIComponent(String(requestParameters.subjectName))).replace(`{${"id"}}`, encodeURIComponent(String(requestParameters.id))),
-            method: 'GET',
-            headers: headerParameters,
-            query: queryParameters,
-        }, initOverrides);
-
-        return new runtime.JSONApiResponse(response, (jsonValue) => SubjectDTORequestResponseFromJSON(jsonValue));
-    }
-
-    /**
-     */
-    async apiSubjectGetByNameIdGet(requestParameters: ApiSubjectGetByNameIdGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SubjectDTORequestResponse> {
-        const response = await this.apiSubjectGetByNameIdGetRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

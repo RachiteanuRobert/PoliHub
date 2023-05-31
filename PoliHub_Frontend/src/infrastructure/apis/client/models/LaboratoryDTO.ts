@@ -13,18 +13,18 @@
  */
 
 import { exists, mapValues } from '../runtime';
-import type { JoinUserSimpleDTO } from './JoinUserSimpleDTO';
-import {
-    JoinUserSimpleDTOFromJSON,
-    JoinUserSimpleDTOFromJSONTyped,
-    JoinUserSimpleDTOToJSON,
-} from './JoinUserSimpleDTO';
 import type { LaboratoryInstanceSimpleDTO } from './LaboratoryInstanceSimpleDTO';
 import {
     LaboratoryInstanceSimpleDTOFromJSON,
     LaboratoryInstanceSimpleDTOFromJSONTyped,
     LaboratoryInstanceSimpleDTOToJSON,
 } from './LaboratoryInstanceSimpleDTO';
+import type { UserSimpleDTO } from './UserSimpleDTO';
+import {
+    UserSimpleDTOFromJSON,
+    UserSimpleDTOFromJSONTyped,
+    UserSimpleDTOToJSON,
+} from './UserSimpleDTO';
 
 /**
  * 
@@ -82,10 +82,10 @@ export interface LaboratoryDTO {
     laboratoryInstances?: Array<LaboratoryInstanceSimpleDTO> | null;
     /**
      * 
-     * @type {Array<JoinUserSimpleDTO>}
+     * @type {Array<UserSimpleDTO>}
      * @memberof LaboratoryDTO
      */
-    laboratoryUsers?: Array<JoinUserSimpleDTO> | null;
+    laboratoryUsers?: Array<UserSimpleDTO> | null;
 }
 
 /**
@@ -115,7 +115,7 @@ export function LaboratoryDTOFromJSONTyped(json: any, ignoreDiscriminator: boole
         'dayOfWeek': !exists(json, 'dayOfWeek') ? undefined : json['dayOfWeek'],
         'courseId': !exists(json, 'courseId') ? undefined : json['courseId'],
         'laboratoryInstances': !exists(json, 'laboratoryInstances') ? undefined : (json['laboratoryInstances'] === null ? null : (json['laboratoryInstances'] as Array<any>).map(LaboratoryInstanceSimpleDTOFromJSON)),
-        'laboratoryUsers': !exists(json, 'laboratoryUsers') ? undefined : (json['laboratoryUsers'] === null ? null : (json['laboratoryUsers'] as Array<any>).map(JoinUserSimpleDTOFromJSON)),
+        'laboratoryUsers': !exists(json, 'laboratoryUsers') ? undefined : (json['laboratoryUsers'] === null ? null : (json['laboratoryUsers'] as Array<any>).map(UserSimpleDTOFromJSON)),
     };
 }
 
@@ -136,7 +136,7 @@ export function LaboratoryDTOToJSON(value?: LaboratoryDTO | null): any {
         'dayOfWeek': value.dayOfWeek,
         'courseId': value.courseId,
         'laboratoryInstances': value.laboratoryInstances === undefined ? undefined : (value.laboratoryInstances === null ? null : (value.laboratoryInstances as Array<any>).map(LaboratoryInstanceSimpleDTOToJSON)),
-        'laboratoryUsers': value.laboratoryUsers === undefined ? undefined : (value.laboratoryUsers === null ? null : (value.laboratoryUsers as Array<any>).map(JoinUserSimpleDTOToJSON)),
+        'laboratoryUsers': value.laboratoryUsers === undefined ? undefined : (value.laboratoryUsers === null ? null : (value.laboratoryUsers as Array<any>).map(UserSimpleDTOToJSON)),
     };
 }
 

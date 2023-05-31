@@ -53,10 +53,6 @@ export interface ApiLaboratoryGetByIdIdGetRequest {
     id: string;
 }
 
-export interface ApiLaboratoryGetByNameGetRequest {
-    assistantName: string;
-}
-
 export interface ApiLaboratoryGetPageGetRequest {
     search?: string;
     page?: number;
@@ -195,38 +191,6 @@ export class LaboratoryApi extends runtime.BaseAPI {
      */
     async apiLaboratoryGetByIdIdGet(requestParameters: ApiLaboratoryGetByIdIdGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<LaboratoryDTORequestResponse> {
         const response = await this.apiLaboratoryGetByIdIdGetRaw(requestParameters, initOverrides);
-        return await response.value();
-    }
-
-    /**
-     */
-    async apiLaboratoryGetByNameGetRaw(requestParameters: ApiLaboratoryGetByNameGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<LaboratoryDTORequestResponse>> {
-        if (requestParameters.assistantName === null || requestParameters.assistantName === undefined) {
-            throw new runtime.RequiredError('assistantName','Required parameter requestParameters.assistantName was null or undefined when calling apiLaboratoryGetByNameGet.');
-        }
-
-        const queryParameters: any = {};
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        if (this.configuration && this.configuration.apiKey) {
-            headerParameters["Authorization"] = this.configuration.apiKey("Authorization"); // Bearer authentication
-        }
-
-        const response = await this.request({
-            path: `/api/Laboratory/GetByName`.replace(`{${"assistantName"}}`, encodeURIComponent(String(requestParameters.assistantName))),
-            method: 'GET',
-            headers: headerParameters,
-            query: queryParameters,
-        }, initOverrides);
-
-        return new runtime.JSONApiResponse(response, (jsonValue) => LaboratoryDTORequestResponseFromJSON(jsonValue));
-    }
-
-    /**
-     */
-    async apiLaboratoryGetByNameGet(requestParameters: ApiLaboratoryGetByNameGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<LaboratoryDTORequestResponse> {
-        const response = await this.apiLaboratoryGetByNameGetRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
