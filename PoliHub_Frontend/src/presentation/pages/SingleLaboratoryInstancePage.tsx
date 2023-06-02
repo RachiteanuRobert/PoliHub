@@ -18,6 +18,8 @@ import Button from '@material-ui/core/Button';
 import Typography from '@mui/material/Typography';
 import { useLaboratoryInstanceApi } from "@infrastructure/apis/api-management/laboratoryInstance";
 import { UserSimpleDTO } from "@infrastructure/apis/client";
+import {getIpAddress} from "@infrastructure/utils/getIpAddress";
+import QRCode from 'react-qr-code';
 
 const useHeader = (): { key: keyof UserSimpleDTO, name: string }[] => {
     const { formatMessage } = useIntl();
@@ -53,14 +55,16 @@ const getRowValues = (entries: UserSimpleDTO[] | null | undefined, orderMap: { [
 
 export const SingleLaboratoryInstancePage = memo(() => {
     const { laboratoryInstanceId } = useParams();
-    const { formatMessage } = useIntl();
     const { getLaboratoryInstance: { key: getLaboratoryInstanceQueryKey, query: getLaboratoryInstance } } = useLaboratoryInstanceApi();
     const { data, isError, isLoading } = useQuery([getLaboratoryInstanceQueryKey], () => getLaboratoryInstance(laboratoryInstanceId ?? ""));
+    const { formatMessage } = useIntl();
     const laboratoryInstance = data?.response;
     const laboratoryInstanceUsers = laboratoryInstance?.laboratoryInstanceUsers;
     const header = useHeader();
     const orderMap = header.reduce((acc, e, i) => { return { ...acc, [e.key]: i } }, {}) as { [key: string]: number }; // Get the header column order.
     const rowValues = getRowValues(laboratoryInstanceUsers, orderMap);
+    const ipAddr = getIpAddress();
+    const qrValue = `http://${ipAddr}:3000/laboratoryinstances/${laboratoryInstanceId}`;
 
     if (isError || isUndefined(laboratoryInstance)) {
         return <>Error</>
@@ -75,16 +79,30 @@ export const SingleLaboratoryInstancePage = memo(() => {
             <WebsiteLayout>
                 <Box sx={{ padding: "0px 10px" }}>
                     <ContentCard>
-                        <Link to="/laboratoryInstances" style={{ textDecoration: 'none', display: 'flex', justifyContent: 'flex-end', marginBottom: '1rem' }}>
-                            <Button variant="contained" style={{ background: '#1976d2', color: 'white' }}>
-                                Inapoi
-                            </Button>
-                        </Link>
-                        <Typography variant="h4" style={{ marginBottom: '1rem' }}>{laboratoryInstance.name}</Typography>
-                        <Typography variant="h6" style={{ marginBottom: '0.5rem' }}>
-                            Data: {formatValue(laboratoryInstance.laboratoryInstanceDate) ?? formatMessage({ id: "global.loadingFailed" })}
+                        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                            <Link to="/laboratoryInstances" style={{ textDecoration: 'none', marginBottom: '1rem' }}>
+                                <Button variant="outlined" style={{ background: '#1976d2', color: 'white' }}>
+                                    Inapoi
+                                </Button>
+                            </Link>
+                            <Typography variant="h6" style={{ marginBottom: '0.5rem', textAlign: 'right' }}>
+                                {formatValue(laboratoryInstance.laboratoryInstanceDate) ?? formatMessage({ id: "global.loadingFailed" })}
+                            </Typography>
+                        </div>
+                        <QRCode value= {qrValue} />
+                        <Typography variant="h4" style={{ marginTop: '1rem', marginBottom: '2rem', textAlign: 'center' }}>
+                            {laboratoryInstance.name}
                         </Typography>
-                        <Typography variant="h6" style={{ marginBottom: '1rem' }}>{laboratoryInstance.description}</Typography>
+                        <Typography variant="h6">
+                            Pentru mai multe detalii accesati pagina laboratorului:
+                        </Typography>
+                        <Typography variant="h6" style={{ marginBottom: '1rem'}}>
+                            {laboratoryInstance.description}
+                        </Typography>
+                        <Typography variant="h5">
+                            Studenti
+                        </Typography>
+
                         <TableContainer component={Paper}>
                             <Table sx={{ minWidth: 650 }} aria-label="simple table">
                                 <TableHead>

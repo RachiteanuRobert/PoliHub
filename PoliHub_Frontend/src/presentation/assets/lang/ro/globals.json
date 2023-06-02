@@ -11,6 +11,7 @@
     "globals.refresh": "Reincarca",
     "globals.loadingFailed": "Incarcarea a esuat",
     "globals.users": "Utilizatori",
+    "globals.userAttendances": "Prezente",
     "globals.files": "Fisiere",
     "globals.subjects": "Materii",
     "globals.laboratories": "Laboratoare",

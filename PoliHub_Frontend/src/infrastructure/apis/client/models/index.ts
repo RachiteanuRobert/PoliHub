@@ -68,5 +68,5 @@ export * from './UserToCourseAddDTO';
 export * from './UserToCourseInstanceAddDTO';
 export * from './UserToLaboratoryAddDTO';
 export * from './UserToLaboratoryInstanceAddDTO';
-export * from './UserToSubjectAddDTO';
+export * from './UserToSubjectDTO';
 export * from './UserUpdateDTO';

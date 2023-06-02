@@ -41,7 +41,7 @@ public class SubjectService : ISubjectService
         return ServiceResponse<PagedResponse<SubjectDTO>>.ForSuccess(result);
     }
 
-    public async Task<ServiceResponse> AddUserToSubject(UserToSubjectAddDTO userSubjectIds, UserDTO? requestingUser, CancellationToken cancellationToken)
+    public async Task<ServiceResponse> AddUserToSubject(UserToSubjectDTO userSubjectIds, UserDTO? requestingUser, CancellationToken cancellationToken)
     {
 
         if (requestingUser != null && requestingUser.Role != UserRoleEnum.Admin) 
@@ -80,6 +80,79 @@ public class SubjectService : ISubjectService
 
         return ServiceResponse.ForSuccess();
     }
+
+    public async Task<ServiceResponse> DeleteUserFromSubject(Guid userSubjectId, UserDTO? requestingUser, CancellationToken cancellationToken)
+    {
+
+        if (requestingUser != null && requestingUser.Role != UserRoleEnum.Admin)
+        {
+            return ServiceResponse.FromError(new(HttpStatusCode.Forbidden, "Only the admin can remove users!", ErrorCodes.CannotAdd));
+        }
+
+        // Verify if user is enrolled
+        var subjectUser = await _repository.GetAsync(new SubjectUserProjectionSpec(userSubjectId), cancellationToken);
+        if (subjectUser == null)
+        {
+            return ServiceResponse.FromError(new(HttpStatusCode.NotFound, "User is not enroled!", ErrorCodes.EntityNotFound));
+        }
+
+        await _repository.DeleteAsync<SubjectUser>(userSubjectId, cancellationToken);
+
+        return ServiceResponse.ForSuccess();
+    }
+
+    /*
+   public async Task<ServiceResponse> AddUsersToSubject(UsersToSubjectAddDTO userSubjectIds, UserDTO? requestingUser, CancellationToken cancellationToken)
+   {
+       if (requestingUser != null && requestingUser.Role != UserRoleEnum.Admin) 
+       {
+           return ServiceResponse.FromError(new(HttpStatusCode.Forbidden, "Only the admin can add users!", ErrorCodes.CannotAdd));
+       }
+
+       var subject = await _repository.GetAsync(new SubjectSpec(userSubjectIds.SubjectId), cancellationToken);
+       if (subject == null)
+       {
+           return ServiceResponse.FromError(new(HttpStatusCode.Forbidden, "Bad subject Id provided!", ErrorCodes.EntityNotFound));
+       }
+
+       var Users = new List<User>();
+       foreach (Guid UserId in userSubjectIds.UserIds)
+       {
+           var user = await _repository.GetAsync(new UserSpec(UserId), cancellationToken);
+           if (user == null)
+           {
+               return ServiceResponse.FromError(new(HttpStatusCode.NotFound, "Bad user id provided!", ErrorCodes.EntityNotFound));
+           }
+           Users.Add(user);
+       }
+
+
+       // Verify if user is enrolled
+       foreach (Guid UserId in userSubjectIds.UserIds)
+       {
+           var searchSubjectUser = await _repository.GetAsync(new SubjectUserProjectionSpec(UserId, userSubjectIds.SubjectId), cancellationToken);
+           if (searchSubjectUser != null)
+           {
+               return ServiceResponse.FromError(new(HttpStatusCode.NotFound, "User already enroled!", ErrorCodes.UserAlreadyExists));
+           }
+       }
+
+       foreach (User eachUser in Users)
+       {
+           SubjectUser newSubjectUser = new SubjectUser
+           {
+               Subject = subject,
+               User = eachUser,
+               SubjectId = subject.Id,
+               UserId = eachUser.Id,
+           };
+
+           await _repository.AddAsync(newSubjectUser);
+       }
+
+       return ServiceResponse.ForSuccess();
+   }
+   */
 
     public async Task<ServiceResponse> AddSubject(SubjectAddDTO subject, UserDTO? requestingUser, CancellationToken cancellationToken)
     {

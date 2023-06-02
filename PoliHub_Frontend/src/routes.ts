@@ -1,3 +1,5 @@
+import {UserAttendancesPage} from "@presentation/pages/UserAttendancesPage";
+
 /**
  * Here you can add more routes as constant to be used for routing within the application.
  */
@@ -16,5 +18,6 @@ export enum AppRoute {
     SingleCourse = "/courses/:courseId",
     SingleLaboratory = "/laboratories/:laboratoryId",
     SingleLaboratoryInstance = "/laboratoryInstances/:laboratoryInstanceId",
-    SingleCourseInstance = "/courseInstances/:courseInstanceId"
+    SingleCourseInstance = "/courseInstances/:courseInstanceId",
+    UserAttendances = "/userAttendancesPage"
 }

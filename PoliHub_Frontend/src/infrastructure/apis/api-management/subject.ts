@@ -1,5 +1,5 @@
 import { useAppSelector } from "@application/store";
-import { ApiSubjectGetPageGetRequest, SubjectAddDTO, SubjectApi, SubjectUpdateDTO } from "../client";
+import {ApiSubjectGetPageGetRequest, SubjectAddDTO, SubjectApi, SubjectUpdateDTO, UserToSubjectDTO} from "../client";
 import { getAuthenticationConfiguration } from "@infrastructure/utils/userUtils";
 
 /**
@@ -8,6 +8,8 @@ import { getAuthenticationConfiguration } from "@infrastructure/utils/userUtils"
 const getSubjectsQueryKey = "getSubjectsQuery";
 const getSubjectQueryKey = "getSubjectQuery";
 const addSubjectMutationKey = "addSubjectMutation";
+const addSubjectUserMutationKey = "addSubjectUserMutation";
+const deleteSubjectUserMutationKey = "deleteSubjectUserMutation";
 const deleteSubjectMutationKey = "deleteSubjectMutation";
 const updateSubjectMutationKey = "updateSubjectMutation";
 
@@ -21,6 +23,8 @@ export const useSubjectApi = () => {
     const getSubjects = (page: ApiSubjectGetPageGetRequest) => new SubjectApi(config).apiSubjectGetPageGet(page); // Use the generated client code and adapt it.
     const getSubject = (id: string) => new SubjectApi(config).apiSubjectGetByIdIdGet({ id });
     const addSubject = (subject: SubjectAddDTO) => new SubjectApi(config).apiSubjectAddPost({ subjectAddDTO: subject });
+    const addSubjectUser = (userSubjectIds: UserToSubjectDTO) => new SubjectApi(config).apiSubjectAddUserToSubjectPost({ userToSubjectDTO: userSubjectIds });
+    const deleteSubjectUser = (userSubjectId: string) => new SubjectApi(config).apiSubjectDeleteUserFromSubjectUserSubjectIdDelete({ userSubjectId });
     const deleteSubject = (id: string) => new SubjectApi(config).apiSubjectDeleteIdDelete({ id });
     const updateSubject = (subject: SubjectUpdateDTO) => new SubjectApi(config).apiSubjectUpdatePut({ subjectUpdateDTO: subject });
 
@@ -36,6 +40,14 @@ export const useSubjectApi = () => {
         addSubject: { // Return the mutation object.
             key: addSubjectMutationKey, // Add the key to identify the mutation.
             mutation: addSubject // Add the mutation callback.
+        },
+        addSubjectUser:{
+            key: addSubjectUserMutationKey, // Add the key to identify the mutation.
+            mutation: addSubjectUser // Add the mutation callback.
+        },
+        deleteSubjectUser:{
+            key: deleteSubjectUserMutationKey, // Delete the key to identify the mutation.
+            mutation: deleteSubjectUser // Delete the mutation callback.
         },
         deleteSubject: {
             key: deleteSubjectMutationKey,

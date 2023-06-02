@@ -17,13 +17,6 @@ export default defineConfig({
   ],
   base: "/",
   server: {
-    proxy: {
-      '/api': {
-        target: 'http://10.41.125.127:5000',
-        changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api/, '')
-      }
-    },
     port: 3000,
     hmr: {
       protocol: "ws",

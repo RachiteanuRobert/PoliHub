@@ -48,12 +48,23 @@ public class SubjectController : AuthorizedController
 
     [Authorize]
     [HttpPost]
-    public async Task<ActionResult<RequestResponse>> AddUserToSubject([FromBody] UserToSubjectAddDTO userSubjectIds)
+    public async Task<ActionResult<RequestResponse>> AddUserToSubject([FromBody] UserToSubjectDTO userSubjectIds)
     {
         var currentUser = await GetCurrentUser();
 
         return currentUser.Result != null ?
             this.FromServiceResponse(await _subjectService.AddUserToSubject(userSubjectIds, currentUser.Result)) :
+            this.ErrorMessageResult(currentUser.Error);
+    }
+
+    [Authorize]
+    [HttpDelete("{userSubjectId:guid}")]
+    public async Task<ActionResult<RequestResponse>> DeleteUserFromSubject([FromRoute] Guid userSubjectId)
+    {
+        var currentUser = await GetCurrentUser();
+
+        return currentUser.Result != null ?
+            this.FromServiceResponse(await _subjectService.DeleteUserFromSubject(userSubjectId, currentUser.Result)) :
             this.ErrorMessageResult(currentUser.Error);
     }
 
@@ -78,4 +89,6 @@ public class SubjectController : AuthorizedController
             this.FromServiceResponse(await _subjectService.DeleteSubject(id)) :
             this.ErrorMessageResult(currentUser.Error);
     }
+
+    
 }

@@ -76,6 +76,6 @@ models/UserToCourseAddDTO.ts
 models/UserToCourseInstanceAddDTO.ts
 models/UserToLaboratoryAddDTO.ts
 models/UserToLaboratoryInstanceAddDTO.ts
-models/UserToSubjectAddDTO.ts
+models/UserToSubjectDTO.ts
 models/UserUpdateDTO.ts
 models/index.ts

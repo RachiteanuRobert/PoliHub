@@ -7,6 +7,7 @@
     "labels.actions": "Actions",
     "labels.addUser": "Add user",
     "labels.addSubject": "Add subject",
+    "labels.addSubjectUser": "Add subject",
     "labels.addUserFile": "Add file",
     "labels.updateLaboratoryInstance": "Actualizeaza Instanta de Laborator",
     "labels.addLaboratoryInstance" : "Adauga Instanta de Laborator"

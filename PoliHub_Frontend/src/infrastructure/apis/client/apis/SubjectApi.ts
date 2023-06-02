@@ -20,7 +20,7 @@ import type {
   SubjectDTOPagedResponseRequestResponse,
   SubjectDTORequestResponse,
   SubjectUpdateDTO,
-  UserToSubjectAddDTO,
+  UserToSubjectDTO,
 } from '../models';
 import {
     RequestResponseFromJSON,
@@ -33,8 +33,8 @@ import {
     SubjectDTORequestResponseToJSON,
     SubjectUpdateDTOFromJSON,
     SubjectUpdateDTOToJSON,
-    UserToSubjectAddDTOFromJSON,
-    UserToSubjectAddDTOToJSON,
+    UserToSubjectDTOFromJSON,
+    UserToSubjectDTOToJSON,
 } from '../models';
 
 export interface ApiSubjectAddPostRequest {
@@ -42,11 +42,15 @@ export interface ApiSubjectAddPostRequest {
 }
 
 export interface ApiSubjectAddUserToSubjectPostRequest {
-    userToSubjectAddDTO?: UserToSubjectAddDTO;
+    userToSubjectDTO?: UserToSubjectDTO;
 }
 
 export interface ApiSubjectDeleteIdDeleteRequest {
     id: string;
+}
+
+export interface ApiSubjectDeleteUserFromSubjectUserSubjectIdDeleteRequest {
+    userSubjectId: string;
 }
 
 export interface ApiSubjectGetByIdIdGetRequest {
@@ -117,7 +121,7 @@ export class SubjectApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: UserToSubjectAddDTOToJSON(requestParameters.userToSubjectAddDTO),
+            body: UserToSubjectDTOToJSON(requestParameters.userToSubjectDTO),
         }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => RequestResponseFromJSON(jsonValue));
@@ -159,6 +163,38 @@ export class SubjectApi extends runtime.BaseAPI {
      */
     async apiSubjectDeleteIdDelete(requestParameters: ApiSubjectDeleteIdDeleteRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<RequestResponse> {
         const response = await this.apiSubjectDeleteIdDeleteRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     */
+    async apiSubjectDeleteUserFromSubjectUserSubjectIdDeleteRaw(requestParameters: ApiSubjectDeleteUserFromSubjectUserSubjectIdDeleteRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<RequestResponse>> {
+        if (requestParameters.userSubjectId === null || requestParameters.userSubjectId === undefined) {
+            throw new runtime.RequiredError('userSubjectId','Required parameter requestParameters.userSubjectId was null or undefined when calling apiSubjectDeleteUserFromSubjectUserSubjectIdDelete.');
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["Authorization"] = this.configuration.apiKey("Authorization"); // Bearer authentication
+        }
+
+        const response = await this.request({
+            path: `/api/Subject/DeleteUserFromSubject/{userSubjectId}`.replace(`{${"userSubjectId"}}`, encodeURIComponent(String(requestParameters.userSubjectId))),
+            method: 'DELETE',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => RequestResponseFromJSON(jsonValue));
+    }
+
+    /**
+     */
+    async apiSubjectDeleteUserFromSubjectUserSubjectIdDelete(requestParameters: ApiSubjectDeleteUserFromSubjectUserSubjectIdDeleteRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<RequestResponse> {
+        const response = await this.apiSubjectDeleteUserFromSubjectUserSubjectIdDeleteRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

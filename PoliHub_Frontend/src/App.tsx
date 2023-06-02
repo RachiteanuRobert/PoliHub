@@ -19,6 +19,7 @@ import {LaboratoryInstancesPage} from "@presentation/pages/LaboratoryInstancesPa
 import { AppRoute } from "routes";
 import {SingleLaboratoryInstancePage} from "@presentation/pages/SingleLaboratoryInstancePage";
 import {SingleCourseInstancePage} from "@presentation/pages/SingleCourseInstancePage";
+import {UserAttendancesPage} from "@presentation/pages/UserAttendancesPage";
 
 
 export function App() {
@@ -31,11 +32,12 @@ export function App() {
         <Route path={AppRoute.Index} element={<HomePage />} /> {/* Add a new route with a element as the page. */}
         <Route path={AppRoute.Login} element={<LoginPage />} />
         <Route path={AppRoute.Register} element={<RegisterPage />} />
-          <Route path ={AppRoute.SingleSubject} element = {<SingleSubjectPage/>}/>
-          <Route path ={AppRoute.SingleCourse} element = {<SingleCoursePage/>}/>
-          <Route path ={AppRoute.SingleLaboratory} element = {<SingleLaboratoryPage/>}/>
-          <Route path ={AppRoute.SingleLaboratoryInstance} element = {<SingleLaboratoryInstancePage/>}/>
-          <Route path ={AppRoute.SingleCourseInstance} element = {<SingleCourseInstancePage/>}/>
+        <Route path ={AppRoute.SingleSubject} element = {<SingleSubjectPage/>}/>
+        <Route path ={AppRoute.SingleCourse} element = {<SingleCoursePage/>}/>
+        <Route path ={AppRoute.SingleLaboratory} element = {<SingleLaboratoryPage/>}/>
+        <Route path ={AppRoute.SingleLaboratoryInstance} element = {<SingleLaboratoryInstancePage/>}/>
+        <Route path ={AppRoute.SingleCourseInstance} element = {<SingleCourseInstancePage/>}/>
+        <Route path ={AppRoute.UserAttendances} element = {<UserAttendancesPage/>}/>
         {isAdmin && <Route path={AppRoute.Users} element={<UsersPage />} />} {/* If the user doesn't have the right role this route shouldn't be used. */}
         {isAdmin && <Route path={AppRoute.UserFiles} element={<UserFilesPage />} />}
         {isAdmin && <Route path={AppRoute.Subjects} element={<SubjectsPage />} />}
