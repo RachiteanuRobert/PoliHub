@@ -15,15 +15,21 @@
 
 import * as runtime from '../runtime';
 import type {
+  AttendancesDTORequestResponse,
   RequestResponse,
+  TimetableClassesDTOICollectionRequestResponse,
   UserAddDTO,
   UserDTOPagedResponseRequestResponse,
   UserDTORequestResponse,
   UserUpdateDTO,
 } from '../models';
 import {
+    AttendancesDTORequestResponseFromJSON,
+    AttendancesDTORequestResponseToJSON,
     RequestResponseFromJSON,
     RequestResponseToJSON,
+    TimetableClassesDTOICollectionRequestResponseFromJSON,
+    TimetableClassesDTOICollectionRequestResponseToJSON,
     UserAddDTOFromJSON,
     UserAddDTOToJSON,
     UserDTOPagedResponseRequestResponseFromJSON,
@@ -42,6 +48,10 @@ export interface ApiUserDeleteIdDeleteRequest {
     id: string;
 }
 
+export interface ApiUserGetAttendancesIdGetRequest {
+    id: string;
+}
+
 export interface ApiUserGetByIdIdGetRequest {
     id: string;
 }
@@ -50,6 +60,10 @@ export interface ApiUserGetPageGetRequest {
     search?: string;
     page?: number;
     pageSize?: number;
+}
+
+export interface ApiUserGetTimetableClassesIdGetRequest {
+    id: string;
 }
 
 export interface ApiUserUpdatePutRequest {
@@ -126,6 +140,38 @@ export class UserApi extends runtime.BaseAPI {
 
     /**
      */
+    async apiUserGetAttendancesIdGetRaw(requestParameters: ApiUserGetAttendancesIdGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<AttendancesDTORequestResponse>> {
+        if (requestParameters.id === null || requestParameters.id === undefined) {
+            throw new runtime.RequiredError('id','Required parameter requestParameters.id was null or undefined when calling apiUserGetAttendancesIdGet.');
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["Authorization"] = this.configuration.apiKey("Authorization"); // Bearer authentication
+        }
+
+        const response = await this.request({
+            path: `/api/User/GetAttendances/{id}`.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters.id))),
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => AttendancesDTORequestResponseFromJSON(jsonValue));
+    }
+
+    /**
+     */
+    async apiUserGetAttendancesIdGet(requestParameters: ApiUserGetAttendancesIdGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<AttendancesDTORequestResponse> {
+        const response = await this.apiUserGetAttendancesIdGetRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     */
     async apiUserGetByIdIdGetRaw(requestParameters: ApiUserGetByIdIdGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<UserDTORequestResponse>> {
         if (requestParameters.id === null || requestParameters.id === undefined) {
             throw new runtime.RequiredError('id','Required parameter requestParameters.id was null or undefined when calling apiUserGetByIdIdGet.');
@@ -193,6 +239,38 @@ export class UserApi extends runtime.BaseAPI {
      */
     async apiUserGetPageGet(requestParameters: ApiUserGetPageGetRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<UserDTOPagedResponseRequestResponse> {
         const response = await this.apiUserGetPageGetRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     */
+    async apiUserGetTimetableClassesIdGetRaw(requestParameters: ApiUserGetTimetableClassesIdGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<TimetableClassesDTOICollectionRequestResponse>> {
+        if (requestParameters.id === null || requestParameters.id === undefined) {
+            throw new runtime.RequiredError('id','Required parameter requestParameters.id was null or undefined when calling apiUserGetTimetableClassesIdGet.');
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["Authorization"] = this.configuration.apiKey("Authorization"); // Bearer authentication
+        }
+
+        const response = await this.request({
+            path: `/api/User/GetTimetableClasses/{id}`.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters.id))),
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => TimetableClassesDTOICollectionRequestResponseFromJSON(jsonValue));
+    }
+
+    /**
+     */
+    async apiUserGetTimetableClassesIdGet(requestParameters: ApiUserGetTimetableClassesIdGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<TimetableClassesDTOICollectionRequestResponse> {
+        const response = await this.apiUserGetTimetableClassesIdGetRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

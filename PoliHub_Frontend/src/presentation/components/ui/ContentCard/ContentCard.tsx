@@ -16,7 +16,7 @@ export const ContentCard = memo(
     );
 
     return (
-      <div id={id} className="content__card__container">
+      <div id={id} className="content__card__container" style={{position: 'relative', zIndex: 1}}>
         {showTitle && <h4>{title}</h4>}
         <div className="content__card__body">{children}</div>
       </div>

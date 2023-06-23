@@ -1,4 +1,8 @@
-﻿using System.Net;
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Net;
+using System.Security.Cryptography;
 using MobyLabWebProgramming.Core.Constants;
 using MobyLabWebProgramming.Core.DataTransferObjects;
 using MobyLabWebProgramming.Core.Entities;
@@ -105,6 +109,184 @@ public class UserService : IUserService
 
     public async Task<ServiceResponse<int>> GetUserCount(CancellationToken cancellationToken = default) => 
         ServiceResponse<int>.ForSuccess(await _repository.GetCountAsync<User>(cancellationToken)); // Get the count of all user entities in the database.
+
+    public async Task<ServiceResponse<ICollection<TimetableClassesDTO>>> GetTimetableClasses(Guid userId, CancellationToken cancellationToken = default)
+    {
+        var userResult = await _repository.GetAsync(new UserProjectionSpec(userId), cancellationToken); // Get a user using a specification on the repository.
+        if (userResult == null)
+        {
+            return ServiceResponse<ICollection<TimetableClassesDTO>>.FromError(new(HttpStatusCode.NotFound, "Bad user id provided!", ErrorCodes.EntityNotFound));
+        }
+
+        var TimetableClasses = new List<TimetableClassesDTO>();
+        // Get all user's courses
+        foreach (CourseSimpleDTO eachCourse in userResult.CourseUsers )
+        {
+            var TimetableClass = new TimetableClassesDTO();
+
+            var courseSubject = await _repository.GetAsync(new SubjectProjectionSpec(eachCourse.SubjectId), cancellationToken);
+            
+            var subjectName = courseSubject.Name;
+
+            TimetableClass.Type = "Curs";
+            TimetableClass.StartTime = eachCourse.StartTime;
+            TimetableClass.Location = eachCourse.Location;
+            TimetableClass.DayOfWeek = eachCourse.DayOfWeek;
+            
+            switch (TimetableClass.DayOfWeek)
+            {
+                case 1:
+                    TimetableClass.DayOfWeekPrint = "Luni";
+                    break;
+                case 2:
+                    TimetableClass.DayOfWeekPrint = "Marti";
+                    break;
+                case 3:
+                    TimetableClass.DayOfWeekPrint = "Miercuri";
+                    break;
+                case 4:
+                    TimetableClass.DayOfWeekPrint = "Joi";
+                    break;
+                case 5:
+                    TimetableClass.DayOfWeekPrint = "Vineri";
+                    break;
+                default:
+                    TimetableClass.DayOfWeekPrint = "Invalid day";
+                    break;
+            }
+            TimetableClass.SubjectName = subjectName;
+            TimetableClass.ClassId = eachCourse.Id;
+
+            TimetableClasses.Add(TimetableClass);
+        }
+
+        // Get all users laboratories
+        foreach (LaboratorySimpleDTO eachLaboratory in userResult.LaboratoryUsers)
+        {
+            var TimetableClass = new TimetableClassesDTO();
+
+            var laboratoryCourse = await _repository.GetAsync(new CourseProjectionSpec(eachLaboratory.CourseId), cancellationToken);
+            var courseSubject = await _repository.GetAsync(new SubjectProjectionSpec(laboratoryCourse.SubjectId), cancellationToken);
+
+            var subjectName = courseSubject.Name;
+
+            TimetableClass.Type = "Laborator";
+            TimetableClass.StartTime = eachLaboratory.StartTime;
+            TimetableClass.Location = eachLaboratory.Location;
+            TimetableClass.DayOfWeek = eachLaboratory.DayOfWeek;
+            switch (TimetableClass.DayOfWeek)
+            {
+                case 1:
+                    TimetableClass.DayOfWeekPrint = "Luni";
+                    break;
+                case 2:
+                    TimetableClass.DayOfWeekPrint = "Marti";
+                    break;
+                case 3:
+                    TimetableClass.DayOfWeekPrint = "Miercuri";
+                    break;
+                case 4:
+                    TimetableClass.DayOfWeekPrint = "Joi";
+                    break;
+                case 5:
+                    TimetableClass.DayOfWeekPrint = "Vineri";
+                    break;
+                default:
+                    TimetableClass.DayOfWeekPrint = "Invalid day";
+                    break;
+            }
+            TimetableClass.SubjectName = subjectName;
+            TimetableClass.ClassId = eachLaboratory.Id;
+
+            TimetableClasses.Add(TimetableClass);
+        }
+
+        //Sort the list
+        var is_unsorted = 1;
+        var TimetableClassesCount = TimetableClasses.Count();
+        do
+        {
+            is_unsorted = 0;
+            for(int i = 0; i < TimetableClassesCount - 1; i++)
+            {
+                if (TimetableClasses[i].DayOfWeek > TimetableClasses[i + 1].DayOfWeek)
+                {
+                    var tempTimeTableClass = TimetableClasses[i];
+                    TimetableClasses[i] = TimetableClasses[i + 1];
+                    TimetableClasses[i + 1] = tempTimeTableClass;
+                    is_unsorted = 1;
+                }
+                else if (TimetableClasses[i].DayOfWeek == TimetableClasses[i + 1].DayOfWeek)
+                {
+                    if (String.Compare(TimetableClasses[i].StartTime, TimetableClasses[i + 1].StartTime) > 0)
+                    {
+                        var tempTimeTableClass = TimetableClasses[i];
+                        TimetableClasses[i] = TimetableClasses[i + 1];
+                        TimetableClasses[i + 1] = tempTimeTableClass;
+                        is_unsorted = 1;
+                    }
+                }
+            }
+        } while (is_unsorted == 1);
+
+        return ServiceResponse<ICollection<TimetableClassesDTO>>.ForSuccess(TimetableClasses);
+    }
+
+    public async Task<ServiceResponse<AttendancesDTO>> GetAttendances(Guid id, CancellationToken cancellationToken = default)
+    {
+        var userResult = await _repository.GetAsync(new UserProjectionSpec(id), cancellationToken); // Get a user using a specification on the repository.
+        if (userResult == null)
+        {
+            return ServiceResponse<AttendancesDTO>.FromError(new(HttpStatusCode.NotFound, "Bad user id provided!", ErrorCodes.EntityNotFound));
+        }
+
+        var Attendances = new AttendancesDTO ();
+        var CourseInstances = new List <CourseInstanceAttendanceDTO> ();
+        var LaboratoryInstances = new List <LaboratoryInstanceAttendanceDTO> ();
+        // Get all user's courses
+        foreach (CourseInstanceSimpleDTO eachCourseInstance in userResult.CourseInstanceUsers)
+        {
+            var CourseInstance = new CourseInstanceAttendanceDTO();
+
+            var Course= await _repository.GetAsync(new CourseProjectionSpec(eachCourseInstance.CourseId), cancellationToken);
+            if (Course == null)
+            {
+                return ServiceResponse<AttendancesDTO>.FromError(new(HttpStatusCode.NotFound, "Bad course id provided!", ErrorCodes.EntityNotFound));
+            }
+
+            var Subject= await _repository.GetAsync(new SubjectProjectionSpec(Course.SubjectId), cancellationToken);
+
+            CourseInstance.CourseInstanceDate = eachCourseInstance.CourseInstanceDate;
+            CourseInstance.Name = eachCourseInstance.Name;
+            CourseInstance.SubjectName = Subject.Name;
+            CourseInstance.Id = eachCourseInstance.Id;
+
+
+            CourseInstances.Add(CourseInstance);
+        }
+        Attendances.CourseInstances = CourseInstances;
+
+        // Get all user's laboratories
+        foreach (LaboratoryInstanceSimpleDTO eachLaboratoryInstance in userResult.LaboratoryInstanceUsers)
+        {
+            var LaboratoryInstance = new LaboratoryInstanceAttendanceDTO();
+
+            var Laboratory = await _repository.GetAsync(new LaboratoryProjectionSpec(eachLaboratoryInstance.LaboratoryId), cancellationToken);
+            var Course = await _repository.GetAsync(new CourseProjectionSpec(Laboratory.CourseId), cancellationToken);
+            var Subject = await _repository.GetAsync(new SubjectProjectionSpec(Course.SubjectId), cancellationToken);
+
+            LaboratoryInstance.LaboratoryInstanceDate = eachLaboratoryInstance.LaboratoryInstanceDate;
+            LaboratoryInstance.Name = eachLaboratoryInstance.Name;
+            LaboratoryInstance.Id = eachLaboratoryInstance.Id;
+            LaboratoryInstance.SubjectName = Subject.Name;
+
+
+            LaboratoryInstances.Add(LaboratoryInstance);
+        }
+        Attendances.LaboratoryInstances = LaboratoryInstances;
+
+        return ServiceResponse<AttendancesDTO>.ForSuccess(Attendances);
+    }
 
     public async Task<ServiceResponse> AddUser(UserAddDTO user, UserDTO? requestingUser, CancellationToken cancellationToken = default)
     {

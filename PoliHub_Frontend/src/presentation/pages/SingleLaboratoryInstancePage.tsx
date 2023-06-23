@@ -1,6 +1,6 @@
 import { WebsiteLayout } from "presentation/layouts/WebsiteLayout";
-import { Fragment, memo } from "react";
-import { Box } from "@mui/system";
+import React, { Fragment, memo } from "react";
+import {Box, styled} from "@mui/system";
 import { Seo } from "@presentation/components/ui/Seo";
 import { useQuery } from "@tanstack/react-query";
 import { isUndefined } from "lodash";
@@ -53,6 +53,17 @@ const getRowValues = (entries: UserSimpleDTO[] | null | undefined, orderMap: { [
         }
     });
 
+const BlueBackground = styled(Box)`
+  background-color: #024180;
+  height: 473px;
+  width: 96vw;
+  position: fixed;
+  border-radius: 10px;
+  top: 0;
+  left: 2rem;
+  z-index : 0;
+`;
+
 export const SingleLaboratoryInstancePage = memo(() => {
     const { laboratoryInstanceId } = useParams();
     const { getLaboratoryInstance: { key: getLaboratoryInstanceQueryKey, query: getLaboratoryInstance } } = useLaboratoryInstanceApi();
@@ -76,38 +87,37 @@ export const SingleLaboratoryInstancePage = memo(() => {
     return (
         <Fragment>
             <Seo title="LaboratoryInstance" />
+            <BlueBackground></BlueBackground>
             <WebsiteLayout>
                 <Box sx={{ padding: "0px 10px" }}>
                     <ContentCard>
                         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                             <Link to="/laboratoryInstances" style={{ textDecoration: 'none', marginBottom: '1rem' }}>
-                                <Button variant="outlined" style={{ background: '#1976d2', color: 'white' }}>
+                                <Button variant="outlined" style={{ background: '#024180', color: 'white' }}>
                                     Inapoi
                                 </Button>
                             </Link>
-                            <Typography variant="h6" style={{ marginBottom: '0.5rem', textAlign: 'right' }}>
+                            <Typography variant="h5" style={{ marginBottom: '0.5rem', textAlign: 'right' }}>
                                 {formatValue(laboratoryInstance.laboratoryInstanceDate) ?? formatMessage({ id: "global.loadingFailed" })}
                             </Typography>
                         </div>
-                        <QRCode value= {qrValue} />
-                        <Typography variant="h4" style={{ marginTop: '1rem', marginBottom: '2rem', textAlign: 'center' }}>
+                        <Typography variant="h3" style={{ marginTop: '1rem', textAlign: 'center', fontWeight:'bold'}}>
                             {laboratoryInstance.name}
                         </Typography>
-                        <Typography variant="h6">
-                            Pentru mai multe detalii accesati pagina laboratorului:
-                        </Typography>
-                        <Typography variant="h6" style={{ marginBottom: '1rem'}}>
-                            {laboratoryInstance.description}
-                        </Typography>
-                        <Typography variant="h5">
+                        <div style={{ display: 'flex', justifyContent: 'center' }}>
+                            <QRCode value={qrValue} />
+                        </div>
+                        <br/>
+                        <br/>
+                        <Typography variant="h4" align="center" fontWeight ="bold">
                             Studenti
                         </Typography>
 
                         <TableContainer component={Paper}>
                             <Table sx={{ minWidth: 650 }} aria-label="simple table">
                                 <TableHead>
-                                    <TableRow>
-                                        {header.map(e => <TableCell key={`header_${String(e.key)}`}>{e.name}</TableCell>)}
+                                    <TableRow sx={{ backgroundColor: "#024180" }}>
+                                        {header.map(e => <TableCell sx={{color: "#FFFFFF"}} key={`header_${String(e.key)}`}>{e.name}</TableCell>)}
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>

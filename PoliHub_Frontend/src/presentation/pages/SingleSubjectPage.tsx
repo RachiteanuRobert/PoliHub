@@ -1,6 +1,6 @@
 import { WebsiteLayout } from "presentation/layouts/WebsiteLayout";
 import React, {Fragment, memo, useCallback, useState} from "react";
-import { Box } from "@mui/system";
+import {Box, styled} from "@mui/system";
 import { Seo } from "@presentation/components/ui/Seo";
 import {useQuery, useQueryClient} from "@tanstack/react-query";
 import { isUndefined } from "lodash";
@@ -22,6 +22,7 @@ import AddSubjectUserButton from '@presentation/components/ui/Buttons/SubjectUse
 import DeleteSubjectUserButton from '@presentation/components/ui/Buttons/SubjectUserDeleteButton';
 import {Input} from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
+import InfoIcon from "@mui/icons-material/Info";
 
 const useUserHeader = (): { key: keyof UserSimpleDTO, name: string }[] => {
     const { formatMessage } = useIntl();
@@ -29,7 +30,8 @@ const useUserHeader = (): { key: keyof UserSimpleDTO, name: string }[] => {
     return [
         { key: "name", name: formatMessage({ id: "globals.name" }) },
         { key: "email", name: formatMessage({ id: "globals.email" }) },
-        { key: "group", name: formatMessage({ id: "globals.group" }) }
+        { key: "group", name: formatMessage({ id: "globals.group" }) },
+        { key: "id", name: formatMessage({ id: "globals.id" }) }
     ]
 };
 
@@ -67,10 +69,22 @@ const getCourseRowValues = (entries: CourseSimpleDTO[] | null | undefined, order
         }
     });
 
+const BlueBackground = styled(Box)`
+  background-color: #024180;
+  height: 473px;
+  width: 96vw;
+  position: fixed;
+  border-radius: 10px;
+  top: 0;
+  left: 2rem;
+  z-index : 0;
+`;
+
 export const SingleSubjectPage = memo(() => {
     const { subjectId } = useParams();
     const { getSubject: { key: getSubjectQueryKey, query: getSubject } } = useSubjectApi();
     const { data, isError, isLoading } = useQuery([getSubjectQueryKey], () => getSubject(subjectId ?? ""));
+    const { formatMessage } = useIntl();
     const subject = data?.response;
     const queryClient = useQueryClient();
     const subjectUsers = subject?.subjectUsers;
@@ -111,44 +125,38 @@ export const SingleSubjectPage = memo(() => {
     return (
         <Fragment>
             <Seo title="Subject" />
+
             <WebsiteLayout>
+                <BlueBackground></BlueBackground>
                 <Box sx={{ padding: "0px 10px" }}>
+
                     <ContentCard>
                         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                             <Link to="/subjects" style={{ textDecoration: 'none', marginBottom: '1rem' }}>
-                                <Button variant="outlined" style={{ background: '#1976d2', color: 'white' }}>
+                                <Button variant="outlined" style={{ background: '#024180', color: 'white' }}>
                                     Inapoi
                                 </Button>
                             </Link>
 
                         </div>
-                        <Typography variant="h4" style={{ marginTop: '1rem', textAlign: 'center' }}>
+                        <br/>
+                        <Typography variant="h3" style={{ marginTop: '1rem', textAlign: 'center', fontWeight:'bold'}}>
                             {subject.name}
                         </Typography>
                         <Typography variant="h6" style={{ textAlign: 'center'}}>
-                            Anul {subject.year} - Semestrul {subject.semester}
+                            Anul {subject.year} - Semestrul {subject.semester} - {subject.creditsNo} PC
                         </Typography>
-                        <Typography variant="h5" >
-                            Puncte credit: {subject.creditsNo}
-                        </Typography>
-                        <Typography variant="h6">
-                            Pentru mai multe detalii accesati{' '}
-                            {subject.description && (
-                                <Link to={subject.description} target="_blank" rel="noopener noreferrer">
-                                    pagina materiei
-                                </Link>
-                            )}
-                            .
-                        </Typography>
+                        <br/>
 
-                        <Typography variant="h5" style={{marginTop: "1rem"}}>
+                        <Typography variant="h4" align="center" fontWeight ="bold">
                             Cursuri
                         </Typography>
                         <TableContainer component={Paper}>
                             <Table sx={{ minWidth: 650 }} aria-label="simple table">
                                 <TableHead>
-                                    <TableRow>
-                                        {courseHeader.map(e => <TableCell key={`header_${String(e.key)}`}>{e.name}</TableCell>)}
+                                    <TableRow sx={{ backgroundColor: "#024180" }}>
+                                        {courseHeader.map(e => <TableCell sx={{color: "#FFFFFF"}}  key={`header_${String(e.key)}`}>{e.name}</TableCell>)}
+                                        <TableCell sx={{ backgroundColor: "#024180", color:"#FFFFFF"}}>{formatMessage({ id: "labels.actions" })}</TableCell>
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
@@ -157,26 +165,35 @@ export const SingleSubjectPage = memo(() => {
                                             {data.map((keyValue, index) =>
                                                 <TableCell key={`cell_${rowIndex + 1}_${index + 1}`}>{keyValue.value}</TableCell>
                                             )}
+                                                <TableCell>
+                                                    <Link to={`/courses/${entry.id}`}>
+                                                        <InfoIcon />
+                                                    </Link>
+                                                </TableCell>
+
                                         </TableRow>
                                     )}
                                 </TableBody>
                             </Table>
                         </TableContainer>
-
-                        <Typography variant="h5" style={{ marginTop: '5rem'}}>
+                        <br/>
+                        <br/>
+                        <Typography variant="h4" align="center" fontWeight ="bold">
                             Studenti
                         </Typography>
                         {subject.id && (
                             <AddSubjectUserButton subjectId={subject.id} onAddButtonPress={handleAddButtonPress}>
-                                Adauga Utilizator
+                                Adauga Student
                             </AddSubjectUserButton>
                         )}
+                        <br/>
 
                         <TableContainer component={Paper}>
                             <Table sx={{ minWidth: 650 }} aria-label="simple table">
                                 <TableHead>
-                                    <TableRow>
-                                        {userHeader.map(e => <TableCell key={`header_${String(e.key)}`}>{e.name}</TableCell>)}
+                                    <TableRow sx={{ backgroundColor: "#024180" }}>
+                                        {userHeader.map(e => <TableCell sx={{color: "#FFFFFF"}}  key={`header_${String(e.key)}`}>{e.name}</TableCell>)}
+                                        <TableCell sx={{ backgroundColor: "#024180", color:"#FFFFFF"}}>{formatMessage({ id: "labels.actions" })}</TableCell>
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
@@ -197,9 +214,22 @@ export const SingleSubjectPage = memo(() => {
                                 </TableBody>
                             </Table>
                         </TableContainer>
+                        <br/>
+                        <br/>
+                        <Typography variant="h6" align ="center">
+                            Pentru mai multe detalii accesati{' '}
+                            {subject.description && (
+                                <Link to={subject.description} target="_blank" rel="noopener noreferrer">
+                                    pagina materiei
+                                </Link>
+                            )}
+                            .
+                        </Typography>
                     </ContentCard>
                 </Box>
+
             </WebsiteLayout>
+
         </Fragment>
     );
 });

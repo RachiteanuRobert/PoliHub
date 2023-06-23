@@ -50,7 +50,7 @@
     "babel-plugin-formatjs": "10.4.0",
     "http-proxy-middleware": "^2.0.6",
     "typescript": "4.9.3",
-    "vite": "4.1.0",
+    "vite": "^4.3.9",
     "vitest": "0.29.1"
   }
 }

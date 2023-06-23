@@ -8,6 +8,8 @@ apis/UserApi.ts
 apis/UserFileApi.ts
 apis/index.ts
 index.ts
+models/AttendancesDTO.ts
+models/AttendancesDTORequestResponse.ts
 models/Course.ts
 models/CourseAddDTO.ts
 models/CourseDTO.ts
@@ -16,6 +18,7 @@ models/CourseDTOPagedResponseRequestResponse.ts
 models/CourseDTORequestResponse.ts
 models/CourseInstance.ts
 models/CourseInstanceAddDTO.ts
+models/CourseInstanceAttendanceDTO.ts
 models/CourseInstanceDTO.ts
 models/CourseInstanceDTOPagedResponse.ts
 models/CourseInstanceDTOPagedResponseRequestResponse.ts
@@ -37,6 +40,7 @@ models/LaboratoryDTOPagedResponseRequestResponse.ts
 models/LaboratoryDTORequestResponse.ts
 models/LaboratoryInstance.ts
 models/LaboratoryInstanceAddDTO.ts
+models/LaboratoryInstanceAttendanceDTO.ts
 models/LaboratoryInstanceDTO.ts
 models/LaboratoryInstanceDTOPagedResponse.ts
 models/LaboratoryInstanceDTOPagedResponseRequestResponse.ts
@@ -60,6 +64,8 @@ models/SubjectDTORequestResponse.ts
 models/SubjectSimpleDTO.ts
 models/SubjectUpdateDTO.ts
 models/SubjectUser.ts
+models/TimetableClassesDTO.ts
+models/TimetableClassesDTOICollectionRequestResponse.ts
 models/User.ts
 models/UserAddDTO.ts
 models/UserDTO.ts

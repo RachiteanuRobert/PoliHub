@@ -109,7 +109,7 @@ export const SubjectTable = () => {
                                 </IconButton>}
                             </TableCell>
                             <TableCell>
-                                <Link to={`/subjects/${entry.id}`}>Info
+                                <Link to={`/subjects/${entry.id}`}><InfoIcon />
                                 </Link>
                             </TableCell>
                         </TableRow>)

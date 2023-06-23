@@ -13,6 +13,7 @@ import { setLaboratoryToUpdate } from "@application/state-slices/laboratory";
 import { Laboratory } from "@application/state-slices/laboratory/laboratorySlice.types";
 import SearchIcon from '@mui/icons-material/Search';
 import {Link} from "react-router-dom";
+import InfoIcon from '@mui/icons-material/Info';
 
 const useHeader = (): { key: keyof LaboratoryDTO; name: string }[] => {
     const { formatMessage } = useIntl();
@@ -106,7 +107,8 @@ export const LaboratoryTable = () => {
                                 </IconButton>}
                             </TableCell>
                             <TableCell>
-                                <Link to={`/laboratories/${entry.id}`}>Info
+
+                                <Link to={`/laboratories/${entry.id}`}><InfoIcon />
                                 </Link>
                             </TableCell>
                         </TableRow>)

@@ -7,6 +7,8 @@ import { getAuthenticationConfiguration } from "@infrastructure/utils/userUtils"
  */
 const getUsersQueryKey = "getUsersQuery";
 const getUserQueryKey = "getUserQuery";
+const getAttendanceQueryKey = "getAttendanceQuery";
+const getTimetableQueryKey = "getTimetableQuery";
 const addUserMutationKey = "addUserMutation";
 const deleteUserMutationKey = "deleteUserMutation";
 
@@ -19,6 +21,8 @@ export const useUserApi = () => {
 
     const getUsers = (page: ApiUserGetPageGetRequest) => new UserApi(config).apiUserGetPageGet(page); // Use the generated client code and adapt it.
     const getUser = (id: string) => new UserApi(config).apiUserGetByIdIdGet({ id });
+    const getTimetableClasses = (id: string) => new UserApi(config).apiUserGetTimetableClassesIdGet({ id });
+    const getAttendances = (id: string) => new UserApi(config).apiUserGetAttendancesIdGet({ id });
     const addUser = (user: UserAddDTO) => new UserApi(config).apiUserAddPost({ userAddDTO: user });
     const deleteUser = (id: string) => new UserApi(config).apiUserDeleteIdDelete({ id });
 
@@ -30,6 +34,14 @@ export const useUserApi = () => {
         getUser: {
             key: getUserQueryKey,
             query: getUser
+        },
+        getAttendances: {
+            key: getAttendanceQueryKey,
+            query: getAttendances
+        },
+        getTimetable: {
+            key: getTimetableQueryKey,
+            query: getTimetableClasses
         },
         addUser: { // Return the mutation object.
             key: addUserMutationKey, // Add the key to identify the mutation.

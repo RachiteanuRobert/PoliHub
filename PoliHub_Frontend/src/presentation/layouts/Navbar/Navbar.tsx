@@ -47,7 +47,7 @@ export const Navbar = () => {
 
     return (
         <Box sx={{ flexGrow: 1 }}>
-            <AppBar>
+            <AppBar sx ={{ backgroundColor: '#024180'}}>
                 <Toolbar>
                     <div
                         style={{
@@ -56,40 +56,11 @@ export const Navbar = () => {
                             justifyContent: 'space-between',
                             color: 'white',
                             width: '100%',
-                            padding: '0 10%',
                         }}
                     >
-                        <Grid container item direction="column" xs={1}>
-                            <Link to={AppRoute.Index}>
-                                <div
-                                    style={{
-                                        background: 'white',
-                                        display: 'flex',
-                                        justifyContent: 'center',
-                                        alignItems: 'center',
-                                        width: '180px',
-                                        height: '80px',
-                                        borderRadius: '10px',
-                                        overflow: 'hidden',
-                                    }}
-                                >
-                                    <img
-                                        src="public/PoliHub_Logo.png"
-                                        alt="Logo"
-                                        style={{ width: '100%', height: '100%' }}
-                                    />
-                                </div>
-                            </Link>
-                        </Grid>
-                        <Grid container item direction="column" xs={1}>
-                            <Button color="inherit">
-                                <Link style={{ color: 'white' }} to={AppRoute.UserAttendances}>
-                                    {formatMessage({ id: "globals.userAttendances" })}
-                                </Link>
-                            </Button>
-                        </Grid>
 
-                        <div style={{ display: 'flex', alignItems: 'center' }}>
+                        <Grid container direction="row" alignItems="center">
+                            { isAdmin && (
                             <Button
                                 color="inherit"
                                 aria-controls="menu"
@@ -98,6 +69,8 @@ export const Navbar = () => {
                             >
                                 <MenuIcon />
                             </Button>
+                            )}
+
                             <Menu
                                 id="menu"
                                 anchorEl={menuAnchorEl}
@@ -134,18 +107,52 @@ export const Navbar = () => {
                                         {formatMessage({ id: 'globals.laboratoryInstances' })}
                                     </Link>
                                 </MenuItem>
+                                <MenuItem>
+                                    <Link style={{ color: 'black', textDecoration: 'none' }} to={AppRoute.Register}>
+                                        {formatMessage({ id: 'globals.register' })}
+                                    </Link>
+                                </MenuItem>
                             </Menu>
+
+                            <Link to={AppRoute.Index}>
+                                <div
+                                    style={{
+                                        display: 'flex',
+                                        justifyContent: 'left',
+                                        color: 'white'
+                                    }}
+                                >
+                                    <HomeIcon>
+
+                                    </HomeIcon>
+                                </div>
+                            </Link>
+                        </Grid>
+
+                        <Grid container direction="column" alignItems="center" justifyContent="center" style={{ flexGrow: 1 }}>
+                            <div style={{ flexGrow: 1 }} />
+
+                            <div style={{ display: 'flex', alignItems: 'center' }}>
+                                <Button color="inherit" style={{ fontFamily: 'Montserrat, sans-serif' }}>
+                                    <Link style={{ color: 'white' }} to={AppRoute.UserSchedule}>
+                                        {formatMessage({ id: "globals.schedule" })}
+                                    </Link>
+                                </Button>
+
+                                <Button color="inherit" style={{ fontFamily: 'Montserrat, sans-serif', marginLeft: '1rem' }}>
+                                    <Link style={{ color: 'white' }} to={AppRoute.UserAttendances}>
+                                        {formatMessage({ id: "globals.userAttendances" })}
+                                    </Link>
+                                </Button>
+                            </div>
+                        </Grid>
+
+
+                        <div style={{ display: 'flex', alignItems: 'center' }}>
                             {!loggedIn && (
                                 <Button color="inherit">
                                     <Link style={{ color: 'white' }} to={AppRoute.Login}>
                                         {formatMessage({ id: 'globals.login' })}
-                                    </Link>
-                                </Button>
-                            )}
-                            {!loggedIn && (
-                                <Button color="inherit">
-                                    <Link style={{ color: 'white' }} to={AppRoute.Register}>
-                                        {formatMessage({ id: 'globals.register' })}
                                     </Link>
                                 </Button>
                             )}

@@ -26,22 +26,13 @@ export const LoginPage = memo(() => {
                         backgroundPosition: "center",
                         minHeight: "100vh",
                         position: "fixed", // Set the position to fixed
+                        borderTop: "2rem solid",
                         left: 0, // Position the div from the left edge of the viewport
                         right: 0, // Position the div from the right edge of the viewport
                         top: 0, // Position the div from the top edge of the viewport
                     }}
                 >
                     <LoginForm />
-                    <div style={divStyles}>
-                        <div style={{ marginRight: ".5rem" }}>
-                            <Typography variant="h6" style={{ color: "white", fontSize: "170%" }}>
-                                {formatMessage({ id: "globals.noAccount" })}
-                            </Typography>
-                        </div>
-                        <Typography variant="h6" style={{ fontSize: "170%" }}>
-                            <Link to={AppRoute.Register}>{formatMessage({ id: "globals.register" })}</Link>
-                        </Typography>
-                    </div>
                 </div>
             </WebsiteLayout>
         </Fragment>

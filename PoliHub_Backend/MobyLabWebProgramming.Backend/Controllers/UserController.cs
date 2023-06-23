@@ -54,6 +54,28 @@ public class UserController : AuthorizedController // Here we use the Authorized
             this.ErrorMessageResult<PagedResponse<UserDTO>>(currentUser.Error);
     }
 
+    [Authorize] // You need to use this attribute to protect the route access, it will return a Forbidden status code if the JWT is not present or invalid, and also it will decode the JWT token.
+    [HttpGet("{id:guid}")]// This attribute will make the controller respond to a HTTP GET request on the route /api/User/GetById/<some_guid>.
+    public async Task<ActionResult<RequestResponse<ICollection<TimetableClassesDTO>>>> GetTimetableClasses([FromRoute] Guid id) // The FromRoute attribute will bind the id from the route to this parameter.
+    {
+        var currentUser = await GetCurrentUser();
+
+        return currentUser.Result != null ?
+            this.FromServiceResponse(await UserService.GetTimetableClasses(id)) :
+            this.ErrorMessageResult<ICollection<TimetableClassesDTO>>(currentUser.Error);
+    }
+
+    [Authorize] // You need to use this attribute to protect the route access, it will return a Forbidden status code if the JWT is not present or invalid, and also it will decode the JWT token.
+    [HttpGet("{id:guid}")]// This attribute will make the controller respond to a HTTP GET request on the route /api/User/GetById/<some_guid>.
+    public async Task<ActionResult<RequestResponse<AttendancesDTO>>> GetAttendances([FromRoute] Guid id) // The FromRoute attribute will bind the id from the route to this parameter.
+    {
+        var currentUser = await GetCurrentUser();
+
+        return currentUser.Result != null ?
+            this.FromServiceResponse(await UserService.GetAttendances(id)) :
+            this.ErrorMessageResult<AttendancesDTO>(currentUser.Error);
+    }
+
     /// <summary>
     /// This method implements the Create operation (C from CRUD) of a user. 
     /// </summary>

@@ -1,5 +1,7 @@
 /* tslint:disable */
 /* eslint-disable */
+export * from './AttendancesDTO';
+export * from './AttendancesDTORequestResponse';
 export * from './Course';
 export * from './CourseAddDTO';
 export * from './CourseDTO';
@@ -8,6 +10,7 @@ export * from './CourseDTOPagedResponseRequestResponse';
 export * from './CourseDTORequestResponse';
 export * from './CourseInstance';
 export * from './CourseInstanceAddDTO';
+export * from './CourseInstanceAttendanceDTO';
 export * from './CourseInstanceDTO';
 export * from './CourseInstanceDTOPagedResponse';
 export * from './CourseInstanceDTOPagedResponseRequestResponse';
@@ -29,6 +32,7 @@ export * from './LaboratoryDTOPagedResponseRequestResponse';
 export * from './LaboratoryDTORequestResponse';
 export * from './LaboratoryInstance';
 export * from './LaboratoryInstanceAddDTO';
+export * from './LaboratoryInstanceAttendanceDTO';
 export * from './LaboratoryInstanceDTO';
 export * from './LaboratoryInstanceDTOPagedResponse';
 export * from './LaboratoryInstanceDTOPagedResponseRequestResponse';
@@ -52,6 +56,8 @@ export * from './SubjectDTORequestResponse';
 export * from './SubjectSimpleDTO';
 export * from './SubjectUpdateDTO';
 export * from './SubjectUser';
+export * from './TimetableClassesDTO';
+export * from './TimetableClassesDTOICollectionRequestResponse';
 export * from './User';
 export * from './UserAddDTO';
 export * from './UserDTO';

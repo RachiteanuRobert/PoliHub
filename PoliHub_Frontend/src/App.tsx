@@ -20,12 +20,23 @@ import { AppRoute } from "routes";
 import {SingleLaboratoryInstancePage} from "@presentation/pages/SingleLaboratoryInstancePage";
 import {SingleCourseInstancePage} from "@presentation/pages/SingleCourseInstancePage";
 import {UserAttendancesPage} from "@presentation/pages/UserAttendancesPage";
+import {UserSchedulePage} from "@presentation/pages/UserSchedulePage";
+import {createMuiTheme, ThemeProvider} from "@material-ui/core/styles";
 
 
 export function App() {
   const isAdmin = useOwnUserHasRole(UserRoleEnum.Admin);
+    const theme = createMuiTheme({
+        typography: {
+            fontFamily: [
+                'Montserrat',
+                'sans-serif'
+            ].join(','),
+        }
+    });
 
   return <AppIntlProvider> {/* AppIntlProvider provides the functions to search the text after the provides string ids. */}
+      <ThemeProvider theme={theme}>
       <ToastNotifier />
       {/* This adds the routes and route mappings on the various components. */}
       <Routes>
@@ -38,6 +49,7 @@ export function App() {
         <Route path ={AppRoute.SingleLaboratoryInstance} element = {<SingleLaboratoryInstancePage/>}/>
         <Route path ={AppRoute.SingleCourseInstance} element = {<SingleCourseInstancePage/>}/>
         <Route path ={AppRoute.UserAttendances} element = {<UserAttendancesPage/>}/>
+        <Route path ={AppRoute.UserSchedule} element = {<UserSchedulePage/>}/>
         {isAdmin && <Route path={AppRoute.Users} element={<UsersPage />} />} {/* If the user doesn't have the right role this route shouldn't be used. */}
         {isAdmin && <Route path={AppRoute.UserFiles} element={<UserFilesPage />} />}
         {isAdmin && <Route path={AppRoute.Subjects} element={<SubjectsPage />} />}
@@ -46,5 +58,6 @@ export function App() {
         {isAdmin && <Route path={AppRoute.LaboratoryInstances} element={<LaboratoryInstancesPage />} />}
         {isAdmin && <Route path={AppRoute.Laboratories} element={<LaboratoriesPage />} />}
       </Routes>
+      </ThemeProvider>
     </AppIntlProvider>
 }

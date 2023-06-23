@@ -39,10 +39,10 @@ const AddSubjectUserButton: React.FC<ComponentProps> = ({ subjectId, onAddButton
     return (
         <div className="add-subject-user-container">
             <Button
-                variant="outlined"
+                variant="contained"
                 className="add-button"
                 onClick={handleOpenPopup}
-                style={{ color: '#1976d2', borderColor: '#1976d2', backgroundColor: 'transparent' }}
+                style={{ color: '#FFFFFF', borderColor: '#1976d2', backgroundColor: '#024180'}}
             >
                 Adauga Student
             </Button>

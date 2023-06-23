@@ -2,92 +2,131 @@ import { WebsiteLayout } from "presentation/layouts/WebsiteLayout";
 import { Typography } from "@mui/material";
 import { Fragment, memo } from "react";
 import { useIntl } from "react-intl";
-import { Box } from "@mui/system";
 import { Button } from "@mui/material";
 import { Link } from "react-router-dom";
 import { Seo } from "@presentation/components/ui/Seo";
-import { ContentCard } from "@presentation/components/ui/ContentCard";
+import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
 
 export const HomePage = memo(() => {
     const { formatMessage } = useIntl();
+    const theme = createMuiTheme({
+        typography: {
+            fontFamily: ["Montserrat", "sans-serif"].join(","),
+        },
+    });
 
     return (
-        <Fragment>
-            <Seo title="MobyLab Web App | Home" />
-            <WebsiteLayout>
-                <div
-                    style={{
-                        background: "white",
-                        display: "flex",
-                        flexDirection: "column",
-                        alignItems: "center",
-                        minHeight: "100vh",
-                        padding: "2rem",
-                        marginTop: "80px", // Add margin-top for spacing
-                    }}
-                >
-                    <Typography
-                        variant="h1"
-                        component="h1"
+        <ThemeProvider theme={theme}>
+            <Fragment>
+                <Seo title="Home" />
+                <WebsiteLayout>
+                    <div
                         style={{
-                            color: "blue",
-                            marginBottom: "2rem",
-                            fontSize: "3.5rem",
-                            textAlign: "center",
-                            fontFamily: "Oxygen, Arial, sans-serif",
-                            wordBreak: "break-word",
+                            background: "white",
+                            display: "flex",
+                            flexDirection: "column",
+                            alignItems: "center",
+                            minHeight: "100vh",
+                            padding: "2rem",
                         }}
                     >
-                        O cariera de succes incepe cu o educatie de calitate!
-                    </Typography>
-                    <Typography
-                        variant="body1"
-                        style={{
-                            fontSize: "1.75rem",
-                            textAlign: "center",
-                            fontFamily: "Oxygen, Arial, sans-serif",
-                            maxWidth: "800px",
-                            margin: "0 auto",
-                        }}
-                    >
-                        Obtinand cunostintele de care aveti nevoie in subiectele care va
-                        preocupa, veti fi gata sa va atingeti potentialul.
-                    </Typography>
-                    <Button
-                        component={Link}
-                        to="/subjects"
-                        variant="outlined"
-                        style={{
-                            color: "blue",
-                            borderColor: "blue",
-                            textTransform: "none",
-                            marginTop: "1rem",
-                            padding: "1rem 2rem",
-                            fontSize: "1.2rem",
-                        }}
-                    >
-                        Vezi Materiile
-                    </Button>
-                    <div style={{ marginTop: "2rem" }}>
                         <img
-                            src="https://cardiff.imgix.net/__data/assets/image/0018/480015/chemistry-students-in-lecture-theatre.jpeg"
+                            src="/images/background_home.png"
                             alt="Chemistry students in lecture theatre"
                             style={{ width: "100%", borderRadius: "10px" }}
                         />
-                    </div>
-                    <div style={{ marginTop: "2rem" }}>
-                        <img
-                            src="https://i0.wp.com/unibuc.ro/wp-content/uploads/2020/01/camine-studentesti.jpg"
-                            alt="Student housing"
+
+                        <div className="container">
+                            <div className="image-container">
+                                <a href="/userSchedule">
+                                    <img
+                                        src="/images/01.orar.png"
+                                        alt="Schedule"
+                                        className="image"
+                                    />
+                                </a>
+                                <a href="/userAttendances">
+                                    <img
+                                        src="/images/02.%20prezente.png"
+                                        alt="Attendances"
+                                        className="image"
+                                    />
+                                </a>
+                                <a href="https://upb.ro">
+                                    <img
+                                        src="/images/03.%20UPB.RO.png"
+                                        alt="UPB Image"
+                                        className="image"
+                                    />
+                                </a>
+                                <a href="https://studenti.pub.ro">
+                                    <img
+                                        src="/images/04.studenti.pub.png"
+                                        alt="Studenti.Pub Image"
+                                        className="image"
+                                    />
+                                </a>
+                                <a href="https://curs.upb.ro/2022/my/">
+                                    <img
+                                        src="/images/05.%20moodle.ro.png"
+                                        alt="Moodle Image"
+                                        className="image"
+                                    />
+                                </a>
+                            </div>
+                        </div>
+
+                        <Typography
+                            variant="body1"
                             style={{
-                                width: "100%",
-                                borderRadius: "10px",
-                                boxShadow: "0 10px 200px rgba(0, 0, 50, 0.2)",
+                                fontSize: "3.2rem",
+                                fontStyle: 'italic',
+                                fontFamily: "Montserrat, sans-serif",
+                                margin: "0 auto",
+                                marginLeft: "4rem",
+                                marginTop: "2rem"
                             }}
-                        />
+                        >
+                                 ,,Obtinand cunostintele de care aveti nevoie
+                        </Typography>
+                        <Typography
+                            variant="body1"
+                            style={{
+                                fontSize: "3.2rem",
+                                fontStyle: 'italic',
+                                fontFamily: "Montserrat, sans-serif",
+                                margin: "0 auto",
+                                marginLeft: "10rem",
+                            }}
+                        >
+                            in subiectele care va
+                            preocupa,
+                        </Typography>
+
+                        <Typography
+                            variant="body1"
+                            style={{
+                                fontSize: "3.2rem",
+                                fontFamily: "Montserrat, sans-serif",
+                                fontStyle: 'italic',
+                                margin: "0 auto",
+                                marginLeft: "16rem",
+                            }}
+                        >
+                            veti fi gata sa va atingeti  potentialul."
+                        </Typography>
+
+
+                        <div style={{ marginTop: "2rem" }}>
+                            <img
+                                src="/images/Curte_Rectorat_Politehnica_Bucuresti.jpg"
+                                 alt="Cladire Rectorat Polithenica"
+                                style={{ width: "100%", borderRadius: "10px" }}
+                            />
+                        </div>
                     </div>
-                </div>
-            </WebsiteLayout>
-        </Fragment>
+                </WebsiteLayout>
+            </Fragment>
+        </ThemeProvider>
     );
 });

@@ -1,0 +1,29 @@
+.container {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    padding: 20px;
+}
+
+.image-container {
+    display: flex;
+    width: 100%;
+    max-width: 1200px;
+}
+
+.image {
+    flex: 1;
+    max-width: 100%;
+    margin: 5px;
+    transition: filter 0.3s ease;
+}
+
+.image:hover {
+    filter: brightness(70%);
+}
+
+
+
+
+
+

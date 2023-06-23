@@ -17,7 +17,18 @@ public interface IUserService
     /// <summary>
     /// GetUsers returns page with user information from the database.
     /// </summary>
+    /// 
     public Task<ServiceResponse<PagedResponse<UserDTO>>> GetUsers(PaginationSearchQueryParams pagination, CancellationToken cancellationToken = default);
+    /// <summary>
+    /// GetUsers returns user attendance informations.
+    /// </summary>
+    /// 
+    public Task<ServiceResponse<AttendancesDTO>> GetAttendances(Guid id, CancellationToken cancellationToken = default);
+    /// <summary>
+    /// GetUsers returns user timetable classes informations.
+    /// </summary>
+    /// 
+    public Task<ServiceResponse<ICollection<TimetableClassesDTO>>> GetTimetableClasses(Guid userId, CancellationToken cancellationToken = default);
     /// <summary>
     /// Login as suggested responds to a user login request with the JWT token and user information.
     /// </summary>
