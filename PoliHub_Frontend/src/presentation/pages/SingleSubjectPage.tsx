@@ -151,6 +151,7 @@ export const SingleSubjectPage = memo(() => {
                         <Typography variant="h4" align="center" fontWeight ="bold">
                             Cursuri
                         </Typography>
+                        <br/>
                         <TableContainer component={Paper}>
                             <Table sx={{ minWidth: 650 }} aria-label="simple table">
                                 <TableHead>

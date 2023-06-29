@@ -25,7 +25,7 @@ const useTimetableHeader = (): { key: keyof TimetableClassesDTO, name: string }[
     const { formatMessage } = useIntl();
 
     return [
-        { key: "type", name: formatMessage({ id: "globals.name" }) },
+        { key: "type", name: formatMessage({ id: "globals.type" }) },
         { key: "subjectName", name: formatMessage({ id: "globals.subject" }) },
         { key: "dayOfWeekPrint", name: formatMessage({ id: "globals.dayOfWeek" }) },
         { key: "startTime", name: formatMessage({ id: "globals.startTime" }) },

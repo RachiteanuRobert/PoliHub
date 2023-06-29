@@ -15,6 +15,7 @@
     "globals.schedule": "Orar",
     "globals.files": "Fisiere",
     "globals.subjects": "Materii",
+    "globals.type": "Tip",
     "globals.subject": "Materie",
     "globals.laboratories": "Laboratoare",
     "globals.courseInstanceDate": "Data Curs",

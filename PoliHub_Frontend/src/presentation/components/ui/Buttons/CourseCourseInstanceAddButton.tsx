@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import Button from '@material-ui/core/Button';
 import { useIntl } from 'react-intl';
-import { useSubjectApi } from "@infrastructure/apis/api-management";
-import './AddSubjectUserButton.css'; // Import custom CSS file
+import { useCourseApi } from "@infrastructure/apis/api-management";
+import './AddCourseCourseInstanceButton.css'; // Import custom CSS file
 
 interface ComponentProps {
     subjectId: string;
@@ -10,7 +10,7 @@ interface ComponentProps {
     children?: React.ReactNode;
 }
 
-const AddSubjectUserButton: React.FC<ComponentProps> = ({ subjectId, onAddButtonPress, children }) => {
+const AddCourseCourseInstanceButton: React.FC<ComponentProps> = ({ courseId, onAddButtonPress, children }) => {
     const [userId, setUserId] = useState('');
     const [isPopupOpen, setIsPopupOpen] = useState(false);
     const { formatMessage } = useIntl();
@@ -44,7 +44,7 @@ const AddSubjectUserButton: React.FC<ComponentProps> = ({ subjectId, onAddButton
                 onClick={handleOpenPopup}
                 style={{ color: '#FFFFFF', borderColor: '#1976d2', backgroundColor: '#024180'}}
             >
-                Adauga Student
+                Adauga Curs
             </Button>
             {isPopupOpen && (
                 <>
@@ -62,9 +62,9 @@ const AddSubjectUserButton: React.FC<ComponentProps> = ({ subjectId, onAddButton
                             variant="outlined"
                             className="submit-button"
                             onClick={handleAddUser}
-                            style={{ color: '#FFFFFF', background: '#024180' }}
+                            style={{ color: '#1976d2', borderColor: '#1976d2', backgroundColor: 'transparent' }}
                         >
-                            Trimite
+                            Submit
                         </Button>
                     </div>
                 </>
@@ -73,4 +73,4 @@ const AddSubjectUserButton: React.FC<ComponentProps> = ({ subjectId, onAddButton
     );
 };
 
-export default AddSubjectUserButton;
+export default AddSubjectCourseButton;

@@ -90,10 +90,10 @@ export const SubjectTable = () => {
 
         <TableContainer component={Paper}>
             <Table>
-                <TableHead>
-                    <TableRow>
-                        {header.map(e => <TableCell key={`header_${String(e.key)}`}>{e.name}</TableCell>)}
-                        <TableCell>{formatMessage({ id: "labels.actions" })}</TableCell>
+                <TableHead sx={{ backgroundColor: "#024180" }}>
+                    <TableRow sx={{ backgroundColor: "#024180" }}>
+                        {header.map(e => <TableCell sx={{color: "#FFFFFF"}} key={`header_${String(e.key)}`}>{e.name}</TableCell>)}
+                        <TableCell sx={{ backgroundColor: "#024180", color:"#FFFFFF"}}>{formatMessage({ id: "labels.actions" })}</TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>

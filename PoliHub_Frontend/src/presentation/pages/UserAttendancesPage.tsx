@@ -144,7 +144,7 @@ export const UserAttendancesPage = memo(() => {
                             <br/>
                             <br/>
                             <Typography variant="h4" align="center" fontWeight="bold">
-                                Prezente Laboratoare
+                                Prezente Laboratoare/Seminarii
                             </Typography>
                             <TableContainer component={Paper}>
                                 <Table sx={{ minWidth: 650 }} aria-label="simple table">
