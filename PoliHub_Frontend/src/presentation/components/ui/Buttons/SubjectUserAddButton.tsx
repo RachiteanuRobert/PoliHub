@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Button from '@material-ui/core/Button';
 import { useIntl } from 'react-intl';
 import { useSubjectApi } from "@infrastructure/apis/api-management";
-import './AddSubjectUserButton.css'; // Import custom CSS file
+import './AddUserButton.css'; // Import custom CSS file
 
 interface ComponentProps {
     subjectId: string;

@@ -78,6 +78,26 @@ public class LaboratoryService : ILaboratoryService
         return ServiceResponse.ForSuccess();
     }
 
+    public async Task<ServiceResponse> DeleteUserFromLaboratory(Guid userLaboratoryId, UserDTO? requestingUser, CancellationToken cancellationToken)
+    {
+
+        if (requestingUser != null && requestingUser.Role != UserRoleEnum.Admin)
+        {
+            return ServiceResponse.FromError(new(HttpStatusCode.Forbidden, "Only the admin can remove users!", ErrorCodes.CannotAdd));
+        }
+
+        // Verify if user is enrolled
+        var laboratoryUser = await _repository.GetAsync(new LaboratoryUserProjectionSpec(userLaboratoryId), cancellationToken);
+        if (laboratoryUser == null)
+        {
+            return ServiceResponse.FromError(new(HttpStatusCode.NotFound, "User is not enroled!", ErrorCodes.EntityNotFound));
+        }
+
+        await _repository.DeleteAsync<LaboratoryUser>(userLaboratoryId, cancellationToken);
+
+        return ServiceResponse.ForSuccess();
+    }
+
     public async Task<ServiceResponse> AddLaboratory(LaboratoryAddDTO laboratory, UserDTO? requestingUser, CancellationToken cancellationToken)
     {
         if (requestingUser != null && requestingUser.Role != UserRoleEnum.Admin) // Verify who can add the user, you can change this however you se fit.
@@ -91,37 +111,6 @@ public class LaboratoryService : ILaboratoryService
             return ServiceResponse.FromError(new(HttpStatusCode.Forbidden, "Laboratory already exists!", ErrorCodes.CannotAdd));
         }
 
-        /*
-        var Users = new List<User>();
-        var LaboratoryInstances = new List<LaboratoryInstance>();
-
-        if (laboratory.Users != null)
-        {
-            foreach (Guid id in laboratory.Users)
-            {
-                var user = await _repository.GetAsync(new UserSpec(id), cancellationToken);
-                if (user == null)
-                {
-                    return ServiceResponse.FromError(new(HttpStatusCode.NotFound, "Bad user id provided", ErrorCodes.EntityNotFound));
-                }
-                Users.Add(user);
-            }
-        }
-
-        if (laboratory.LaboratoryInstances != null)
-        {
-            foreach (Guid id in laboratory.LaboratoryInstances)
-            {
-                var laboratoryInstance = await _repository.GetAsync(new LaboratoryInstanceSpec(id), cancellationToken);
-                if (laboratoryInstance == null)
-                {
-                    return ServiceResponse.FromError(new(HttpStatusCode.NotFound, "Bad laboratory instance provided", ErrorCodes.EntityNotFound));
-                }
-                LaboratoryInstances.Add(laboratoryInstance);
-            }
-        }
-        */
-
         await _repository.AddAsync(new Laboratory
         {
             StartTime = laboratory.StartTime,
@@ -129,13 +118,7 @@ public class LaboratoryService : ILaboratoryService
             Location = laboratory.Location,
             AssistantName = laboratory.AssistantName,
             DayOfWeek = laboratory.DayOfWeek,
-            CourseId = laboratory.CourseId,
-            /*
-            SubjectId = laboratory.SubjectId
-            Subject = laboratory.Subject,
-            Users = Users,
-            LaboratoryInstances = LaboratoryInstances
-            */
+            CourseId = laboratory.CourseId
         });
 
         return ServiceResponse.ForSuccess();

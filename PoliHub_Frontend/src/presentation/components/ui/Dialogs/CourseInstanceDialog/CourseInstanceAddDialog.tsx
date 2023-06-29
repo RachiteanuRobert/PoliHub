@@ -7,12 +7,16 @@ import { FormActions } from "@infrastructure/utils/formUtils";
 /**
  * This component wraps the user add form into a modal dialog.
  */
-export const CourseInstanceAddDialog = () => {
+export const CourseInstanceAddDialog = ({courseId}: {courseId : string}) => {
     const { open, close, isOpen } = useCourseInstanceAddDialogController();
     const { formatMessage } = useIntl();
 
     return <div>
-        <Button variant="outlined" onClick={open}>
+        <Button
+            variant="contained"
+            onClick={open}
+            style={{ color: '#FFFFFF', borderColor: '#1976d2', backgroundColor: '#024180'}}
+        >
             {formatMessage({ id: "labels.addCourseInstance" })}
         </Button>
         <Dialog
@@ -25,6 +29,7 @@ export const CourseInstanceAddDialog = () => {
                 <CourseInstanceForm
                     onSubmit={close}
                     action={FormActions.ADD}
+                    propCourseId={courseId}
                 />
             </DialogContent>
         </Dialog>

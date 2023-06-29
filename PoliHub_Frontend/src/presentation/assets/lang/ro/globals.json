@@ -26,6 +26,7 @@
     "globals.addCourseInstance": "Adauga Instanta de Curs",
     "globals.addLaboratoryInstance": "Adauga Instanta de Laborator",
     "globals.name": "Nume",
+    "globals.date": "Data",
     "globals.dayOfWeek": "Zi",
     "globals.year": "An",
     "globals.professor": "Profesor",

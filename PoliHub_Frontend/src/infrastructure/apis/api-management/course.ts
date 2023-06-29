@@ -1,5 +1,11 @@
 import { useAppSelector } from "@application/store";
-import { ApiCourseGetPageGetRequest, CourseAddDTO, CourseApi, CourseUpdateDTO } from "../client";
+import {
+    ApiCourseGetPageGetRequest,
+    CourseAddDTO,
+    CourseApi,
+    CourseUpdateDTO,
+    UserToCourseAddDTO,
+} from "../client";
 import { getAuthenticationConfiguration } from "@infrastructure/utils/userUtils";
 
 /**
@@ -8,6 +14,8 @@ import { getAuthenticationConfiguration } from "@infrastructure/utils/userUtils"
 const getCoursesQueryKey = "getCoursesQuery";
 const getCourseQueryKey = "getCourseQuery";
 const addCourseMutationKey = "addCourseMutation";
+const addCourseUserMutationKey = "addCourseUserMutation";
+const deleteCourseUserMutationKey = "deleteCourseUserMutation";
 const deleteCourseMutationKey = "deleteCourseMutation";
 const updateCourseMutationKey = "updateCourseMutation";
 
@@ -21,8 +29,9 @@ export const useCourseApi = () => {
     const getCourses = (page: ApiCourseGetPageGetRequest) => new CourseApi(config).apiCourseGetPageGet(page); // Use the generated client code and adapt it.
     const getCourse = (id: string) => new CourseApi(config).apiCourseGetByIdIdGet({ id });
     const addCourse = (course: CourseAddDTO) => new CourseApi(config).apiCourseAddPost({ courseAddDTO: course });
+    const addCourseUser = (userCourseIds: UserToCourseAddDTO) => new CourseApi(config).apiCourseAddUserToCoursePost({ userToCourseAddDTO: userCourseIds });
+    const deleteCourseUser = (userCourseId: string) => new CourseApi(config).apiCourseDeleteUserFromCourseUserCourseIdDelete({ userCourseId });
     const updateCourse = (course: CourseUpdateDTO) => new CourseApi(config).apiCourseUpdatePut({ courseUpdateDTO: course });
-
     const deleteCourse = (id: string) => new CourseApi(config).apiCourseDeleteIdDelete({ id });
 
     return {
@@ -37,6 +46,14 @@ export const useCourseApi = () => {
         addCourse: { // Return the mutation object.
             key: addCourseMutationKey, // Add the key to identify the mutation.
             mutation: addCourse // Add the mutation callback.
+        },
+        addCourseUser: { // Return the mutation object.
+            key: addCourseUserMutationKey, // Add the key to identify the mutation.
+            mutation: addCourseUser // Add the mutation callback.
+        },
+        deleteCourseUser: {
+            key: deleteCourseUserMutationKey,
+            mutation: deleteCourseUser
         },
         deleteCourse: {
             key: deleteCourseMutationKey,

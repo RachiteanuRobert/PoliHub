@@ -9,6 +9,7 @@ public interface ILaboratoryService
     public Task<ServiceResponse<LaboratoryDTO>> GetLaboratoryById(Guid id, CancellationToken cancellationToken = default);
     public Task<ServiceResponse<PagedResponse<LaboratoryDTO>>> GetLaboratories(PaginationSearchQueryParams pagination, CancellationToken cancellationToken = default);
     public Task<ServiceResponse> AddUserToLaboratory(UserToLaboratoryAddDTO userLaboratoryIds, UserDTO? requestingUser, CancellationToken cancellationToken = default);
+    public Task<ServiceResponse> DeleteUserFromLaboratory(Guid userLaboratoryId, UserDTO? requestingUser, CancellationToken cancellationToken = default);
     public Task<ServiceResponse> AddLaboratory(LaboratoryAddDTO laboratory, UserDTO? requestingUser = default, CancellationToken cancellationToken = default);
     public Task<ServiceResponse> UpdateLaboratory(LaboratoryUpdateDTO laboratory, UserDTO? requestingUser = default, CancellationToken cancellationToken = default);
     public Task<ServiceResponse> DeleteLaboratory(Guid id, UserDTO? requestingUser = default, CancellationToken cancellationToken = default);

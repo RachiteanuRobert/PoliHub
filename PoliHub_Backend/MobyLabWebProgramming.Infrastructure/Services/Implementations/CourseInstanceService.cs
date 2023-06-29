@@ -84,7 +84,7 @@ public class CourseInstanceService : ICourseInstanceService
             return ServiceResponse.FromError(new(HttpStatusCode.Forbidden, "Only the admin can add course instances!", ErrorCodes.CannotAdd));
         }
 
-        var result = await _repository.GetAsync(new CourseInstanceProjectionSpec(courseInstance.CourseId), cancellationToken);
+        var result = await _repository.GetAsync(new CourseInstanceProjectionSpec(courseInstance.Name), cancellationToken);
         if (result != null)
         {
             return ServiceResponse.FromError(new(HttpStatusCode.Forbidden, "Course Instance already exists!", ErrorCodes.CannotAdd));
@@ -106,6 +106,12 @@ public class CourseInstanceService : ICourseInstanceService
             }
         }
         */
+
+        var courseResult = await _repository.GetAsync(new CourseProjectionSpec(courseInstance.CourseId), cancellationToken);
+        if (courseResult != null)
+        {
+            return ServiceResponse.FromError(new(HttpStatusCode.Forbidden, "Course Instance already exists!", ErrorCodes.CannotAdd));
+        }
 
         await _repository.AddAsync(new CourseInstance
         {

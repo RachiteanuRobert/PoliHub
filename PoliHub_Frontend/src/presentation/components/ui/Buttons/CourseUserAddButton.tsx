@@ -2,27 +2,27 @@ import React, { useState } from 'react';
 import Button from '@material-ui/core/Button';
 import { useIntl } from 'react-intl';
 import { useCourseApi } from "@infrastructure/apis/api-management";
-import './AddCourseCourseInstanceButton.css'; // Import custom CSS file
+import './AddUserButton.css'; // Import custom CSS file
 
 interface ComponentProps {
-    subjectId: string;
+    courseId: string;
     onAddButtonPress: () => void;
     children?: React.ReactNode;
 }
 
-const AddCourseCourseInstanceButton: React.FC<ComponentProps> = ({ courseId, onAddButtonPress, children }) => {
+const AddCourseUserButton: React.FC<ComponentProps> = ({ courseId, onAddButtonPress, children }) => {
     const [userId, setUserId] = useState('');
     const [isPopupOpen, setIsPopupOpen] = useState(false);
     const { formatMessage } = useIntl();
-    const { addSubjectUser } = useSubjectApi();
+    const { addCourseUser } = useCourseApi();
 
     const handleUserIdChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setUserId(event.target.value);
     };
 
     const handleAddUser = () => {
-        const userSubjectIds = { subjectId, userId };
-        addSubjectUser.mutation(userSubjectIds);
+        const userCourseIds = { courseId, userId };
+        addCourseUser.mutation(userCourseIds);
         onAddButtonPress();
         setUserId('');
         setIsPopupOpen(false);
@@ -37,14 +37,14 @@ const AddCourseCourseInstanceButton: React.FC<ComponentProps> = ({ courseId, onA
     };
 
     return (
-        <div className="add-subject-user-container">
+        <div className="add-course-user-container">
             <Button
                 variant="contained"
                 className="add-button"
                 onClick={handleOpenPopup}
                 style={{ color: '#FFFFFF', borderColor: '#1976d2', backgroundColor: '#024180'}}
             >
-                Adauga Curs
+                Adauga Student
             </Button>
             {isPopupOpen && (
                 <>
@@ -62,9 +62,9 @@ const AddCourseCourseInstanceButton: React.FC<ComponentProps> = ({ courseId, onA
                             variant="outlined"
                             className="submit-button"
                             onClick={handleAddUser}
-                            style={{ color: '#1976d2', borderColor: '#1976d2', backgroundColor: 'transparent' }}
+                            style={{ color: '#FFFFFF', background: '#024180' }}
                         >
-                            Submit
+                            Trimite
                         </Button>
                     </div>
                 </>
@@ -73,4 +73,4 @@ const AddCourseCourseInstanceButton: React.FC<ComponentProps> = ({ courseId, onA
     );
 };
 
-export default AddSubjectCourseButton;
+export default AddCourseUserButton;

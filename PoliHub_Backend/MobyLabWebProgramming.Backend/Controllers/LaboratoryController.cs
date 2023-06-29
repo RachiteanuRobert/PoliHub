@@ -50,7 +50,18 @@ public class LaboratoryController : AuthorizedController
             this.FromServiceResponse(await _laboratoryService.AddUserToLaboratory(userLaboratoryIds, currentUser.Result)) :
             this.ErrorMessageResult(currentUser.Error);
     }
-    
+
+    [Authorize]
+    [HttpDelete("{userCourseId:guid}")]
+    public async Task<ActionResult<RequestResponse>> DeleteUserFromLaboratory([FromRoute] Guid userLaboratoryId)
+    {
+        var currentUser = await GetCurrentUser();
+
+        return currentUser.Result != null ?
+            this.FromServiceResponse(await _laboratoryService.DeleteUserFromLaboratory(userLaboratoryId, currentUser.Result)) :
+            this.ErrorMessageResult(currentUser.Error);
+    }
+
 
     [Authorize]
     [HttpPost]

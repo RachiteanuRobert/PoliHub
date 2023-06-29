@@ -49,6 +49,17 @@ public class CourseController : AuthorizedController
     }
 
     [Authorize]
+    [HttpDelete("{userCourseId:guid}")]
+    public async Task<ActionResult<RequestResponse>> DeleteUserFromCourse([FromRoute] Guid userCourseId)
+    {
+        var currentUser = await GetCurrentUser();
+
+        return currentUser.Result != null ?
+            this.FromServiceResponse(await _courseService.DeleteUserFromCourse(userCourseId, currentUser.Result)) :
+            this.ErrorMessageResult(currentUser.Error);
+    }
+
+    [Authorize]
     [HttpPost]
     public async Task<ActionResult<RequestResponse>> Add([FromBody] CourseAddDTO course)
     {

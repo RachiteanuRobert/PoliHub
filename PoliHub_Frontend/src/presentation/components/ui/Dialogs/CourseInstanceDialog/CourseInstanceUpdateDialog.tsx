@@ -21,6 +21,7 @@ export const CourseInstanceUpdateDialog = ({ isOpen, setIsOpen }: {
                 <CourseInstanceForm
                     onSubmit={close}
                     action={FormActions.UPDATE}
+                    propCourseId = ""
                 />
             </DialogContent>
         </Dialog>

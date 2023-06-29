@@ -49,6 +49,10 @@ export interface ApiCourseDeleteIdDeleteRequest {
     id: string;
 }
 
+export interface ApiCourseDeleteUserFromCourseUserCourseIdDeleteRequest {
+    userCourseId: string;
+}
+
 export interface ApiCourseGetByIdIdGetRequest {
     id: string;
 }
@@ -159,6 +163,38 @@ export class CourseApi extends runtime.BaseAPI {
      */
     async apiCourseDeleteIdDelete(requestParameters: ApiCourseDeleteIdDeleteRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<RequestResponse> {
         const response = await this.apiCourseDeleteIdDeleteRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     */
+    async apiCourseDeleteUserFromCourseUserCourseIdDeleteRaw(requestParameters: ApiCourseDeleteUserFromCourseUserCourseIdDeleteRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<RequestResponse>> {
+        if (requestParameters.userCourseId === null || requestParameters.userCourseId === undefined) {
+            throw new runtime.RequiredError('userCourseId','Required parameter requestParameters.userCourseId was null or undefined when calling apiCourseDeleteUserFromCourseUserCourseIdDelete.');
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["Authorization"] = this.configuration.apiKey("Authorization"); // Bearer authentication
+        }
+
+        const response = await this.request({
+            path: `/api/Course/DeleteUserFromCourse/{userCourseId}`.replace(`{${"userCourseId"}}`, encodeURIComponent(String(requestParameters.userCourseId))),
+            method: 'DELETE',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => RequestResponseFromJSON(jsonValue));
+    }
+
+    /**
+     */
+    async apiCourseDeleteUserFromCourseUserCourseIdDelete(requestParameters: ApiCourseDeleteUserFromCourseUserCourseIdDeleteRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<RequestResponse> {
+        const response = await this.apiCourseDeleteUserFromCourseUserCourseIdDeleteRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

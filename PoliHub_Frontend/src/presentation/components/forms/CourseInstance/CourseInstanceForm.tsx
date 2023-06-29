@@ -21,9 +21,14 @@ import {FormActions} from "@infrastructure/utils/formUtils";
  * Here we declare the CourseInstance add and update form component.
  * This form may be used in modals so the onSubmit callback could close the modal on completion.
  */
-export const CourseInstanceForm = (props: { onSubmit?: () => void, action: FormActions}) => {
+export const CourseInstanceForm = (props: {
+    onSubmit?: () => void;
+    action: FormActions;
+    propCourseId: string;
+}) => {
     const { formatMessage } = useIntl();
     const { state, actions, computed } = useCourseInstanceFormController(props.action, props.onSubmit); // Use the controller.
+    const courseId = props.propCourseId !== "" ? props.propCourseId : "";
 
     return <form onSubmit={actions.handleSubmit(actions.submit)}> {/* Wrap your form into a form tag and use the handle submit callback to validate the form and call the data submission. */}
         <Stack spacing={4} style={{ width: "100%" }}>
@@ -80,27 +85,16 @@ export const CourseInstanceForm = (props: { onSubmit?: () => void, action: FormA
                     </FormControl>
                 </Grid>
                 <Grid container item direction="column" xs={6} md={6}>
-                    <FormControl
-                        fullWidth
-                        error={!isUndefined(state.errors.courseId)}
-                    >
+                    <FormControl fullWidth error={!isUndefined(state.errors.courseId)}>
                         <FormLabel required>
                             <FormattedMessage id="globals.courseId" />
                         </FormLabel>
                         <OutlinedInput
                             {...actions.register("courseId")}
-                            placeholder={formatMessage(
-                                { id: "globals.placeholders.textInput" },
-                                {
-                                    fieldName: formatMessage({
-                                        id: "globals.courseId",
-                                    }),
-                                })}
+                            value={props.propCourseId}
                             autoComplete="none"
                         />
-                        <FormHelperText
-                            hidden={isUndefined(state.errors.courseId)}
-                        >
+                        <FormHelperText hidden={isUndefined(state.errors.courseId)}>
                             {state.errors.courseId?.message}
                         </FormHelperText>
                     </FormControl>

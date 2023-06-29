@@ -60,7 +60,7 @@ export const CourseInstanceTable = () => {
 
 
     return <DataLoadingContainer isError={isError} isLoading={isLoading} tryReload={tryReload}>
-        <CourseInstanceAddDialog />
+        <CourseInstanceAddDialog courseId =""/>
         <p>
             <Input value={search} onChange={(e: any) => {
                 setSearch(e.target.value);

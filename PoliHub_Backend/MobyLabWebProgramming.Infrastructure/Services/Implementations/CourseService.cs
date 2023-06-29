@@ -86,6 +86,26 @@ public class CourseService : ICourseService
         return ServiceResponse.ForSuccess();
     }
 
+    public async Task<ServiceResponse> DeleteUserFromCourse(Guid userCourseId, UserDTO? requestingUser, CancellationToken cancellationToken)
+    {
+
+        if (requestingUser != null && requestingUser.Role != UserRoleEnum.Admin)
+        {
+            return ServiceResponse.FromError(new(HttpStatusCode.Forbidden, "Only the admin can remove users!", ErrorCodes.CannotAdd));
+        }
+
+        // Verify if user is enrolled
+        var courseUser = await _repository.GetAsync(new CourseUserProjectionSpec(userCourseId), cancellationToken);
+        if (courseUser == null)
+        {
+            return ServiceResponse.FromError(new(HttpStatusCode.NotFound, "User is not enroled!", ErrorCodes.EntityNotFound));
+        }
+
+        await _repository.DeleteAsync<CourseUser>(userCourseId, cancellationToken);
+
+        return ServiceResponse.ForSuccess();
+    }
+
     public async Task<ServiceResponse> AddCourse(CourseAddDTO course, UserDTO? requestingUser, CancellationToken cancellationToken)
     {
         if (requestingUser != null && requestingUser.Role != UserRoleEnum.Admin) // Verify who can add the user, you can change this however you se fit.
@@ -93,7 +113,7 @@ public class CourseService : ICourseService
             return ServiceResponse.FromError(new(HttpStatusCode.Forbidden, "Only the admin can add courses!", ErrorCodes.CannotAdd));
         }
 
-        var result = await _repository.GetAsync(new CourseProjectionSpec(course.SubjectId), cancellationToken);
+        var result = await _repository.GetAsync(new CourseProjectionSpec(course.ProfessorName), cancellationToken);
         if (result != null)
         {
             return ServiceResponse.FromError(new(HttpStatusCode.Forbidden, "Course already exists!", ErrorCodes.CannotAdd));
