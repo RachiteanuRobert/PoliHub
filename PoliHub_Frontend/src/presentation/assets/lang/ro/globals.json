@@ -49,6 +49,7 @@
     "globals.admin": "Administrator",
     "globals.client": "Client",
     "globals.personnel": "Personal",
+    "globals.student": "Student",
     "globals.user": "User",
     "globals.description": "Descriere",
     "globals.addBy": "Adaugat de", 

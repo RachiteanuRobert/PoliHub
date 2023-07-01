@@ -21,7 +21,6 @@ export const ErrorCodes = {
     Unknown: 'Unknown',
     TechnicalError: 'TechnicalError',
     EntityNotFound: 'EntityNotFound',
-    CourseInstanceAlreadyExists: 'CourseInstanceAlreadyExists',
     PhysicalFileNotFound: 'PhysicalFileNotFound',
     UserAlreadyExists: 'UserAlreadyExists',
     WrongPassword: 'WrongPassword',

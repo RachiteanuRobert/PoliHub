@@ -25,6 +25,12 @@ import {
     LaboratorySimpleDTOFromJSONTyped,
     LaboratorySimpleDTOToJSON,
 } from './LaboratorySimpleDTO';
+import type { SubjectSimpleDTO } from './SubjectSimpleDTO';
+import {
+    SubjectSimpleDTOFromJSON,
+    SubjectSimpleDTOFromJSONTyped,
+    SubjectSimpleDTOToJSON,
+} from './SubjectSimpleDTO';
 import type { UserSimpleDTO } from './UserSimpleDTO';
 import {
     UserSimpleDTOFromJSON,
@@ -88,6 +94,12 @@ export interface CourseDTO {
     subjectId?: string;
     /**
      * 
+     * @type {SubjectSimpleDTO}
+     * @memberof CourseDTO
+     */
+    subject?: SubjectSimpleDTO;
+    /**
+     * 
      * @type {Array<CourseInstanceSimpleDTO>}
      * @memberof CourseDTO
      */
@@ -133,6 +145,7 @@ export function CourseDTOFromJSONTyped(json: any, ignoreDiscriminator: boolean):
         'series': !exists(json, 'series') ? undefined : json['series'],
         'dayOfWeek': !exists(json, 'dayOfWeek') ? undefined : json['dayOfWeek'],
         'subjectId': !exists(json, 'subjectId') ? undefined : json['subjectId'],
+        'subject': !exists(json, 'subject') ? undefined : SubjectSimpleDTOFromJSON(json['subject']),
         'courseInstances': !exists(json, 'courseInstances') ? undefined : (json['courseInstances'] === null ? null : (json['courseInstances'] as Array<any>).map(CourseInstanceSimpleDTOFromJSON)),
         'courseUsers': !exists(json, 'courseUsers') ? undefined : (json['courseUsers'] === null ? null : (json['courseUsers'] as Array<any>).map(UserSimpleDTOFromJSON)),
         'laboratories': !exists(json, 'laboratories') ? undefined : (json['laboratories'] === null ? null : (json['laboratories'] as Array<any>).map(LaboratorySimpleDTOFromJSON)),
@@ -156,6 +169,7 @@ export function CourseDTOToJSON(value?: CourseDTO | null): any {
         'series': value.series,
         'dayOfWeek': value.dayOfWeek,
         'subjectId': value.subjectId,
+        'subject': SubjectSimpleDTOToJSON(value.subject),
         'courseInstances': value.courseInstances === undefined ? undefined : (value.courseInstances === null ? null : (value.courseInstances as Array<any>).map(CourseInstanceSimpleDTOToJSON)),
         'courseUsers': value.courseUsers === undefined ? undefined : (value.courseUsers === null ? null : (value.courseUsers as Array<any>).map(UserSimpleDTOToJSON)),
         'laboratories': value.laboratories === undefined ? undefined : (value.laboratories === null ? null : (value.laboratories as Array<any>).map(LaboratorySimpleDTOToJSON)),

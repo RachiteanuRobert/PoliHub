@@ -17,14 +17,11 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import Button from '@material-ui/core/Button';
 import Typography from '@mui/material/Typography';
-import { UserSimpleDTO, LaboratoryInstanceSimpleDTO, LaboratorySimpleDTO } from "@infrastructure/apis/client";
+import { UserSimpleDTO, LaboratoryInstanceSimpleDTO} from "@infrastructure/apis/client";
 import AddLaboratoryUserButton from '@presentation/components/ui/Buttons/LaboratoryUserAddButton';
 import { LaboratoryInstanceAddDialog } from '@presentation/components/ui/Dialogs/LaboratoryInstanceDialog';
 import DeleteLaboratoryUserButton from '@presentation/components/ui/Buttons/LaboratoryUserDeleteButton';
 import InfoIcon from "@mui/icons-material/Info";
-import {useSubjectApi} from "@infrastructure/apis/api-management";
-import {useCourseApi} from "@infrastructure/apis/api-management";
-import {useAppRouter} from "@infrastructure/hooks/useAppRouter";
 import {useOwnUser} from "@infrastructure/hooks/useOwnUser";
 import { toast } from "react-toastify";
 
@@ -85,19 +82,6 @@ const DayOfWeekMap = (value: any) => {
     return value;
 }
 
-const getSubjectName = (value: string | undefined, getSubjectQueryKey: string, getSubject: Function) => {
-    const { data } = useQuery([getSubjectQueryKey], () => getSubject(value ?? ""));
-    const subject = data?.response;
-    return subject?.name;
-};
-
-const getCourseSubjectId = (value: string | undefined, getCourseQueryKey: string, getCourse: Function) => {
-    const { data } = useQuery([getCourseQueryKey], () => getCourse(value ?? ""));
-    const course = data?.response;
-
-    return course?.subject?.id;
-};
-
 const formatValue = (value: any) => {
     if (value instanceof Date) {
         let day = value.getDate();
@@ -131,10 +115,18 @@ const getUserId = () => {
 }
 
 export const SingleLaboratoryPage = memo(() => {
+    const { formatMessage } = useIntl();
     const {laboratoryId} = useParams();
     const { getLaboratory: { key: getLaboratoryQueryKey, query: getLaboratory } } = useLaboratoryApi();
-    const { data, isError, isLoading } = useQuery([getLaboratoryQueryKey], () => getLaboratory(laboratoryId ?? ""));
-    const { formatMessage } = useIntl();
+    const { data, isError, isLoading } = useQuery(
+        [getLaboratoryQueryKey],
+        () => getLaboratory(laboratoryId ?? ""),
+        {
+            refetchInterval: Infinity,
+            refetchOnWindowFocus: false,
+            enabled: true,
+        }
+    );
     const laboratory = data?.response;
     const queryClient = useQueryClient();
     const laboratoryUsers = laboratory?.laboratoryUsers;
@@ -148,14 +140,9 @@ export const SingleLaboratoryPage = memo(() => {
     const [addButtonPressed, setAddButtonPressed] = useState(false);
     const [deleteButtonPressed, setDeleteButtonPressed] = useState(false);
     const weekdayName = DayOfWeekMap(laboratory?.dayOfWeek);
-    const { getSubject: { key: getSubjectQueryKey, query: getSubject } } = useSubjectApi();
-    const { getCourse: { key: getCourseQueryKey, query: getCourse } } = useCourseApi();
-    const subjectId = getCourseSubjectId(laboratory?.courseId ?? "", getCourseQueryKey, getCourse);
-    const subjectName = getSubjectName(subjectId, getSubjectQueryKey, getSubject);
     const linkToCourse = "/courses/" + (laboratory?.courseId ?? "");
-    const { redirectToLogin } = useAppRouter();
 
-    if (getUserId() === "") {
+    if (getUserId() == "") {
         const location = useLocation();
         toast.error(formatMessage({ id: "notifications.errors.accessDenied" }));
         return <Navigate to="/login" state={{ prevUrl: location.pathname }} />;
@@ -170,13 +157,9 @@ export const SingleLaboratoryPage = memo(() => {
         // Perform any additional logic here
     };
 
-    const tryReload = useCallback(() => {
-        if (addButtonPressed || deleteButtonPressed) {
-            setAddButtonPressed(false);
-            setDeleteButtonPressed(false);
-            queryClient.invalidateQueries([getLaboratoryQueryKey]);
-        }
-    }, [queryClient, getLaboratoryQueryKey, addButtonPressed, deleteButtonPressed]);
+    const tryReload = useCallback(
+        () => queryClient.invalidateQueries([getLaboratoryQueryKey]),
+        [queryClient, getLaboratoryQueryKey]); // Create a callback to try reloading the data for the table via query invalidation.
 
     if (isError || isUndefined(laboratory)) {
         return <>Loading</>
@@ -204,7 +187,7 @@ export const SingleLaboratoryPage = memo(() => {
                         <br/>
 
                         <Typography variant="h3" style={{ marginTop: '1rem', textAlign: 'center', fontWeight:'bold'}}>
-                            Laborator
+                            Laborator {laboratory?.course?.subject?.name}
                         </Typography>
 
                         <Typography variant="h4" style={{ textAlign: 'center'}}>
@@ -219,6 +202,7 @@ export const SingleLaboratoryPage = memo(() => {
                         <LaboratoryInstanceAddDialog
                             laboratoryId = {laboratoryId ?? ""}
                             onAddButtonPress={() => {
+                                tryReload();
                                 handleAddButtonPress();
                             }}
                         />

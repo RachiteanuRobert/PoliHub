@@ -105,12 +105,6 @@ const DayOfWeekMap = (value: any) => {
     return value;
 }
 
-const getSubjectName = (value: string | undefined, getSubjectQueryKey: string, getSubject: Function) => {
-    const { data } = useQuery([getSubjectQueryKey], () => getSubject(value ?? ""));
-    const subject = data?.response;
-    return subject?.name;
-};
-
 const formatValue = (value: any) => {
     if (value instanceof Date) {
         let day = value.getDate();
@@ -155,8 +149,6 @@ export const SingleCoursePage = memo(() => {
     const [addButtonPressed, setAddButtonPressed] = useState(false);
     const [deleteButtonPressed, setDeleteButtonPressed] = useState(false);
     const weekdayName = DayOfWeekMap(course?.dayOfWeek);
-    const { getSubject: { key: getSubjectQueryKey, query: getSubject } } = useSubjectApi();
-    const subjectName = getSubjectName(course?.subjectId ?? "", getSubjectQueryKey, getSubject);
     const linkToSubject = "/subjects/" + (course?.subjectId ?? "");
     const handleAddButtonPress = () => {
         setAddButtonPressed(true);
@@ -201,7 +193,7 @@ export const SingleCoursePage = memo(() => {
                         </div>
                         <br/>
                         <Typography variant="h3" style={{ marginTop: '1rem', textAlign: 'center', fontWeight:'bold'}}>
-                            Curs {subjectName} - {course.series}
+                            Curs {course?.subject?.name} - {course.series}
                         </Typography>
 
                         <Typography variant="h4" style={{ textAlign: 'center'}}>
