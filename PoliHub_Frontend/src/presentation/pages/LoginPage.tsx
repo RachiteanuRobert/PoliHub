@@ -4,7 +4,7 @@ import { Typography } from "@mui/material";
 import { Seo } from "@presentation/components/ui/Seo";
 import { LoginForm } from "@presentation/components/forms/Login/LoginForm";
 import { useIntl } from "react-intl";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, RedirectFunction } from "react-router-dom";
 import { AppRoute } from "routes";
 
 const divStyles: React.CSSProperties = {

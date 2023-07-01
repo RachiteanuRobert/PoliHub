@@ -25,6 +25,10 @@ public sealed class CourseProjectionSpec : BaseSpec<CourseProjectionSpec, Course
         Series = e.Series,
         DayOfWeek = e.DayOfWeek,
         SubjectId = e.SubjectId,
+        Subject = new SubjectSimpleDTO
+        {
+            Name = e.Subject.Name
+        },
         CourseUsers = e.CourseUsers.Select(u => new UserSimpleDTO
         {
             Id = u.Id,

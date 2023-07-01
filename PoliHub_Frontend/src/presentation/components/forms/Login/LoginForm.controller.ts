@@ -7,10 +7,11 @@ import { useForm } from "react-hook-form";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useLoginApi } from "@infrastructure/apis/api-management";
 import { useCallback } from "react";
-import { useAppRouter } from "@infrastructure/hooks/useAppRouter";
 import { useDispatch } from "react-redux";
 import { setToken } from "@application/state-slices";
 import { toast } from "react-toastify";
+import {useNavigate, useLocation} from "react-router-dom"
+import { useEffect, useState } from "react";
 
 /**
  * Use a function to return the default values of the form and the validation schema.
@@ -72,17 +73,27 @@ const useInitLoginForm = () => {
 export const useLoginFormController = (): LoginFormController => {
     const { formatMessage } = useIntl();
     const { defaultValues, resolver } = useInitLoginForm();
-    const { redirectToHome } = useAppRouter();
     const { loginMutation: { mutation, key: mutationKey } } = useLoginApi();
     const { mutateAsync: login, status } = useMutation([mutationKey], mutation);
     const queryClient = useQueryClient();
+    const navigate = useNavigate();
+    const location = useLocation();
+    const from = location?.state?.prevUrl || "/";
     const dispatch = useDispatch();
+    const [isSubmitting, setIsSubmitting] = useState(false);
+
+    useEffect(() => {
+        if (isSubmitting) {
+            navigate(from);
+        }
+    }, [isSubmitting, navigate, from]);
+
     const submit = useCallback((data: LoginFormModel) => // Create a submit callback to send the form data to the backend.
         login(data).then((result) => {
             dispatch(setToken(result.response?.token ?? ''));
             toast(formatMessage({ id: "notifications.messages.authenticationSuccess" }));
-            redirectToHome();
-        }), [login, queryClient, redirectToHome, dispatch]);
+            setIsSubmitting(true);
+        }), [login, queryClient, dispatch]);
 
     const {
         register,

@@ -1,5 +1,5 @@
 import { WebsiteLayout } from "presentation/layouts/WebsiteLayout";
-import { useOwnUser } from "@infrastructure/hooks/useOwnUser";
+import {useOwnUser, useOwnUserHasRole} from "@infrastructure/hooks/useOwnUser";
 import React, { Fragment, memo } from "react";
 import {Box, styled} from "@mui/system";
 import { Seo } from "@presentation/components/ui/Seo";
@@ -18,9 +18,10 @@ import Paper from '@mui/material/Paper';
 import Button from '@material-ui/core/Button';
 import Typography from '@mui/material/Typography';
 import { useLaboratoryInstanceApi } from "@infrastructure/apis/api-management/laboratoryInstance";
-import { UserSimpleDTO } from "@infrastructure/apis/client";
+import {UserRoleEnum, UserSimpleDTO} from "@infrastructure/apis/client";
 import {getIpAddress} from "@infrastructure/utils/getIpAddress";
 import QRCode from 'react-qr-code';
+
 
 const useHeader = (): { key: keyof UserSimpleDTO, name: string }[] => {
     const { formatMessage } = useIntl();
@@ -74,17 +75,19 @@ const getUserId = () => {
 
     return ownUser.id;
 }
+var checkedIfUserInLaboratoryInstance = false
 
 const isUserInLaboratoryInstanceGet = (
     laboratoryInstanceId: string | undefined,
     userId: string | undefined,
     getIsUserInLaboratoryInstanceQueryKey: string,
     getIsUserInLaboratoryInstance: Function,
-    checkedIfUserInLaboratoryInstance: boolean) => {
+    ) => {
     checkedIfUserInLaboratoryInstance = true
     if(userId == "") {
         return false;
     }
+
     const { data } = useQuery([getIsUserInLaboratoryInstanceQueryKey], () => getIsUserInLaboratoryInstance(laboratoryInstanceId, userId));
     return data?.response;
 };
@@ -101,10 +104,17 @@ export const SingleLaboratoryInstancePage = memo(() => {
     const rowValues = getRowValues(laboratoryInstanceUsers, orderMap);
     const ipAddr = getIpAddress();
     const qrValue = `http://${ipAddr}:3000/laboratoryinstances/${laboratoryInstanceId}`;
-    const { getIsUserInLaboratoryInstance: { key: getIsUserInLaboratoryInstanceQueryKey, query: getIsUserInLaboratoryInstance } } = useLaboratoryInstanceApi();
     const userId = getUserId();
-    var checkedIfUserInLaboratoryInstance = false
-    const isUserInLaboratoryInstance = isUserInLaboratoryInstanceGet(laboratoryInstanceId, userId, getIsUserInLaboratoryInstanceQueryKey, getIsUserInLaboratoryInstance, checkedIfUserInLaboratoryInstance);
+    const isAdmin = useOwnUserHasRole(UserRoleEnum.Admin);
+    const isUserInLaboratoryInstance = false;
+
+    if(!checkedIfUserInLaboratoryInstance) {
+        const { getIsUserInLaboratoryInstance: { key: getIsUserInLaboratoryInstanceQueryKey, query: getIsUserInLaboratoryInstance } } = useLaboratoryInstanceApi();
+        const isUserInLaboratoryInstance = isUserInLaboratoryInstanceGet(laboratoryInstanceId, userId, getIsUserInLaboratoryInstanceQueryKey, getIsUserInLaboratoryInstance);
+        if(!isUserInLaboratoryInstance && !isAdmin){
+
+        }
+    }
 
     if (isError || isUndefined(laboratoryInstance)) {
         return <>Error</>
@@ -126,9 +136,7 @@ export const SingleLaboratoryInstancePage = memo(() => {
                                     Inapoi
                                 </Button>
                             </Link>
-                            {
-                                isUserInLaboratoryInstance && <h5>ESTE ESTE</h5>
-                            }
+
                             <Typography variant="h5" style={{ marginBottom: '0.5rem', textAlign: 'right' }}>
                                 {formatValue(laboratoryInstance.laboratoryInstanceDate) ?? formatMessage({ id: "global.loadingFailed" })}
                             </Typography>

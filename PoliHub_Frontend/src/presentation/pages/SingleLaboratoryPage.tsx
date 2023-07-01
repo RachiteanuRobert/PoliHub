@@ -6,7 +6,7 @@ import { Seo } from "@presentation/components/ui/Seo";
 import {useQuery, useQueryClient} from "@tanstack/react-query";
 import { isUndefined } from "lodash";
 import { ContentCard } from "@presentation/components/ui/ContentCard";
-import { Link, useParams } from 'react-router-dom';
+import { Navigate,Link, useParams, useLocation } from 'react-router-dom';
 import { useIntl } from "react-intl";
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -24,6 +24,9 @@ import DeleteLaboratoryUserButton from '@presentation/components/ui/Buttons/Labo
 import InfoIcon from "@mui/icons-material/Info";
 import {useSubjectApi} from "@infrastructure/apis/api-management";
 import {useCourseApi} from "@infrastructure/apis/api-management";
+import {useAppRouter} from "@infrastructure/hooks/useAppRouter";
+import {useOwnUser} from "@infrastructure/hooks/useOwnUser";
+import { toast } from "react-toastify";
 
 const useUserHeader = (): { key: keyof UserSimpleDTO, name: string }[] => {
     const { formatMessage } = useIntl();
@@ -91,7 +94,8 @@ const getSubjectName = (value: string | undefined, getSubjectQueryKey: string, g
 const getCourseSubjectId = (value: string | undefined, getCourseQueryKey: string, getCourse: Function) => {
     const { data } = useQuery([getCourseQueryKey], () => getCourse(value ?? ""));
     const course = data?.response;
-    return course?.subject;
+
+    return course?.subject?.id;
 };
 
 const formatValue = (value: any) => {
@@ -116,6 +120,16 @@ const BlueBackground = styled(Box)`
   z-index : 0;
 `;
 
+const getUserId = () => {
+    const ownUser = useOwnUser();
+
+    if (isUndefined(ownUser)){
+        return "";
+    }
+
+    return ownUser.id;
+}
+
 export const SingleLaboratoryPage = memo(() => {
     const {laboratoryId} = useParams();
     const { getLaboratory: { key: getLaboratoryQueryKey, query: getLaboratory } } = useLaboratoryApi();
@@ -139,6 +153,14 @@ export const SingleLaboratoryPage = memo(() => {
     const subjectId = getCourseSubjectId(laboratory?.courseId ?? "", getCourseQueryKey, getCourse);
     const subjectName = getSubjectName(subjectId, getSubjectQueryKey, getSubject);
     const linkToCourse = "/courses/" + (laboratory?.courseId ?? "");
+    const { redirectToLogin } = useAppRouter();
+
+    if (getUserId() === "") {
+        const location = useLocation();
+        toast.error(formatMessage({ id: "notifications.errors.accessDenied" }));
+        return <Navigate to="/login" state={{ prevUrl: location.pathname }} />;
+    }
+
     const handleAddButtonPress = () => {
         setAddButtonPressed(true);
         // Perform any additional logic here
@@ -182,7 +204,7 @@ export const SingleLaboratoryPage = memo(() => {
                         <br/>
 
                         <Typography variant="h3" style={{ marginTop: '1rem', textAlign: 'center', fontWeight:'bold'}}>
-                            Laborator {subjectName}
+                            Laborator
                         </Typography>
 
                         <Typography variant="h4" style={{ textAlign: 'center'}}>

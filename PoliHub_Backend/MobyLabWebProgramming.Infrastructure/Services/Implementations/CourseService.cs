@@ -57,7 +57,7 @@ public class CourseService : ICourseService
         var course = await _repository.GetAsync(new CourseSpec(userCourseIds.CourseId), cancellationToken);
         if (course == null)
         {
-            return ServiceResponse.FromError(new(HttpStatusCode.Forbidden, "Bad course Id provided!", ErrorCodes.EntityNotFound));
+            return ServiceResponse.FromError(new(HttpStatusCode.NotFound, "Bad course Id provided!", ErrorCodes.EntityNotFound));
         }
 
         var user = await _repository.GetAsync(new UserSpec(userCourseIds.UserId), cancellationToken);
@@ -113,45 +113,22 @@ public class CourseService : ICourseService
             return ServiceResponse.FromError(new(HttpStatusCode.Forbidden, "Only the admin can add courses!", ErrorCodes.CannotAdd));
         }
 
-        var result = await _repository.GetAsync(new CourseProjectionSpec(course.ProfessorName), cancellationToken);
-        if (result != null)
+        var courseResult = await _repository.GetAsync(new CourseProjectionSpec(course.ProfessorName), cancellationToken);
+        if (courseResult != null)
         {
             return ServiceResponse.FromError(new(HttpStatusCode.Forbidden, "Course already exists!", ErrorCodes.CannotAdd));
         }
 
-        
-        //var Users = new List<User>();
-        var CourseInstances = new List<CourseInstance>();
-
-        /*
-        if (course.UserIds != null)
+        var subjectResult = await _repository.GetAsync(new SubjectProjectionSpec(course.SubjectId), cancellationToken);
+        if (subjectResult != null)
         {
-            foreach (Guid id in course.UserIds)
-            {
-                UserToCourseAddDTO userToCourseIds = new UserToCourseAddDTO
-                {
-                    CourseId = course.Id,
-                    UserId = user.Id,
-                };
-                AddUserToCourse()
-            }
+            return ServiceResponse.FromError(new(HttpStatusCode.Forbidden, "Subject does not exist!", ErrorCodes.EntityNotFound));
         }
-        
 
-        
-        if (course.CourseInstanceIds != null)
+        var subject = new Subject
         {
-            foreach (Guid id in course.CourseInstanceIds)
-            {
-                var courseInstance = await _repository.GetAsync(new CourseInstanceSpec(id), cancellationToken);
-                if (courseInstance == null)
-                {
-                    return ServiceResponse.FromError(new(HttpStatusCode.NotFound, "Bad course instance provided", ErrorCodes.EntityNotFound));
-                }
-                CourseInstances.Add(courseInstance);
-            }
-        }
-        */
+            Name = subjectResult.Name
+        };
 
         await _repository.AddAsync(new Course
         {
@@ -162,9 +139,8 @@ public class CourseService : ICourseService
             Series = course.Series,
             DayOfWeek = course.DayOfWeek,
             SubjectId = course.SubjectId,
-            //Users = Users,
-            //CourseInstances = CourseInstances
-        }) ;
+            Subject = subject
+        });
 
         return ServiceResponse.ForSuccess();
     }
@@ -188,9 +164,6 @@ public class CourseService : ICourseService
             entity.Series = course.Series ?? entity.Series;
             entity.DayOfWeek = course.DayOfWeek ?? entity.DayOfWeek;
             entity.SubjectId = course.SubjectId ?? entity.SubjectId;
-            //entity.Users = course.Users == null ? entity.Users : Users;
-            //entity.CourseInstances = course.CourseInstanceIds == null ? entity.CourseInstances : CourseInstances;
-            
 
             await _repository.UpdateAsync(entity, cancellationToken);
         }

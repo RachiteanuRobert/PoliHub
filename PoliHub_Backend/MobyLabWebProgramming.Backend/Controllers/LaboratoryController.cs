@@ -86,6 +86,17 @@ public class LaboratoryController : AuthorizedController
     }
 
     [Authorize]
+    [HttpPut]
+    public async Task<ActionResult<RequestResponse>> UpdateLaboratories([FromBody] Guid laboratoryId)
+    {
+        var currentUser = await GetCurrentUser();
+
+        return currentUser.Result != null ?
+            this.FromServiceResponse(await _laboratoryService.UpdateLaboratories(laboratoryId)) :
+            this.ErrorMessageResult(currentUser.Error);
+    }
+
+    [Authorize]
     [HttpDelete("{id:guid}")]
     public async Task<ActionResult<RequestResponse>> Delete([FromRoute] Guid id)
     {

@@ -37,13 +37,13 @@ public class LaboratoryInstanceController : AuthorizedController
         return this.FromServiceResponse(await _laboratoryInstanceService.GetLaboratoryInstances(pagination));
     }
 
-    [HttpGet]
-    public async Task<ActionResult<RequestResponse<Boolean>>> GetIsUserInLaboratoryInstance([FromRoute] UserToLaboratoryInstanceAddDTO userLaboratoryInstanceIds)
+    [HttpGet("{laboratoryInstanceId:guid}/{userId:guid}")]
+    public async Task<ActionResult<RequestResponse<Boolean>>> GetIsUserInLaboratoryInstance([FromRoute] Guid laboratoryInstanceId, Guid userId)
     {
         var currentUser = await GetCurrentUser();
 
         return currentUser.Result != null ?
-            this.FromServiceResponse(await _laboratoryInstanceService.GetIsUserInLaboratoryInstance(userLaboratoryInstanceIds)) :
+            this.FromServiceResponse(await _laboratoryInstanceService.GetIsUserInLaboratoryInstance(laboratoryInstanceId, userId)) :
             this.ErrorMessageResult<Boolean>(currentUser.Error);
     }
 

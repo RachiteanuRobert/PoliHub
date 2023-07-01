@@ -17,6 +17,7 @@ public class CourseDTO
     public string Series { get; set; } = default!;
     public int DayOfWeek { get; set; } = default!;
     public Guid SubjectId { get; set; } = default!;
+    public SubjectSimpleDTO Subject { get; set; } = default!;
     public ICollection<CourseInstanceSimpleDTO> CourseInstances { get; set; } = default!;
     public ICollection<UserSimpleDTO> CourseUsers { get; set; } = default!;
     public ICollection<LaboratorySimpleDTO> Laboratories { get; set; } = default!;

@@ -12,5 +12,6 @@ public interface ILaboratoryService
     public Task<ServiceResponse> DeleteUserFromLaboratory(Guid userLaboratoryId, UserDTO? requestingUser, CancellationToken cancellationToken = default);
     public Task<ServiceResponse> AddLaboratory(LaboratoryAddDTO laboratory, UserDTO? requestingUser = default, CancellationToken cancellationToken = default);
     public Task<ServiceResponse> UpdateLaboratory(LaboratoryUpdateDTO laboratory, UserDTO? requestingUser = default, CancellationToken cancellationToken = default);
+    public Task<ServiceResponse> UpdateLaboratories(Guid laboratoryId, UserDTO? requestingUser = default, CancellationToken cancellationToken = default);
     public Task<ServiceResponse> DeleteLaboratory(Guid id, UserDTO? requestingUser = default, CancellationToken cancellationToken = default);
 }
