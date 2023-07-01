@@ -163,7 +163,7 @@ public class CourseService : ICourseService
             DayOfWeek = course.DayOfWeek,
             SubjectId = course.SubjectId,
             //Users = Users,
-            CourseInstances = CourseInstances
+            //CourseInstances = CourseInstances
         }) ;
 
         return ServiceResponse.ForSuccess();
@@ -177,39 +177,6 @@ public class CourseService : ICourseService
         }
 
         var entity = await _repository.GetAsync(new CourseSpec(course.Id), cancellationToken);
-
-        /*
-        var Users = new List<User>();
-        var CourseInstances = new List<CourseInstance>();
-
-        
-        if (course.Users != null)
-        {
-            foreach (Guid id in course.Users)
-            {
-                var user = await _repository.GetAsync(new UserSpec(id), cancellationToken);
-                if (user == null)
-                {
-                    return ServiceResponse.FromError(new(HttpStatusCode.NotFound, "Bad user id provided", ErrorCodes.EntityNotFound));
-                }
-                Users.Add(user);
-            }
-        }
-        
-
-        if (course.CourseInstanceIds != null)
-        {
-            foreach (Guid id in course.CourseInstanceIds)
-            {
-                var courseInstance = await _repository.GetAsync(new CourseInstanceSpec(id), cancellationToken);
-                if (courseInstance == null)
-                {
-                    return ServiceResponse.FromError(new(HttpStatusCode.NotFound, "Bad course instance provided", ErrorCodes.EntityNotFound));
-                }
-                CourseInstances.Add(courseInstance);
-            }
-        }
-        */
 
 
         if (entity != null)

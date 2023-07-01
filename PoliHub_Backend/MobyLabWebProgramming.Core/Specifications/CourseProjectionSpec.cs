@@ -33,9 +33,24 @@ public sealed class CourseProjectionSpec : BaseSpec<CourseProjectionSpec, Course
             Role = u.User.Role,
             Group = u.User.Group
         }).ToList(),
-        /*
-        CourseInstances = (ICollection<Guid>)e.CourseInstances
-        */
+        CourseInstances = e.CourseInstances.Select(ci => new CourseInstanceSimpleDTO
+        {
+            Id = ci.Id,
+            Name = ci.Name,
+            CourseId = ci.CourseId,
+            CourseInstanceDate = ci.CourseInstanceDate,
+            Description = ci.Description
+        }).ToList(),
+        Laboratories = e.Laboratories.Select(l => new LaboratorySimpleDTO
+        {
+            Id = l.Id,
+            StartTime = l.StartTime,
+            Duration = l.Duration,
+            CourseId = l.CourseId,
+            Location = l.Location,
+            AssistantName = l.AssistantName,
+            DayOfWeek = l.DayOfWeek,
+        }).ToList(),
     };
 
     public CourseProjectionSpec(Guid id) : base(id)

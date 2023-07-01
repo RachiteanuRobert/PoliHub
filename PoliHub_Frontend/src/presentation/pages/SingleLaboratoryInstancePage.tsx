@@ -1,4 +1,5 @@
 import { WebsiteLayout } from "presentation/layouts/WebsiteLayout";
+import { useOwnUser } from "@infrastructure/hooks/useOwnUser";
 import React, { Fragment, memo } from "react";
 import {Box, styled} from "@mui/system";
 import { Seo } from "@presentation/components/ui/Seo";
@@ -64,6 +65,30 @@ const BlueBackground = styled(Box)`
   z-index : 0;
 `;
 
+const getUserId = () => {
+    const ownUser = useOwnUser();
+
+    if (isUndefined(ownUser)){
+        return "";
+    }
+
+    return ownUser.id;
+}
+
+const isUserInLaboratoryInstanceGet = (
+    laboratoryInstanceId: string | undefined,
+    userId: string | undefined,
+    getIsUserInLaboratoryInstanceQueryKey: string,
+    getIsUserInLaboratoryInstance: Function,
+    checkedIfUserInLaboratoryInstance: boolean) => {
+    checkedIfUserInLaboratoryInstance = true
+    if(userId == "") {
+        return false;
+    }
+    const { data } = useQuery([getIsUserInLaboratoryInstanceQueryKey], () => getIsUserInLaboratoryInstance(laboratoryInstanceId, userId));
+    return data?.response;
+};
+
 export const SingleLaboratoryInstancePage = memo(() => {
     const { laboratoryInstanceId } = useParams();
     const { getLaboratoryInstance: { key: getLaboratoryInstanceQueryKey, query: getLaboratoryInstance } } = useLaboratoryInstanceApi();
@@ -76,6 +101,10 @@ export const SingleLaboratoryInstancePage = memo(() => {
     const rowValues = getRowValues(laboratoryInstanceUsers, orderMap);
     const ipAddr = getIpAddress();
     const qrValue = `http://${ipAddr}:3000/laboratoryinstances/${laboratoryInstanceId}`;
+    const { getIsUserInLaboratoryInstance: { key: getIsUserInLaboratoryInstanceQueryKey, query: getIsUserInLaboratoryInstance } } = useLaboratoryInstanceApi();
+    const userId = getUserId();
+    var checkedIfUserInLaboratoryInstance = false
+    const isUserInLaboratoryInstance = isUserInLaboratoryInstanceGet(laboratoryInstanceId, userId, getIsUserInLaboratoryInstanceQueryKey, getIsUserInLaboratoryInstance, checkedIfUserInLaboratoryInstance);
 
     if (isError || isUndefined(laboratoryInstance)) {
         return <>Error</>
@@ -97,6 +126,9 @@ export const SingleLaboratoryInstancePage = memo(() => {
                                     Inapoi
                                 </Button>
                             </Link>
+                            {
+                                isUserInLaboratoryInstance && <h5>ESTE ESTE</h5>
+                            }
                             <Typography variant="h5" style={{ marginBottom: '0.5rem', textAlign: 'right' }}>
                                 {formatValue(laboratoryInstance.laboratoryInstanceDate) ?? formatMessage({ id: "global.loadingFailed" })}
                             </Typography>

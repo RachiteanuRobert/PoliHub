@@ -90,38 +90,37 @@ public class CourseInstanceService : ICourseInstanceService
             return ServiceResponse.FromError(new(HttpStatusCode.Forbidden, "Course Instance already exists!", ErrorCodes.CannotAdd));
         }
 
-        /*
-        var Users = new List<User>();
-
-        if (courseInstance.Users != null)
-        {
-            foreach (Guid id in courseInstance.Users)
-            {
-                var user = await _repository.GetAsync(new UserSpec(id), cancellationToken);
-                if (user == null)
-                {
-                    return ServiceResponse.FromError(new(HttpStatusCode.NotFound, "Bad user id provided", ErrorCodes.EntityNotFound));
-                }
-                Users.Add(user);
-            }
-        }
-        */
-
-        var courseResult = await _repository.GetAsync(new CourseProjectionSpec(courseInstance.CourseId), cancellationToken);
-        if (courseResult != null)
+        var courseInstanceResult = await _repository.GetAsync(new CourseInstanceProjectionSpec(courseInstance.Name), cancellationToken);
+        if (courseInstanceResult != null)
         {
             return ServiceResponse.FromError(new(HttpStatusCode.Forbidden, "Course Instance already exists!", ErrorCodes.CannotAdd));
         }
 
-        await _repository.AddAsync(new CourseInstance
+        CourseInstance newCourseInstance = new CourseInstance
         {
-            //Course = courseInstance.Course,
             CourseId = courseInstance.CourseId,
             Name = courseInstance.Name,
             Description = courseInstance.Description,
             CourseInstanceDate = courseInstance.CourseInstanceDate,
-            //Users = Users
-        });
+        };
+        await _repository.AddAsync(newCourseInstance);
+
+        CourseInstanceSimpleDTO newCourseInstanceSimpleDTO = new CourseInstanceSimpleDTO
+        {
+            CourseId = courseInstance.CourseId,
+            Name = courseInstance.Name,
+            Description = courseInstance.Description,
+            CourseInstanceDate = courseInstance.CourseInstanceDate,
+        };
+
+        /*
+        courseInstanceResult = await _repository.GetAsync(new CourseInstanceProjectionSpec(courseInstance.Name), cancellationToken);
+        var courseResult = await _repository.GetAsync(new CourseProjectionSpec(courseInstance.Name), cancellationToken);
+        if (courseResult != null)
+        {
+            courseResult.CourseInstances.Add(newCourseInstanceSimpleDTO);
+        }
+        */
 
         return ServiceResponse.ForSuccess();
     }

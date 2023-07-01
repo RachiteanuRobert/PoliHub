@@ -7,7 +7,15 @@ import { FormActions } from "@infrastructure/utils/formUtils";
 /**
  * This component wraps the user add form into a modal dialog.
  */
-export const CourseInstanceAddDialog = ({courseId}: {courseId : string}) => {
+
+interface CourseInstanceAddDialogProps {
+    courseId: string;
+    onAddButtonPress: () => void;
+}
+
+export const CourseInstanceAddDialog = ({
+    courseId,
+    onAddButtonPress,}: CourseInstanceAddDialogProps) => {
     const { open, close, isOpen } = useCourseInstanceAddDialogController();
     const { formatMessage } = useIntl();
 

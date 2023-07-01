@@ -37,19 +37,26 @@ public class LaboratoryInstanceService : ILaboratoryInstanceService
         return ServiceResponse<PagedResponse<LaboratoryInstanceDTO>>.ForSuccess(result);
     }
 
-    /*
-    public async Task<ServiceResponse<ICollection<UserDTO>>> GetLaboratoryInstanceUsers(Guid Id, CancellationToken cancellationToken = default)
+    
+    public async Task<ServiceResponse<Boolean>> GetIsUserInLaboratoryInstance(UserToLaboratoryInstanceAddDTO userLaboratoryInstanceIds, CancellationToken cancellationToken = default)
     {
-        var result = await _repository.GetAsync(new LaboratoryProjectionSpec(Id), cancellationToken);
-        if (result == null)
-            ServiceResponse<LaboratoryDTO>.FromError(new(HttpStatusCode.Forbidden, "Laboratory not found!", ErrorCodes.EntityNotFound));
+        var resultLaboratoryInstance = await _repository.GetAsync(new LaboratoryInstanceSpec(userLaboratoryInstanceIds.LaboratoryInstanceId), cancellationToken);
+        if (resultLaboratoryInstance == null)
+        {
+           return ServiceResponse<Boolean>.FromError(new(HttpStatusCode.Forbidden, "Laboratory Instance not found!", ErrorCodes.EntityNotFound));
+        }
 
-        var labInsResult = await _repository.GetAsync(new LaboratoryInstanceUserProjectionSpec(Id), cancellationToken);
-        
+        foreach(LaboratoryInstanceUser laboratoryInstanceUser in resultLaboratoryInstance.LaboratoryInstanceUsers)
+        {
+            if(laboratoryInstanceUser.Id == userLaboratoryInstanceIds.UserId)
+            {
+                return ServiceResponse<Boolean>.ForSuccess(true);
+            }
+        }
 
-        return labInsResult;
+        return ServiceResponse<Boolean>.ForSuccess(false);
     }
-    */
+    
 
     public async Task<ServiceResponse> AddUserToLaboratoryInstance(UserToLaboratoryInstanceAddDTO userLaboratoryInstanceIds, UserDTO? requestingUser, CancellationToken cancellationToken)
     {

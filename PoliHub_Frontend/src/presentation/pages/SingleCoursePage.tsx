@@ -17,13 +17,11 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import Button from '@material-ui/core/Button';
 import Typography from '@mui/material/Typography';
-import { UserSimpleDTO, CourseInstanceSimpleDTO } from "@infrastructure/apis/client";
+import { UserSimpleDTO, CourseInstanceSimpleDTO, LaboratorySimpleDTO } from "@infrastructure/apis/client";
 import AddCourseUserButton from '@presentation/components/ui/Buttons/CourseUserAddButton';
 import { CourseInstanceAddDialog } from '@presentation/components/ui/Dialogs/CourseInstanceDialog';
+import { LaboratoryAddDialog } from '@presentation/components/ui/Dialogs/LaboratoryDialog';
 import DeleteCourseUserButton from '@presentation/components/ui/Buttons/CourseUserDeleteButton';
-import {Input} from "@mui/material";
-import { createTheme } from '@material-ui/core/styles';
-import SearchIcon from "@mui/icons-material/Search";
 import InfoIcon from "@mui/icons-material/Info";
 import {useSubjectApi} from "@infrastructure/apis/api-management";
 
@@ -47,6 +45,18 @@ const useCourseInstanceHeader = (): { key: keyof CourseInstanceSimpleDTO, name: 
     ]
 };
 
+const useLaboratoryHeader = (): { key: keyof LaboratorySimpleDTO, name: string }[] => {
+    const { formatMessage } = useIntl();
+
+    return [
+        { key: "assistantName", name: formatMessage({ id: "globals.assistantName" }) },
+        { key: "startTime", name: formatMessage({ id: "globals.startTime" }) },
+        { key: "duration", name: formatMessage({ id: "globals.duration" }) },
+        { key: "location", name: formatMessage({ id: "globals.location" }) },
+        { key: "dayOfWeek", name: formatMessage({ id: "globals.dayOfWeek" }) },
+    ]
+};
+
 const getUserRowValues = (entries: UserSimpleDTO[] | null | undefined, orderMap: { [key: string]: number }) =>
     entries?.map(entry => {
         return {
@@ -58,7 +68,18 @@ const getUserRowValues = (entries: UserSimpleDTO[] | null | undefined, orderMap:
         }
     });
 
-const getCourseRowValues = (entries: CourseInstanceSimpleDTO[] | null | undefined, orderMap: { [key: string]: number }) =>
+const getCourseInstanceRowValues = (entries: CourseInstanceSimpleDTO[] | null | undefined, orderMap: { [key: string]: number }) =>
+    entries?.map(entry => {
+        return {
+            entry: entry,
+            data: Object.entries(entry)
+                .filter(([e]) => !isUndefined(orderMap[e]))
+                .sort(([a], [b]) => orderMap[a] - orderMap[b])
+                .map(([key, value]) => { return { key, value } })
+        }
+    });
+
+const getLaboratoryRowValues = (entries: LaboratorySimpleDTO[] | null | undefined, orderMap: { [key: string]: number }) =>
     entries?.map(entry => {
         return {
             entry: entry,
@@ -90,6 +111,17 @@ const getSubjectName = (value: string | undefined, getSubjectQueryKey: string, g
     return subject?.name;
 };
 
+const formatValue = (value: any) => {
+    if (value instanceof Date) {
+        let day = value.getDate();
+        let month = value.getMonth() + 1;
+        let year = value.getFullYear();
+        return `${day}/${month}/${year}`;
+    }
+
+    return value;
+};
+
 const BlueBackground = styled(Box)`
   background-color: #024180;
   height: 473px;
@@ -110,17 +142,22 @@ export const SingleCoursePage = memo(() => {
     const queryClient = useQueryClient();
     const courseUsers = course?.courseUsers;
     const courseCourseInstances = course?.courseInstances;
+    const courseLaboratories = course?.laboratories;
     const userHeader = useUserHeader();
     const courseInstanceHeader = useCourseInstanceHeader();
+    const laboratoryHeader = useLaboratoryHeader();
     const orderUserMap = userHeader.reduce((acc, e, i) => { return { ...acc, [e.key]: i } }, {}) as { [key: string]: number }; // Get the header column order.
     const orderCourseInstanceMap = courseInstanceHeader.reduce((acc, e, i) => { return { ...acc, [e.key]: i } }, {}) as { [key: string]: number }; // Get the header column order.
+    const orderLaboratoryMap = laboratoryHeader.reduce((acc, e, i) => { return { ...acc, [e.key]: i } }, {}) as { [key: string]: number }; // Get the header column order.
     const userRowValues = getUserRowValues(courseUsers, orderUserMap);
-    const courseInstanceRowValues = getCourseRowValues(courseCourseInstances, orderCourseInstanceMap);
+    const courseInstanceRowValues = getCourseInstanceRowValues(courseCourseInstances, orderCourseInstanceMap);
+    const laboratoryRowValues = getLaboratoryRowValues(courseLaboratories, orderLaboratoryMap);
     const [addButtonPressed, setAddButtonPressed] = useState(false);
     const [deleteButtonPressed, setDeleteButtonPressed] = useState(false);
     const weekdayName = DayOfWeekMap(course?.dayOfWeek);
     const { getSubject: { key: getSubjectQueryKey, query: getSubject } } = useSubjectApi();
     const subjectName = getSubjectName(course?.subjectId ?? "", getSubjectQueryKey, getSubject);
+    const linkToSubject = "/subjects/" + (course?.subjectId ?? "");
     const handleAddButtonPress = () => {
         setAddButtonPressed(true);
         // Perform any additional logic here
@@ -139,7 +176,7 @@ export const SingleCoursePage = memo(() => {
     }, [queryClient, getCourseQueryKey, addButtonPressed, deleteButtonPressed]);
 
     if (isError || isUndefined(course)) {
-        return <>Error</>
+        return <>Loading</>
     }
     if (isLoading) {
         return <>Loading</>
@@ -155,7 +192,7 @@ export const SingleCoursePage = memo(() => {
 
                     <ContentCard>
                         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                            <Link to="/subjects" style={{ textDecoration: 'none', marginBottom: '1rem' }}>
+                            <Link to={linkToSubject} style={{ textDecoration: 'none', marginBottom: '1rem' }}>
                                 <Button variant="outlined" style={{ background: '#024180', color: 'white' }}>
                                     Inapoi
                                 </Button>
@@ -170,14 +207,20 @@ export const SingleCoursePage = memo(() => {
                         <Typography variant="h4" style={{ textAlign: 'center'}}>
                             {course.professorName} - {course.location} - {weekdayName} - {course.startTime}
                         </Typography>
-
+                        <br/>
                         <br/>
 
                         <Typography variant="h4" align="center" fontWeight ="bold">
                             Instante de Curs
                         </Typography>
-                        <CourseInstanceAddDialog courseId = {courseId ?? ""}></CourseInstanceAddDialog>
+                        <CourseInstanceAddDialog
+                            courseId = {courseId ?? ""}
+                            onAddButtonPress={() => {
+                                handleAddButtonPress();
+                            }}
+                        />
                         <br/>
+
                         <TableContainer component={Paper}>
                             <Table sx={{ minWidth: 650 }} aria-label="simple table">
                                 <TableHead>
@@ -190,10 +233,10 @@ export const SingleCoursePage = memo(() => {
                                     {courseInstanceRowValues?.map(({ data, entry }, rowIndex) =>
                                         <TableRow key={`row_${rowIndex + 1}`}>
                                             {data.map((keyValue, index) =>
-                                                <TableCell key={`cell_${rowIndex + 1}_${index + 1}`}>{keyValue.value}</TableCell>
+                                                <TableCell key={`cell_${rowIndex + 1}_${index + 1}`}>{formatValue(keyValue.value)}</TableCell>
                                             )}
                                             <TableCell>
-                                                <Link to={`/courses/${entry.id}`}>
+                                                <Link to={`/courseInstances/${entry.id}`}>
                                                     <InfoIcon />
                                                 </Link>
                                             </TableCell>
@@ -205,11 +248,57 @@ export const SingleCoursePage = memo(() => {
                         </TableContainer>
                         <br/>
                         <br/>
+                        <br/>
+                        <br/>
+
+                        <Typography variant="h4" align="center" fontWeight ="bold">
+                            Laboratoare
+                        </Typography>
+                        <LaboratoryAddDialog
+                            courseId = {courseId ?? ""}
+                            onAddButtonPress={() => {
+                                handleAddButtonPress();
+                            }}
+                        />
+                        <br/>
+
+                        <TableContainer component={Paper}>
+                            <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                                <TableHead>
+                                    <TableRow sx={{ backgroundColor: "#024180" }}>
+                                        {laboratoryHeader.map(e => <TableCell sx={{color: "#FFFFFF"}}  key={`header_${String(e.key)}`}>{e.name}</TableCell>)}
+                                        <TableCell sx={{ backgroundColor: "#024180", color:"#FFFFFF"}}>{formatMessage({ id: "labels.actions" })}</TableCell>
+                                    </TableRow>
+                                </TableHead>
+                                <TableBody>
+                                    {laboratoryRowValues?.map(({ data, entry }, rowIndex) =>
+                                        <TableRow key={`row_${rowIndex + 1}`}>
+                                            {data.map((keyValue, index) =>
+                                                <TableCell key={`cell_${rowIndex + 1}_${index + 1}`}>{DayOfWeekMap(keyValue.value)}</TableCell>
+                                            )}
+                                            <TableCell>
+                                                <Link to={`/laboratories/${entry.id}`}>
+                                                    <InfoIcon />
+                                                </Link>
+                                            </TableCell>
+
+                                        </TableRow>
+                                    )}
+                                </TableBody>
+                            </Table>
+                        </TableContainer>
+                        <br/>
+                        <br/>
+                        <br/>
+                        <br/>
+
                         <Typography variant="h4" align="center" fontWeight ="bold">
                             Studenti
                         </Typography>
                         {course.id && (
-                            <AddCourseUserButton courseId={course.id} onAddButtonPress={handleAddButtonPress}>
+                            <AddCourseUserButton
+                                courseId={course.id}
+                                onAddButtonPress={handleAddButtonPress}>
                                 Adauga Student
                             </AddCourseUserButton>
                         )}
@@ -233,7 +322,9 @@ export const SingleCoursePage = memo(() => {
                                             ))}
                                             <TableCell>
                                                 {entry.id && (
-                                                    <DeleteCourseUserButton courseUserId={entry.id}  onDeleteButtonPress={handleDeleteButtonPress}/>
+                                                    <DeleteCourseUserButton
+                                                        courseUserId={entry.id}
+                                                        onDeleteButtonPress={handleDeleteButtonPress}/>
                                                 )}
                                             </TableCell>
                                         </TableRow>

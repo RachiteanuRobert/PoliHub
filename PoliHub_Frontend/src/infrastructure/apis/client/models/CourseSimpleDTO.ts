@@ -13,6 +13,13 @@
  */
 
 import { exists, mapValues } from '../runtime';
+import type { SubjectSimpleDTO } from './SubjectSimpleDTO';
+import {
+    SubjectSimpleDTOFromJSON,
+    SubjectSimpleDTOFromJSONTyped,
+    SubjectSimpleDTOToJSON,
+} from './SubjectSimpleDTO';
+
 /**
  * 
  * @export
@@ -67,6 +74,12 @@ export interface CourseSimpleDTO {
      * @memberof CourseSimpleDTO
      */
     subjectId?: string;
+    /**
+     * 
+     * @type {SubjectSimpleDTO}
+     * @memberof CourseSimpleDTO
+     */
+    subject?: SubjectSimpleDTO;
 }
 
 /**
@@ -96,6 +109,7 @@ export function CourseSimpleDTOFromJSONTyped(json: any, ignoreDiscriminator: boo
         'dayOfWeek': !exists(json, 'dayOfWeek') ? undefined : json['dayOfWeek'],
         'series': !exists(json, 'series') ? undefined : json['series'],
         'subjectId': !exists(json, 'subjectId') ? undefined : json['subjectId'],
+        'subject': !exists(json, 'subject') ? undefined : SubjectSimpleDTOFromJSON(json['subject']),
     };
 }
 
@@ -116,6 +130,7 @@ export function CourseSimpleDTOToJSON(value?: CourseSimpleDTO | null): any {
         'dayOfWeek': value.dayOfWeek,
         'series': value.series,
         'subjectId': value.subjectId,
+        'subject': SubjectSimpleDTOToJSON(value.subject),
     };
 }
 

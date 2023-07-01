@@ -1,5 +1,11 @@
 import { useAppSelector } from "@application/store";
-import { ApiLaboratoryGetPageGetRequest, LaboratoryAddDTO, LaboratoryApi, LaboratoryUpdateDTO } from "../client";
+import {
+    ApiLaboratoryGetPageGetRequest, CourseApi,
+    LaboratoryAddDTO,
+    LaboratoryApi,
+    LaboratoryUpdateDTO,
+    UserToLaboratoryAddDTO
+} from "../client";
 import { getAuthenticationConfiguration } from "@infrastructure/utils/userUtils";
 
 /**
@@ -8,6 +14,8 @@ import { getAuthenticationConfiguration } from "@infrastructure/utils/userUtils"
 const getLaboratoriesQueryKey = "getLaboratoriesQuery";
 const getLaboratoryQueryKey = "getLaboratoryQuery";
 const addLaboratoryMutationKey = "addLaboratoryMutation";
+const addLaboratoryUserMutationKey = "addLaboratoryUserMutation";
+const deleteLaboratoryUserMutationKey = "deleteLaboratoryUserMutation";
 const deleteLaboratoryMutationKey = "deleteLaboratoryMutation";
 const updateLaboratoryMutationKey = "updateLaboratoryMutation";
 
@@ -21,6 +29,8 @@ export const useLaboratoryApi = () => {
     const getLaboratories = (page: ApiLaboratoryGetPageGetRequest) => new LaboratoryApi(config).apiLaboratoryGetPageGet(page); // Use the generated client code and adapt it.
     const getLaboratory = (id: string) => new LaboratoryApi(config).apiLaboratoryGetByIdIdGet({ id });
     const addLaboratory = (laboratory: LaboratoryAddDTO) => new LaboratoryApi(config).apiLaboratoryAddPost({ laboratoryAddDTO: laboratory });
+    const addLaboratoryUser = (userLaboratoryIds: UserToLaboratoryAddDTO) => new LaboratoryApi(config).apiLaboratoryAddUserToLaboratoryPost({ userToLaboratoryAddDTO: userLaboratoryIds });
+    const deleteLaboratoryUser = (userLaboratoryId: string) => new LaboratoryApi(config).apiLaboratoryDeleteUserFromLaboratoryUserLaboratoryIdDelete({ userLaboratoryId });
     const updateLaboratory = (laboratory: LaboratoryUpdateDTO) => new LaboratoryApi(config).apiLaboratoryUpdatePut({ laboratoryUpdateDTO: laboratory });
 
     const deleteLaboratory = (id: string) => new LaboratoryApi(config).apiLaboratoryDeleteIdDelete({ id });
@@ -37,6 +47,14 @@ export const useLaboratoryApi = () => {
         addLaboratory: { // Return the mutation object.
             key: addLaboratoryMutationKey, // Add the key to identify the mutation.
             mutation: addLaboratory // Add the mutation callback.
+        },
+        addLaboratoryUser: { // Return the mutation object.
+            key: addLaboratoryUserMutationKey, // Add the key to identify the mutation.
+            mutation: addLaboratoryUser // Add the mutation callback.
+        },
+        deleteLaboratoryUser: { // Return the mutation object.
+            key: deleteLaboratoryUserMutationKey, // Add the key to identify the mutation.
+            mutation: deleteLaboratoryUser // Add the mutation callback.
         },
         deleteLaboratory: {
             key: deleteLaboratoryMutationKey,

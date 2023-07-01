@@ -15,6 +15,7 @@
 
 import * as runtime from '../runtime';
 import type {
+  BooleanRequestResponse,
   LaboratoryInstanceAddDTO,
   LaboratoryInstanceDTOPagedResponseRequestResponse,
   LaboratoryInstanceDTORequestResponse,
@@ -23,6 +24,8 @@ import type {
   UserToLaboratoryInstanceAddDTO,
 } from '../models';
 import {
+    BooleanRequestResponseFromJSON,
+    BooleanRequestResponseToJSON,
     LaboratoryInstanceAddDTOFromJSON,
     LaboratoryInstanceAddDTOToJSON,
     LaboratoryInstanceDTOPagedResponseRequestResponseFromJSON,
@@ -51,6 +54,11 @@ export interface ApiLaboratoryInstanceDeleteIdDeleteRequest {
 
 export interface ApiLaboratoryInstanceGetByIdIdGetRequest {
     id: string;
+}
+
+export interface ApiLaboratoryInstanceGetIsUserInLaboratoryInstanceGetRequest {
+    laboratoryInstanceId: string;
+    userId: string;
 }
 
 export interface ApiLaboratoryInstanceGetPageGetRequest {
@@ -191,6 +199,42 @@ export class LaboratoryInstanceApi extends runtime.BaseAPI {
      */
     async apiLaboratoryInstanceGetByIdIdGet(requestParameters: ApiLaboratoryInstanceGetByIdIdGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<LaboratoryInstanceDTORequestResponse> {
         const response = await this.apiLaboratoryInstanceGetByIdIdGetRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     */
+    async apiLaboratoryInstanceGetIsUserInLaboratoryInstanceGetRaw(requestParameters: ApiLaboratoryInstanceGetIsUserInLaboratoryInstanceGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<BooleanRequestResponse>> {
+        if (requestParameters.laboratoryInstanceId === null || requestParameters.laboratoryInstanceId === undefined) {
+            throw new runtime.RequiredError('laboratoryInstanceId','Required parameter requestParameters.laboratoryInstanceId was null or undefined when calling apiLaboratoryInstanceGetIsUserInLaboratoryInstanceGet.');
+        }
+
+        if (requestParameters.userId === null || requestParameters.userId === undefined) {
+            throw new runtime.RequiredError('userId','Required parameter requestParameters.userId was null or undefined when calling apiLaboratoryInstanceGetIsUserInLaboratoryInstanceGet.');
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["Authorization"] = this.configuration.apiKey("Authorization"); // Bearer authentication
+        }
+
+        const response = await this.request({
+            path: `/api/LaboratoryInstance/GetIsUserInLaboratoryInstance`.replace(`{${"LaboratoryInstanceId"}}`, encodeURIComponent(String(requestParameters.laboratoryInstanceId))).replace(`{${"UserId"}}`, encodeURIComponent(String(requestParameters.userId))),
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => BooleanRequestResponseFromJSON(jsonValue));
+    }
+
+    /**
+     */
+    async apiLaboratoryInstanceGetIsUserInLaboratoryInstanceGet(requestParameters: ApiLaboratoryInstanceGetIsUserInLaboratoryInstanceGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<BooleanRequestResponse> {
+        const response = await this.apiLaboratoryInstanceGetIsUserInLaboratoryInstanceGetRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

@@ -2,6 +2,7 @@
 /* eslint-disable */
 export * from './AttendancesDTO';
 export * from './AttendancesDTORequestResponse';
+export * from './BooleanRequestResponse';
 export * from './Course';
 export * from './CourseAddDTO';
 export * from './CourseDTO';

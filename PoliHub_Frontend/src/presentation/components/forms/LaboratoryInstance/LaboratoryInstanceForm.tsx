@@ -21,9 +21,14 @@ import {FormActions} from "@infrastructure/utils/formUtils";
  * Here we declare the LaboratoryInstance add and update form component.
  * This form may be used in modals so the onSubmit callback could close the modal on completion.
  */
-export const LaboratoryInstanceForm = (props: { onSubmit?: () => void, action: FormActions}) => {
+export const LaboratoryInstanceForm = (props: {
+    onSubmit?: () => void;
+    action: FormActions;
+    propLaboratoryId: string;
+}) => {
     const { formatMessage } = useIntl();
     const { state, actions, computed } = useLaboratoryInstanceFormController(props.action, props.onSubmit); // Use the controller.
+    const laboratoryId = props.propLaboratoryId !== "" ? props.propLaboratoryId : "";
 
     return <form onSubmit={actions.handleSubmit(actions.submit)}> {/* Wrap your form into a form tag and use the handle submit callback to validate the form and call the data submission. */}
         <Stack spacing={4} style={{ width: "100%" }}>
@@ -80,27 +85,16 @@ export const LaboratoryInstanceForm = (props: { onSubmit?: () => void, action: F
                     </FormControl>
                 </Grid>
                 <Grid container item direction="column" xs={6} md={6}>
-                    <FormControl
-                        fullWidth
-                        error={!isUndefined(state.errors.laboratoryId)}
-                    >
+                    <FormControl fullWidth error={!isUndefined(state.errors.laboratoryId)}>
                         <FormLabel required>
                             <FormattedMessage id="globals.laboratoryId" />
                         </FormLabel>
                         <OutlinedInput
                             {...actions.register("laboratoryId")}
-                            placeholder={formatMessage(
-                                { id: "globals.placeholders.textInput" },
-                                {
-                                    fieldName: formatMessage({
-                                        id: "globals.laboratoryId",
-                                    }),
-                                })}
+                            value={props.propLaboratoryId}
                             autoComplete="none"
                         />
-                        <FormHelperText
-                            hidden={isUndefined(state.errors.laboratoryId)}
-                        >
+                        <FormHelperText hidden={isUndefined(state.errors.laboratoryId)}>
                             {state.errors.laboratoryId?.message}
                         </FormHelperText>
                     </FormControl>
@@ -135,7 +129,11 @@ export const LaboratoryInstanceForm = (props: { onSubmit?: () => void, action: F
             <Grid container item direction="row" xs={12} className="padding-top-sm">
                 <Grid container item direction="column" xs={12} md={7}></Grid>
                 <Grid container item direction="column" xs={5}>
-                    <Button type="submit" disabled={!isEmpty(state.errors) || computed.isSubmitting}> {/* Add a button with type submit to call the submission callback if the button is a descended of the form element. */}
+                    <Button
+                        type="submit"
+                        variant="contained"
+                        style={{ color: '#FFFFFF', borderColor: '#1976d2', backgroundColor: '#024180'}}
+                    >
                         {!computed.isSubmitting && <FormattedMessage id="globals.submit" />}
                         {computed.isSubmitting && <CircularProgress />}
                     </Button>

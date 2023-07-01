@@ -49,9 +49,8 @@ export interface ApiLaboratoryDeleteIdDeleteRequest {
     id: string;
 }
 
-export interface ApiLaboratoryDeleteUserFromLaboratoryUserCourseIdDeleteRequest {
+export interface ApiLaboratoryDeleteUserFromLaboratoryUserLaboratoryIdDeleteRequest {
     userLaboratoryId: string;
-    userCourseId: string;
 }
 
 export interface ApiLaboratoryGetByIdIdGetRequest {
@@ -169,13 +168,9 @@ export class LaboratoryApi extends runtime.BaseAPI {
 
     /**
      */
-    async apiLaboratoryDeleteUserFromLaboratoryUserCourseIdDeleteRaw(requestParameters: ApiLaboratoryDeleteUserFromLaboratoryUserCourseIdDeleteRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<RequestResponse>> {
+    async apiLaboratoryDeleteUserFromLaboratoryUserLaboratoryIdDeleteRaw(requestParameters: ApiLaboratoryDeleteUserFromLaboratoryUserLaboratoryIdDeleteRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<RequestResponse>> {
         if (requestParameters.userLaboratoryId === null || requestParameters.userLaboratoryId === undefined) {
-            throw new runtime.RequiredError('userLaboratoryId','Required parameter requestParameters.userLaboratoryId was null or undefined when calling apiLaboratoryDeleteUserFromLaboratoryUserCourseIdDelete.');
-        }
-
-        if (requestParameters.userCourseId === null || requestParameters.userCourseId === undefined) {
-            throw new runtime.RequiredError('userCourseId','Required parameter requestParameters.userCourseId was null or undefined when calling apiLaboratoryDeleteUserFromLaboratoryUserCourseIdDelete.');
+            throw new runtime.RequiredError('userLaboratoryId','Required parameter requestParameters.userLaboratoryId was null or undefined when calling apiLaboratoryDeleteUserFromLaboratoryUserLaboratoryIdDelete.');
         }
 
         const queryParameters: any = {};
@@ -187,7 +182,7 @@ export class LaboratoryApi extends runtime.BaseAPI {
         }
 
         const response = await this.request({
-            path: `/api/Laboratory/DeleteUserFromLaboratory/{userCourseId}`.replace(`{${"userLaboratoryId"}}`, encodeURIComponent(String(requestParameters.userLaboratoryId))).replace(`{${"userCourseId"}}`, encodeURIComponent(String(requestParameters.userCourseId))),
+            path: `/api/Laboratory/DeleteUserFromLaboratory/{userLaboratoryId}`.replace(`{${"userLaboratoryId"}}`, encodeURIComponent(String(requestParameters.userLaboratoryId))),
             method: 'DELETE',
             headers: headerParameters,
             query: queryParameters,
@@ -198,8 +193,8 @@ export class LaboratoryApi extends runtime.BaseAPI {
 
     /**
      */
-    async apiLaboratoryDeleteUserFromLaboratoryUserCourseIdDelete(requestParameters: ApiLaboratoryDeleteUserFromLaboratoryUserCourseIdDeleteRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<RequestResponse> {
-        const response = await this.apiLaboratoryDeleteUserFromLaboratoryUserCourseIdDeleteRaw(requestParameters, initOverrides);
+    async apiLaboratoryDeleteUserFromLaboratoryUserLaboratoryIdDelete(requestParameters: ApiLaboratoryDeleteUserFromLaboratoryUserLaboratoryIdDeleteRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<RequestResponse> {
+        const response = await this.apiLaboratoryDeleteUserFromLaboratoryUserLaboratoryIdDeleteRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

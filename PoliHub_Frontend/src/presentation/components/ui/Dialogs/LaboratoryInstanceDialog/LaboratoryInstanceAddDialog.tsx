@@ -7,12 +7,22 @@ import { FormActions } from "@infrastructure/utils/formUtils";
 /**
  * This component wraps the user add form into a modal dialog.
  */
-export const LaboratoryInstanceAddDialog = () => {
+interface LaboratoryInstanceAddDialogProps {
+    laboratoryId: string;
+    onAddButtonPress: () => void;
+}
+export const LaboratoryInstanceAddDialog = ({
+    laboratoryId,
+    onAddButtonPress,}: LaboratoryInstanceAddDialogProps) => {
     const { open, close, isOpen } = useLaboratoryInstanceAddDialogController();
     const { formatMessage } = useIntl();
 
     return <div>
-        <Button variant="outlined" onClick={open}>
+        <Button
+            variant="contained"
+            onClick={open}
+            style={{ color: '#FFFFFF', borderColor: '#1976d2', backgroundColor: '#024180'}}
+        >
             {formatMessage({ id: "labels.addLaboratoryInstance" })}
         </Button>
         <Dialog
@@ -25,6 +35,7 @@ export const LaboratoryInstanceAddDialog = () => {
                 <LaboratoryInstanceForm
                     onSubmit={close}
                     action={FormActions.ADD}
+                    propLaboratoryId={laboratoryId}
                 />
             </DialogContent>
         </Dialog>

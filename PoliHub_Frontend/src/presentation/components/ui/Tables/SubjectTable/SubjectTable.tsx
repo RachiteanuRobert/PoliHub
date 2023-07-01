@@ -94,6 +94,7 @@ export const SubjectTable = () => {
                     <TableRow sx={{ backgroundColor: "#024180" }}>
                         {header.map(e => <TableCell sx={{color: "#FFFFFF"}} key={`header_${String(e.key)}`}>{e.name}</TableCell>)}
                         <TableCell sx={{ backgroundColor: "#024180", color:"#FFFFFF"}}>{formatMessage({ id: "labels.actions" })}</TableCell>
+                        <TableCell sx={{ backgroundColor: "#024180", color:"#FFFFFF"}}></TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
@@ -104,13 +105,13 @@ export const SubjectTable = () => {
                                     {formatValue(keyValue.value)}
                             </TableCell>)}
                             <TableCell>
+                                <Link to={`/subjects/${entry.id}`}><InfoIcon />
+                                </Link>
+                            </TableCell>
+                            <TableCell>
                                 {entry.id !== ownUserId && <IconButton color="error" onClick={() => remove(entry.id || '')}>
                                     <DeleteIcon color="error" fontSize='small' />
                                 </IconButton>}
-                            </TableCell>
-                            <TableCell>
-                                <Link to={`/subjects/${entry.id}`}><InfoIcon />
-                                </Link>
                             </TableCell>
                         </TableRow>)
                     }

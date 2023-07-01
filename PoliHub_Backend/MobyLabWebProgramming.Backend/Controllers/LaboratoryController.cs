@@ -52,7 +52,7 @@ public class LaboratoryController : AuthorizedController
     }
 
     [Authorize]
-    [HttpDelete("{userCourseId:guid}")]
+    [HttpDelete("{userLaboratoryId:guid}")]
     public async Task<ActionResult<RequestResponse>> DeleteUserFromLaboratory([FromRoute] Guid userLaboratoryId)
     {
         var currentUser = await GetCurrentUser();

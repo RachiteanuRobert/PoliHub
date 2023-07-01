@@ -7,6 +7,7 @@ import { getAuthenticationConfiguration } from "@infrastructure/utils/userUtils"
  */
 const getLaboratoryInstancesQueryKey = "getLaboratoryInstancesQuery";
 const getLaboratoryInstanceQueryKey = "getLaboratoryInstanceQuery";
+const getIsUserInLaboratoryInstanceQueryKey = "getIsUserInLaboratoryInstanceQuery";
 const addLaboratoryInstanceMutationKey = "addLaboratoryInstanceMutation";
 const deleteLaboratoryInstanceMutationKey = "deleteLaboratoryInstanceMutation";
 const updateLaboratoryInstanceMutationKey = "updateLaboratoryInstanceMutation";
@@ -20,9 +21,9 @@ export const useLaboratoryInstanceApi = () => {
 
     const getLaboratoryInstances = (page: ApiLaboratoryInstanceGetPageGetRequest) => new LaboratoryInstanceApi(config).apiLaboratoryInstanceGetPageGet(page); // Use the generated client code and adapt it.
     const getLaboratoryInstance = (id: string) => new LaboratoryInstanceApi(config).apiLaboratoryInstanceGetByIdIdGet({ id });
+    const getIsUserInLaboratoryInstance = (laboratoryInstanceId: string, userId: string) => new LaboratoryInstanceApi(config).apiLaboratoryInstanceGetIsUserInLaboratoryInstanceGet({laboratoryInstanceId, userId });
     const addLaboratoryInstance = (laboratoryInstance: LaboratoryInstanceAddDTO) => new LaboratoryInstanceApi(config).apiLaboratoryInstanceAddPost({ laboratoryInstanceAddDTO: laboratoryInstance });
     const updateLaboratoryInstance = (laboratoryInstance: LaboratoryInstanceUpdateDTO) => new LaboratoryInstanceApi(config).apiLaboratoryInstanceUpdatePut({ laboratoryInstanceUpdateDTO: laboratoryInstance });
-
     const deleteLaboratoryInstance = (id: string) => new LaboratoryInstanceApi(config).apiLaboratoryInstanceDeleteIdDelete({ id });
 
     return {
@@ -33,6 +34,10 @@ export const useLaboratoryInstanceApi = () => {
         getLaboratoryInstance: {
             key: getLaboratoryInstanceQueryKey,
             query: getLaboratoryInstance
+        },
+        getIsUserInLaboratoryInstance: {
+            key: getIsUserInLaboratoryInstanceQueryKey,
+            query: getIsUserInLaboratoryInstance
         },
         addLaboratoryInstance: { // Return the mutation object.
             key: addLaboratoryInstanceMutationKey, // Add the key to identify the mutation.

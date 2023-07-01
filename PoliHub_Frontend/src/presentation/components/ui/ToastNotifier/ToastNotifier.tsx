@@ -36,6 +36,9 @@ const getTranslationIdForKey = (code?: ErrorCodes) => {
         case ErrorCodes.UserAlreadyExists:
             return { id: "notifications.errors.userAlreadyExists" };
 
+        case ErrorCodes.CourseInstanceAlreadyExists:
+            return { id: "notifications.errors.courseInstanceAlreadyExists" };
+
         case ErrorCodes.WrongPassword:
             return { id: "notifications.errors.wrongPassword" };
 

@@ -10,6 +10,7 @@ apis/index.ts
 index.ts
 models/AttendancesDTO.ts
 models/AttendancesDTORequestResponse.ts
+models/BooleanRequestResponse.ts
 models/Course.ts
 models/CourseAddDTO.ts
 models/CourseDTO.ts

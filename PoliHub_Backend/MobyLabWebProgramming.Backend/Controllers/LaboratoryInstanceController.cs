@@ -37,6 +37,16 @@ public class LaboratoryInstanceController : AuthorizedController
         return this.FromServiceResponse(await _laboratoryInstanceService.GetLaboratoryInstances(pagination));
     }
 
+    [HttpGet]
+    public async Task<ActionResult<RequestResponse<Boolean>>> GetIsUserInLaboratoryInstance([FromRoute] UserToLaboratoryInstanceAddDTO userLaboratoryInstanceIds)
+    {
+        var currentUser = await GetCurrentUser();
+
+        return currentUser.Result != null ?
+            this.FromServiceResponse(await _laboratoryInstanceService.GetIsUserInLaboratoryInstance(userLaboratoryInstanceIds)) :
+            this.ErrorMessageResult<Boolean>(currentUser.Error);
+    }
+
     [Authorize]
     [HttpPost]
     public async Task<ActionResult<RequestResponse>> AddUserToLaboratoryInstance([FromBody] UserToLaboratoryInstanceAddDTO userLaboratoryInstanceIds)

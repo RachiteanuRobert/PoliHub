@@ -5,11 +5,11 @@ import { useIntl } from "react-intl";
 import { Button } from "@mui/material";
 import { Link } from "react-router-dom";
 import { Seo } from "@presentation/components/ui/Seo";
-import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
+import { createTheme, ThemeProvider } from "@material-ui/core/styles";
 
 export const HomePage = memo(() => {
     const { formatMessage } = useIntl();
-    const theme = createMuiTheme({
+    const theme = createTheme({
         typography: {
             fontFamily: ["Montserrat", "sans-serif"].join(","),
         },

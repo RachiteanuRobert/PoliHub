@@ -21,12 +21,12 @@ import {SingleLaboratoryInstancePage} from "@presentation/pages/SingleLaboratory
 import {SingleCourseInstancePage} from "@presentation/pages/SingleCourseInstancePage";
 import {UserAttendancesPage} from "@presentation/pages/UserAttendancesPage";
 import {UserSchedulePage} from "@presentation/pages/UserSchedulePage";
-import {createMuiTheme, ThemeProvider} from "@material-ui/core/styles";
+import {createTheme, ThemeProvider} from "@material-ui/core/styles";
 
 
 export function App() {
   const isAdmin = useOwnUserHasRole(UserRoleEnum.Admin);
-    const theme = createMuiTheme({
+    const theme = createTheme({
         typography: {
             fontFamily: [
                 'Montserrat',

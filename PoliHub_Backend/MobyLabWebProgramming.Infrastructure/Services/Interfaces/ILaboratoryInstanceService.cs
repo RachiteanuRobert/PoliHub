@@ -7,6 +7,7 @@ namespace MobyLabWebProgramming.Infrastructure.Services.Interfaces;
 public interface ILaboratoryInstanceService
 {
     public Task<ServiceResponse<LaboratoryInstanceDTO>> GetLaboratoryInstance(Guid id, CancellationToken cancellationToken = default);
+    public Task<ServiceResponse<Boolean>> GetIsUserInLaboratoryInstance(UserToLaboratoryInstanceAddDTO userLaboratoryInstanceIds, CancellationToken cancellationToken = default);
     public Task<ServiceResponse> AddUserToLaboratoryInstance(UserToLaboratoryInstanceAddDTO userLaboratoryInstanceIds, UserDTO? requestingUser, CancellationToken cancellationToken = default);
     public Task<ServiceResponse> AddLaboratoryInstance(LaboratoryInstanceAddDTO laboratoryInstance, UserDTO? requestingUser = default, CancellationToken cancellationToken = default);
     public Task<ServiceResponse<PagedResponse<LaboratoryInstanceDTO>>> GetLaboratoryInstances(PaginationSearchQueryParams pagination, CancellationToken cancellationToken = default);
