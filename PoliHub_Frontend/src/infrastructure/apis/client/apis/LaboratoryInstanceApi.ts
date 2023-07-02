@@ -56,9 +56,8 @@ export interface ApiLaboratoryInstanceGetByIdIdGetRequest {
     id: string;
 }
 
-export interface ApiLaboratoryInstanceGetIsUserInLaboratoryInstanceLaboratoryInstanceIdUserIdGetRequest {
+export interface ApiLaboratoryInstanceGetIsUserInLaboratoryInstanceLaboratoryInstanceIdGetRequest {
     laboratoryInstanceId: string;
-    userId: string;
 }
 
 export interface ApiLaboratoryInstanceGetPageGetRequest {
@@ -204,13 +203,9 @@ export class LaboratoryInstanceApi extends runtime.BaseAPI {
 
     /**
      */
-    async apiLaboratoryInstanceGetIsUserInLaboratoryInstanceLaboratoryInstanceIdUserIdGetRaw(requestParameters: ApiLaboratoryInstanceGetIsUserInLaboratoryInstanceLaboratoryInstanceIdUserIdGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<BooleanRequestResponse>> {
+    async apiLaboratoryInstanceGetIsUserInLaboratoryInstanceLaboratoryInstanceIdGetRaw(requestParameters: ApiLaboratoryInstanceGetIsUserInLaboratoryInstanceLaboratoryInstanceIdGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<BooleanRequestResponse>> {
         if (requestParameters.laboratoryInstanceId === null || requestParameters.laboratoryInstanceId === undefined) {
-            throw new runtime.RequiredError('laboratoryInstanceId','Required parameter requestParameters.laboratoryInstanceId was null or undefined when calling apiLaboratoryInstanceGetIsUserInLaboratoryInstanceLaboratoryInstanceIdUserIdGet.');
-        }
-
-        if (requestParameters.userId === null || requestParameters.userId === undefined) {
-            throw new runtime.RequiredError('userId','Required parameter requestParameters.userId was null or undefined when calling apiLaboratoryInstanceGetIsUserInLaboratoryInstanceLaboratoryInstanceIdUserIdGet.');
+            throw new runtime.RequiredError('laboratoryInstanceId','Required parameter requestParameters.laboratoryInstanceId was null or undefined when calling apiLaboratoryInstanceGetIsUserInLaboratoryInstanceLaboratoryInstanceIdGet.');
         }
 
         const queryParameters: any = {};
@@ -222,7 +217,7 @@ export class LaboratoryInstanceApi extends runtime.BaseAPI {
         }
 
         const response = await this.request({
-            path: `/api/LaboratoryInstance/GetIsUserInLaboratoryInstance/{laboratoryInstanceId}/{userId}`.replace(`{${"laboratoryInstanceId"}}`, encodeURIComponent(String(requestParameters.laboratoryInstanceId))).replace(`{${"userId"}}`, encodeURIComponent(String(requestParameters.userId))),
+            path: `/api/LaboratoryInstance/GetIsUserInLaboratoryInstance/{laboratoryInstanceId}`.replace(`{${"laboratoryInstanceId"}}`, encodeURIComponent(String(requestParameters.laboratoryInstanceId))),
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
@@ -233,8 +228,8 @@ export class LaboratoryInstanceApi extends runtime.BaseAPI {
 
     /**
      */
-    async apiLaboratoryInstanceGetIsUserInLaboratoryInstanceLaboratoryInstanceIdUserIdGet(requestParameters: ApiLaboratoryInstanceGetIsUserInLaboratoryInstanceLaboratoryInstanceIdUserIdGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<BooleanRequestResponse> {
-        const response = await this.apiLaboratoryInstanceGetIsUserInLaboratoryInstanceLaboratoryInstanceIdUserIdGetRaw(requestParameters, initOverrides);
+    async apiLaboratoryInstanceGetIsUserInLaboratoryInstanceLaboratoryInstanceIdGet(requestParameters: ApiLaboratoryInstanceGetIsUserInLaboratoryInstanceLaboratoryInstanceIdGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<BooleanRequestResponse> {
+        const response = await this.apiLaboratoryInstanceGetIsUserInLaboratoryInstanceLaboratoryInstanceIdGetRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

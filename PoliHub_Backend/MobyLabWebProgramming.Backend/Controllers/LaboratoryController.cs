@@ -85,6 +85,7 @@ public class LaboratoryController : AuthorizedController
             this.ErrorMessageResult(currentUser.Error);
     }
 
+    /*
     [Authorize]
     [HttpPut]
     public async Task<ActionResult<RequestResponse>> UpdateLaboratories([FromBody] Guid laboratoryId)
@@ -95,6 +96,7 @@ public class LaboratoryController : AuthorizedController
             this.FromServiceResponse(await _laboratoryService.UpdateLaboratories(laboratoryId)) :
             this.ErrorMessageResult(currentUser.Error);
     }
+    */
 
     [Authorize]
     [HttpDelete("{id:guid}")]

@@ -1,5 +1,5 @@
 import { WebsiteLayout } from "presentation/layouts/WebsiteLayout";
-import {useOwnUser, useOwnUserHasRole} from "@infrastructure/hooks/useOwnUser";
+import {useOwnUserHasRole, useTokenHasExpired} from "@infrastructure/hooks/useOwnUser";
 import React, { Fragment, memo } from "react";
 import {Box, styled} from "@mui/system";
 import { Seo } from "@presentation/components/ui/Seo";
@@ -7,6 +7,7 @@ import { useQuery } from "@tanstack/react-query";
 import { isUndefined } from "lodash";
 import { ContentCard } from "@presentation/components/ui/ContentCard";
 import { Link, useParams } from 'react-router-dom';
+import {useState} from "react";
 import { useIntl } from "react-intl";
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -21,6 +22,9 @@ import { useLaboratoryInstanceApi } from "@infrastructure/apis/api-management/la
 import {UserRoleEnum, UserSimpleDTO} from "@infrastructure/apis/client";
 import {getIpAddress} from "@infrastructure/utils/getIpAddress";
 import QRCode from 'react-qr-code';
+import {UserToLaboratoryInstanceAddDTO} from "@infrastructure/apis/client";
+import {useAppSelector} from "@application/store";
+import {useAppRouter} from "@infrastructure/hooks/useAppRouter";
 
 
 const useHeader = (): { key: keyof UserSimpleDTO, name: string }[] => {
@@ -54,6 +58,23 @@ const getRowValues = (entries: UserSimpleDTO[] | null | undefined, orderMap: { [
                 .map(([key, value]) => { return { key, value } })
         }
     });
+var checkedIfUserInLaboratoryInstance = false;
+const addUserToLabInst = (userToAdd: UserToLaboratoryInstanceAddDTO) =>{
+    (async () => {
+        const {
+            addUserToLaboratoryInstance: {
+                key: addUserToLaboratoryInstanceMutation,
+                mutation: addUserToLaboratoryInstance
+            }
+        } = useLaboratoryInstanceApi();
+        try {
+            await addUserToLaboratoryInstance(userToAdd);
+            // Handle successful addition of user to laboratory instance
+        } catch (error) {
+            // Handle error
+        }
+    })();
+}
 
 const BlueBackground = styled(Box)`
   background-color: #024180;
@@ -66,36 +87,23 @@ const BlueBackground = styled(Box)`
   z-index : 0;
 `;
 
-const getUserId = () => {
-    const ownUser = useOwnUser();
-
-    if (isUndefined(ownUser)){
-        return "";
-    }
-
-    return ownUser.id;
-}
-var checkedIfUserInLaboratoryInstance = false
-
-const isUserInLaboratoryInstanceGet = (
-    laboratoryInstanceId: string | undefined,
-    userId: string | undefined,
-    getIsUserInLaboratoryInstanceQueryKey: string,
-    getIsUserInLaboratoryInstance: Function,
-    ) => {
-    checkedIfUserInLaboratoryInstance = true
-    if(userId == "") {
-        return false;
-    }
-
-    const { data } = useQuery([getIsUserInLaboratoryInstanceQueryKey], () => getIsUserInLaboratoryInstance(laboratoryInstanceId, userId));
-    return data?.response;
-};
-
 export const SingleLaboratoryInstancePage = memo(() => {
     const { laboratoryInstanceId } = useParams();
+    const { redirectToLogin } = useAppRouter();
     const { getLaboratoryInstance: { key: getLaboratoryInstanceQueryKey, query: getLaboratoryInstance } } = useLaboratoryInstanceApi();
-    const { data, isError, isLoading } = useQuery([getLaboratoryInstanceQueryKey], () => getLaboratoryInstance(laboratoryInstanceId ?? ""));
+    const { data, isError, isLoading } = useQuery(
+        [getLaboratoryInstanceQueryKey],
+        () => getLaboratoryInstance(laboratoryInstanceId ?? ""),
+        {
+            refetchInterval: Infinity,
+            refetchOnWindowFocus: false,
+            enabled: true,
+        }
+    );
+    const { userId } = useAppSelector(x => {
+        const id = x.profileReducer.userId;
+        return { userId: id === null ? undefined : id };
+    });
     const { formatMessage } = useIntl();
     const laboratoryInstance = data?.response;
     const laboratoryInstanceUsers = laboratoryInstance?.laboratoryInstanceUsers;
@@ -104,20 +112,39 @@ export const SingleLaboratoryInstancePage = memo(() => {
     const rowValues = getRowValues(laboratoryInstanceUsers, orderMap);
     const ipAddr = getIpAddress();
     const qrValue = `http://${ipAddr}:3000/laboratoryinstances/${laboratoryInstanceId}`;
-    const userId = getUserId();
     const isAdmin = useOwnUserHasRole(UserRoleEnum.Admin);
-    const isUserInLaboratoryInstance = false;
+    const {loggedIn, hasExpired} = useTokenHasExpired();
+    const { getIsUserInLaboratoryInstance: { key: getIsUserInLaboratoryInstanceQueryKey, query: getIsUserInLaboratoryInstance } } = useLaboratoryInstanceApi();
+    const [userToAdd, setUserToAdd] = useState<UserToLaboratoryInstanceAddDTO>({userId: undefined, laboratoryInstanceId: undefined});
+    const {
+        data: isUserInLabInsData,
+        isLoading: isUserInLabInsLoading,
+        isError: isUserInLabInsError
+    } = useQuery([getIsUserInLaboratoryInstanceQueryKey], () => getIsUserInLaboratoryInstance(laboratoryInstanceId ?? ""),
+        {
+            refetchInterval: Infinity,
+            refetchOnWindowFocus: false,
+            enabled: true,
+        }
+    );
+    const isUserInLaboratoryInstance = isUserInLabInsData?.response;
 
-    if(!checkedIfUserInLaboratoryInstance) {
-        const { getIsUserInLaboratoryInstance: { key: getIsUserInLaboratoryInstanceQueryKey, query: getIsUserInLaboratoryInstance } } = useLaboratoryInstanceApi();
-        const isUserInLaboratoryInstance = isUserInLaboratoryInstanceGet(laboratoryInstanceId, userId, getIsUserInLaboratoryInstanceQueryKey, getIsUserInLaboratoryInstance);
-        if(!isUserInLaboratoryInstance && !isAdmin){
-
+    if (!checkedIfUserInLaboratoryInstance && loggedIn &&
+        !isUndefined(isUserInLaboratoryInstance)) {
+        checkedIfUserInLaboratoryInstance = true;
+        if (isUserInLaboratoryInstance == false && !isAdmin) {
+            setUserToAdd({
+                userId: userId,
+                laboratoryInstanceId: laboratoryInstanceId,
+            });
+            addUserToLabInst(userToAdd);
         }
     }
 
+
+
     if (isError || isUndefined(laboratoryInstance)) {
-        return <>Error</>
+        return <>Loading</>
     }
     if (isLoading) {
         return <>Loading</>

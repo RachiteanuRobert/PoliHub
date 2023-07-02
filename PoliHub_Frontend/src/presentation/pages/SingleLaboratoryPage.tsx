@@ -142,11 +142,13 @@ export const SingleLaboratoryPage = memo(() => {
     const weekdayName = DayOfWeekMap(laboratory?.dayOfWeek);
     const linkToCourse = "/courses/" + (laboratory?.courseId ?? "");
 
+    {/*
     if (getUserId() == "") {
         const location = useLocation();
         toast.error(formatMessage({ id: "notifications.errors.accessDenied" }));
         return <Navigate to="/login" state={{ prevUrl: location.pathname }} />;
     }
+    */}
 
     const handleAddButtonPress = () => {
         setAddButtonPressed(true);

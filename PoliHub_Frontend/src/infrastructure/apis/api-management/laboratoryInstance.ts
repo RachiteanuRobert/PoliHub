@@ -1,5 +1,10 @@
 import { useAppSelector } from "@application/store";
-import { ApiLaboratoryInstanceGetPageGetRequest, LaboratoryInstanceAddDTO, LaboratoryInstanceApi, LaboratoryInstanceUpdateDTO } from "../client";
+import {
+    ApiLaboratoryInstanceGetPageGetRequest,
+    LaboratoryInstanceAddDTO,
+    LaboratoryInstanceApi,
+    LaboratoryInstanceUpdateDTO,
+    UserToLaboratoryInstanceAddDTO} from "../client";
 import { getAuthenticationConfiguration } from "@infrastructure/utils/userUtils";
 
 /**
@@ -7,7 +12,8 @@ import { getAuthenticationConfiguration } from "@infrastructure/utils/userUtils"
  */
 const getLaboratoryInstancesQueryKey = "getLaboratoryInstancesQuery";
 const getLaboratoryInstanceQueryKey = "getLaboratoryInstanceQuery";
-const getIsUserInLaboratoryInstanceQueryKey = "getIsUserInLaboratoryInstanceQuery";
+const getIsUserInLaboratoryInstanceQueryKey = "getIsUserInLaboratoryInstanceQuery"
+const addUserToLaboratoryInstanceMutationKey = "addUserToLaboratoryInstanceMutation";
 const addLaboratoryInstanceMutationKey = "addLaboratoryInstanceMutation";
 const deleteLaboratoryInstanceMutationKey = "deleteLaboratoryInstanceMutation";
 const updateLaboratoryInstanceMutationKey = "updateLaboratoryInstanceMutation";
@@ -21,7 +27,8 @@ export const useLaboratoryInstanceApi = () => {
 
     const getLaboratoryInstances = (page: ApiLaboratoryInstanceGetPageGetRequest) => new LaboratoryInstanceApi(config).apiLaboratoryInstanceGetPageGet(page); // Use the generated client code and adapt it.
     const getLaboratoryInstance = (id: string) => new LaboratoryInstanceApi(config).apiLaboratoryInstanceGetByIdIdGet({ id });
-    const getIsUserInLaboratoryInstance = (laboratoryInstanceId: string, userId: string) => new LaboratoryInstanceApi(config).apiLaboratoryInstanceGetIsUserInLaboratoryInstanceGet({laboratoryInstanceId, userId });
+    const getIsUserInLaboratoryInstance = (laboratoryInstanceId: string) => new LaboratoryInstanceApi(config).apiLaboratoryInstanceGetIsUserInLaboratoryInstanceLaboratoryInstanceIdGet({laboratoryInstanceId});
+    const addUserToLaboratoryInstance = (laboratoryInstanceUserIds: UserToLaboratoryInstanceAddDTO) => new  LaboratoryInstanceApi(config).apiLaboratoryInstanceAddUserToLaboratoryInstancePost({userToLaboratoryInstanceAddDTO: laboratoryInstanceUserIds});
     const addLaboratoryInstance = (laboratoryInstance: LaboratoryInstanceAddDTO) => new LaboratoryInstanceApi(config).apiLaboratoryInstanceAddPost({ laboratoryInstanceAddDTO: laboratoryInstance });
     const updateLaboratoryInstance = (laboratoryInstance: LaboratoryInstanceUpdateDTO) => new LaboratoryInstanceApi(config).apiLaboratoryInstanceUpdatePut({ laboratoryInstanceUpdateDTO: laboratoryInstance });
     const deleteLaboratoryInstance = (id: string) => new LaboratoryInstanceApi(config).apiLaboratoryInstanceDeleteIdDelete({ id });
@@ -38,6 +45,10 @@ export const useLaboratoryInstanceApi = () => {
         getIsUserInLaboratoryInstance: {
             key: getIsUserInLaboratoryInstanceQueryKey,
             query: getIsUserInLaboratoryInstance
+        },
+        addUserToLaboratoryInstance: { // Return the mutation object.
+            key: addUserToLaboratoryInstanceMutationKey, // Add the key to identify the mutation.
+            mutation: addUserToLaboratoryInstance // Add the mutation callback.
         },
         addLaboratoryInstance: { // Return the mutation object.
             key: addLaboratoryInstanceMutationKey, // Add the key to identify the mutation.

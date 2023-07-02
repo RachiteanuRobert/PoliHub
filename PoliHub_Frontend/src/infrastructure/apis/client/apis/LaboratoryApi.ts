@@ -63,10 +63,6 @@ export interface ApiLaboratoryGetPageGetRequest {
     pageSize?: number;
 }
 
-export interface ApiLaboratoryUpdateLaboratoriesPutRequest {
-    body?: string;
-}
-
 export interface ApiLaboratoryUpdatePutRequest {
     laboratoryUpdateDTO?: LaboratoryUpdateDTO;
 }
@@ -271,37 +267,6 @@ export class LaboratoryApi extends runtime.BaseAPI {
      */
     async apiLaboratoryGetPageGet(requestParameters: ApiLaboratoryGetPageGetRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<LaboratoryDTOPagedResponseRequestResponse> {
         const response = await this.apiLaboratoryGetPageGetRaw(requestParameters, initOverrides);
-        return await response.value();
-    }
-
-    /**
-     */
-    async apiLaboratoryUpdateLaboratoriesPutRaw(requestParameters: ApiLaboratoryUpdateLaboratoriesPutRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<RequestResponse>> {
-        const queryParameters: any = {};
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        headerParameters['Content-Type'] = 'application/json';
-
-        if (this.configuration && this.configuration.apiKey) {
-            headerParameters["Authorization"] = this.configuration.apiKey("Authorization"); // Bearer authentication
-        }
-
-        const response = await this.request({
-            path: `/api/Laboratory/UpdateLaboratories`,
-            method: 'PUT',
-            headers: headerParameters,
-            query: queryParameters,
-            body: requestParameters.body as any,
-        }, initOverrides);
-
-        return new runtime.JSONApiResponse(response, (jsonValue) => RequestResponseFromJSON(jsonValue));
-    }
-
-    /**
-     */
-    async apiLaboratoryUpdateLaboratoriesPut(requestParameters: ApiLaboratoryUpdateLaboratoriesPutRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<RequestResponse> {
-        const response = await this.apiLaboratoryUpdateLaboratoriesPutRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

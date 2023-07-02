@@ -23,12 +23,7 @@ import {SingleCourseInstancePage} from "@presentation/pages/SingleCourseInstance
 import {UserAttendancesPage} from "@presentation/pages/UserAttendancesPage";
 import {UserSchedulePage} from "@presentation/pages/UserSchedulePage";
 import {createTheme, ThemeProvider} from "@material-ui/core/styles";
-import {FC, ReactNode} from 'react';
-
-interface ProtectedRouteProps {
-    path: string;
-    element: ReactNode;
-}
+import {ReactNode} from 'react';
 
 export function App() {
     const isAdmin = useOwnUserHasRole(UserRoleEnum.Admin);
@@ -51,26 +46,26 @@ export function App() {
                 <Route path={AppRoute.Login} element={<LoginPage />} />
 
                 {/*Students & Professors*/}
+                    <Route element={<RequireAuth/>}>
+                        <Route path ={AppRoute.SingleLaboratoryInstance} element = {<SingleLaboratoryInstancePage/>}/>
+                        <Route path ={AppRoute.SingleCourseInstance} element = {<SingleCourseInstancePage/>}/>
+                        <Route path ={AppRoute.UserAttendances} element = {<UserAttendancesPage/>}/>
+                        <Route path ={AppRoute.UserSchedule} element = {<UserSchedulePage/>}/>
 
-                    <Route path ={AppRoute.SingleLaboratoryInstance} element = {<SingleLaboratoryInstancePage/>}/>
-                    <Route path ={AppRoute.SingleCourseInstance} element = {<SingleCourseInstancePage/>}/>
-                    <Route path ={AppRoute.UserAttendances} element = {<UserAttendancesPage/>}/>
-                    <Route path ={AppRoute.UserSchedule} element = {<UserSchedulePage/>}/>
+                        <Route path ={AppRoute.SingleSubject} element = {<SingleSubjectPage/>}/>
+                        <Route path ={AppRoute.SingleCourse} element = {<SingleCoursePage/>}/>
+                        <Route path ={AppRoute.SingleLaboratory} element = {<SingleLaboratoryPage/>}/>
 
-                    <Route path ={AppRoute.SingleSubject} element = {<SingleSubjectPage/>}/>
-                    <Route path ={AppRoute.SingleCourse} element = {<SingleCoursePage/>}/>
-                    <Route path ={AppRoute.SingleLaboratory} element = {<SingleLaboratoryPage/>}/>
-
-                    {/*Admin*/}
-                    {isAdmin && <Route path={AppRoute.Users} element={<UsersPage />} />} {/* If the user doesn't have the right role this route shouldn't be used. */}
-                    {isAdmin && <Route path={AppRoute.UserFiles} element={<UserFilesPage />} />}
-                    {isAdmin && <Route path={AppRoute.Subjects} element={<SubjectsPage />} />}
-                    {isAdmin && <Route path={AppRoute.Courses} element={<CoursesPage />} />}
-                    {isAdmin && <Route path={AppRoute.CourseInstances} element={<CourseInstancesPage />} />}
-                    {isAdmin && <Route path={AppRoute.LaboratoryInstances} element={<LaboratoryInstancesPage />} />}
-                    {isAdmin && <Route path={AppRoute.Laboratories} element={<LaboratoriesPage />} />}
-                    {isAdmin && <Route path={AppRoute.Register} element={<RegisterPage />} />}
-
+                        {/*Admin*/}
+                        {isAdmin && <Route path={AppRoute.Users} element={<UsersPage />} />} {/* If the user doesn't have the right role this route shouldn't be used. */}
+                        {isAdmin && <Route path={AppRoute.UserFiles} element={<UserFilesPage />} />}
+                        {isAdmin && <Route path={AppRoute.Subjects} element={<SubjectsPage />} />}
+                        {isAdmin && <Route path={AppRoute.Courses} element={<CoursesPage />} />}
+                        {isAdmin && <Route path={AppRoute.CourseInstances} element={<CourseInstancesPage />} />}
+                        {isAdmin && <Route path={AppRoute.LaboratoryInstances} element={<LaboratoryInstancesPage />} />}
+                        {isAdmin && <Route path={AppRoute.Laboratories} element={<LaboratoriesPage />} />}
+                        {isAdmin && <Route path={AppRoute.Register} element={<RegisterPage />} />}
+                    </Route>
             </Routes>
         </ThemeProvider>
     </AppIntlProvider>

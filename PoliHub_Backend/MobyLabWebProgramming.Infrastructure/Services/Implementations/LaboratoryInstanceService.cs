@@ -43,8 +43,6 @@ public class LaboratoryInstanceService : ILaboratoryInstanceService
         var resultLaboratoryInstance = await _repository.GetAsync(new LaboratoryInstanceSpec(laboratoryInstanceId), cancellationToken);
         if (resultLaboratoryInstance == null)
         {
-            Console.Write("Lab inst not found - ce vine(li): " + laboratoryInstanceId + "uid: " + userId + "\n");
-
             return ServiceResponse<Boolean>.FromError(new(HttpStatusCode.Forbidden, "Laboratory Instance not found!", ErrorCodes.EntityNotFound));
         }
         
@@ -59,29 +57,23 @@ public class LaboratoryInstanceService : ILaboratoryInstanceService
 
     public async Task<ServiceResponse> AddUserToLaboratoryInstance(UserToLaboratoryInstanceAddDTO userLaboratoryInstanceIds, UserDTO? requestingUser, CancellationToken cancellationToken)
     {
-
-        if (requestingUser != null && requestingUser.Role != UserRoleEnum.Admin)
-        {
-            return ServiceResponse.FromError(new(HttpStatusCode.Forbidden, "Only the admin can add users!", ErrorCodes.CannotAdd));
-        }
-
         var laboratoryInstance = await _repository.GetAsync(new LaboratoryInstanceSpec(userLaboratoryInstanceIds.LaboratoryInstanceId), cancellationToken);
         if (laboratoryInstance == null)
         {
-            return ServiceResponse.FromError(new(HttpStatusCode.Forbidden, "Bad laboratory instance Id provided!", ErrorCodes.EntityNotFound));
+            return ServiceResponse.ForSuccess();
         }
 
         var user = await _repository.GetAsync(new UserSpec(userLaboratoryInstanceIds.UserId), cancellationToken);
         if (user == null)
         {
-            return ServiceResponse.FromError(new(HttpStatusCode.NotFound, "Bad user id provided!", ErrorCodes.EntityNotFound));
+            return ServiceResponse.ForSuccess();
         }
 
         // Verify if user is enrolled
         var searchLaboratoryInstanceUser = await _repository.GetAsync(new LaboratoryInstanceUserProjectionSpec(userLaboratoryInstanceIds.UserId, userLaboratoryInstanceIds.LaboratoryInstanceId), cancellationToken);
         if (searchLaboratoryInstanceUser != null)
         {
-            return ServiceResponse.FromError(new(HttpStatusCode.NotFound, "User already enroled!", ErrorCodes.UserAlreadyExists));
+            return ServiceResponse.ForSuccess();
         }
 
         LaboratoryInstanceUser newLaboratoryInstanceUser = new LaboratoryInstanceUser

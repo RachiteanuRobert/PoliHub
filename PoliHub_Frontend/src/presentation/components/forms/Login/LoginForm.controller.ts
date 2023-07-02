@@ -82,17 +82,20 @@ export const useLoginFormController = (): LoginFormController => {
     const dispatch = useDispatch();
     const [isSubmitting, setIsSubmitting] = useState(false);
 
-    useEffect(() => {
-        if (isSubmitting) {
-            navigate(from);
-        }
-    }, [isSubmitting, navigate, from]);
+    {
+        useEffect(() => {
+            if (isSubmitting) {
+                navigate(from);
+            }
+        }, [isSubmitting, navigate, from]);
+    }
 
     const submit = useCallback((data: LoginFormModel) => // Create a submit callback to send the form data to the backend.
         login(data).then((result) => {
             dispatch(setToken(result.response?.token ?? ''));
             toast(formatMessage({ id: "notifications.messages.authenticationSuccess" }));
             setIsSubmitting(true);
+            navigate(from);
         }), [login, queryClient, dispatch]);
 
     const {
