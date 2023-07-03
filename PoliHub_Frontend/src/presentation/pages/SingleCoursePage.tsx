@@ -17,13 +17,13 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import Button from '@material-ui/core/Button';
 import Typography from '@mui/material/Typography';
-import { UserSimpleDTO, CourseInstanceSimpleDTO, LaboratorySimpleDTO } from "@infrastructure/apis/client";
+import {UserSimpleDTO, CourseInstanceSimpleDTO, LaboratorySimpleDTO, UserRoleEnum} from "@infrastructure/apis/client";
 import AddCourseUserButton from '@presentation/components/ui/Buttons/CourseUserAddButton';
 import { CourseInstanceAddDialog } from '@presentation/components/ui/Dialogs/CourseInstanceDialog';
 import { LaboratoryAddDialog } from '@presentation/components/ui/Dialogs/LaboratoryDialog';
 import DeleteCourseUserButton from '@presentation/components/ui/Buttons/CourseUserDeleteButton';
 import InfoIcon from "@mui/icons-material/Info";
-import {useSubjectApi} from "@infrastructure/apis/api-management";
+import {useOwnUserHasRole} from "@infrastructure/hooks/useOwnUser";
 
 const useUserHeader = (): { key: keyof UserSimpleDTO, name: string }[] => {
     const { formatMessage } = useIntl();
@@ -134,6 +134,8 @@ export const SingleCoursePage = memo(() => {
     const { formatMessage } = useIntl();
     const course = data?.response;
     const queryClient = useQueryClient();
+    const isAdmin = useOwnUserHasRole(UserRoleEnum.Admin);
+    const isStudent = useOwnUserHasRole(UserRoleEnum.Student);
     const courseUsers = course?.courseUsers;
     const courseCourseInstances = course?.courseInstances;
     const courseLaboratories = course?.laboratories;
@@ -205,12 +207,14 @@ export const SingleCoursePage = memo(() => {
                         <Typography variant="h4" align="center" fontWeight ="bold">
                             Instante de Curs
                         </Typography>
-                        <CourseInstanceAddDialog
-                            courseId = {courseId ?? ""}
-                            onAddButtonPress={() => {
-                                handleAddButtonPress();
-                            }}
-                        />
+                        {!isStudent &&
+                            <CourseInstanceAddDialog
+                                courseId = {courseId ?? ""}
+                                onAddButtonPress={() => {
+                                    handleAddButtonPress();
+                                }}
+                            />
+                        }
                         <br/>
 
                         <TableContainer component={Paper}>
@@ -246,12 +250,14 @@ export const SingleCoursePage = memo(() => {
                         <Typography variant="h4" align="center" fontWeight ="bold">
                             Laboratoare
                         </Typography>
+                        {isAdmin &&
                         <LaboratoryAddDialog
                             courseId = {courseId ?? ""}
                             onAddButtonPress={() => {
                                 handleAddButtonPress();
                             }}
                         />
+                        }
                         <br/>
 
                         <TableContainer component={Paper}>
@@ -287,7 +293,7 @@ export const SingleCoursePage = memo(() => {
                         <Typography variant="h4" align="center" fontWeight ="bold">
                             Studenti
                         </Typography>
-                        {course.id && (
+                        {course.id && isAdmin && (
                             <AddCourseUserButton
                                 courseId={course.id}
                                 onAddButtonPress={handleAddButtonPress}>
@@ -301,8 +307,8 @@ export const SingleCoursePage = memo(() => {
                                 <TableHead>
                                     <TableRow sx={{ backgroundColor: "#024180" }}>
                                         {userHeader.map(e => <TableCell sx={{color: "#FFFFFF"}}  key={`header_${String(e.key)}`}>{e.name}</TableCell>)}
-                                        <TableCell sx={{ backgroundColor: "#024180", color:"#FFFFFF"}}>{formatMessage({ id: "labels.actions" })}</TableCell>
-                                    </TableRow>
+                                        {isAdmin && <TableCell sx={{ backgroundColor: "#024180", color:"#FFFFFF"}}>{formatMessage({ id: "labels.actions" })}</TableCell> }
+                                        {!isAdmin && <TableCell sx={{ backgroundColor: "#024180", color:"#FFFFFF"}}></TableCell> }                                    </TableRow>
                                 </TableHead>
                                 <TableBody>
                                     {userRowValues?.map(({ data, entry }, rowIndex) => (
@@ -313,7 +319,7 @@ export const SingleCoursePage = memo(() => {
                                                 </TableCell>
                                             ))}
                                             <TableCell>
-                                                {entry.id && (
+                                                {entry.id && isAdmin &&(
                                                     <DeleteCourseUserButton
                                                         courseUserId={entry.id}
                                                         onDeleteButtonPress={handleDeleteButtonPress}/>

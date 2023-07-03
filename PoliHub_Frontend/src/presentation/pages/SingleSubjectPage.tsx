@@ -17,12 +17,13 @@ import Paper from '@mui/material/Paper';
 import Button from '@material-ui/core/Button';
 import Typography from '@mui/material/Typography';
 import { useSubjectApi } from "@infrastructure/apis/api-management/subject";
-import { UserSimpleDTO, CourseSimpleDTO } from "@infrastructure/apis/client";
+import {UserSimpleDTO, CourseSimpleDTO, UserRoleEnum} from "@infrastructure/apis/client";
 import AddSubjectUserButton from '@presentation/components/ui/Buttons/SubjectUserAddButton';
 import DeleteSubjectUserButton from '@presentation/components/ui/Buttons/SubjectUserDeleteButton';
 import {Input} from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import InfoIcon from "@mui/icons-material/Info";
+import {useOwnUserHasRole} from "@infrastructure/hooks/useOwnUser";
 
 const useUserHeader = (): { key: keyof UserSimpleDTO, name: string }[] => {
     const { formatMessage } = useIntl();
@@ -87,6 +88,7 @@ export const SingleSubjectPage = memo(() => {
     const { formatMessage } = useIntl();
     const subject = data?.response;
     const queryClient = useQueryClient();
+    const isAdmin = useOwnUserHasRole(UserRoleEnum.Admin);
     const subjectUsers = subject?.subjectUsers;
     const subjectCourses = subject?.courses;
     const userHeader = useUserHeader();
@@ -133,14 +135,6 @@ export const SingleSubjectPage = memo(() => {
                 <Box sx={{ padding: "0px 10px" }}>
 
                     <ContentCard>
-                        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                            <Link to="/subjects" style={{ textDecoration: 'none', marginBottom: '1rem' }}>
-                                <Button variant="outlined" style={{ background: '#024180', color: 'white' }}>
-                                    Inapoi
-                                </Button>
-                            </Link>
-
-                        </div>
                         <br/>
                         <Typography variant="h3" style={{ marginTop: '1rem', textAlign: 'center', fontWeight:'bold'}}>
                             {subject.name}
@@ -184,7 +178,7 @@ export const SingleSubjectPage = memo(() => {
                         <Typography variant="h4" align="center" fontWeight ="bold">
                             Studenti
                         </Typography>
-                        {subject.id && (
+                        {subject.id && !isUndefined(isAdmin) && isAdmin &&(
                             <AddSubjectUserButton subjectId={subject.id} onAddButtonPress={handleAddButtonPress}>
                                 Adauga Student
                             </AddSubjectUserButton>
@@ -196,7 +190,8 @@ export const SingleSubjectPage = memo(() => {
                                 <TableHead>
                                     <TableRow sx={{ backgroundColor: "#024180" }}>
                                         {userHeader.map(e => <TableCell sx={{color: "#FFFFFF"}}  key={`header_${String(e.key)}`}>{e.name}</TableCell>)}
-                                        <TableCell sx={{ backgroundColor: "#024180", color:"#FFFFFF"}}>{formatMessage({ id: "labels.actions" })}</TableCell>
+                                        {isAdmin && <TableCell sx={{ backgroundColor: "#024180", color:"#FFFFFF"}}>{formatMessage({ id: "labels.actions" })}</TableCell> }
+                                        {!isAdmin && <TableCell sx={{ backgroundColor: "#024180", color:"#FFFFFF"}}></TableCell> }
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
@@ -208,7 +203,7 @@ export const SingleSubjectPage = memo(() => {
                                                 </TableCell>
                                             ))}
                                             <TableCell>
-                                                {entry.id && (
+                                                {entry.id && isAdmin &&  (
                                                     <DeleteSubjectUserButton subjectUserId={entry.id}  onDeleteButtonPress={handleDeleteButtonPress}/>
                                                 )}
                                             </TableCell>

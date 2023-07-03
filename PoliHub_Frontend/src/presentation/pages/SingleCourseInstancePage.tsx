@@ -24,7 +24,6 @@ import {getIpAddress} from "@infrastructure/utils/getIpAddress";
 import QRCode from 'react-qr-code';
 import {UserToCourseInstanceAddDTO} from "@infrastructure/apis/client";
 import {useAppSelector} from "@application/store";
-import {useAppRouter} from "@infrastructure/hooks/useAppRouter";
 
 
 const useHeader = (): { key: keyof UserSimpleDTO, name: string }[] => {

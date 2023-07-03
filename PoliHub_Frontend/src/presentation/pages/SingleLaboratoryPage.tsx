@@ -17,12 +17,12 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import Button from '@material-ui/core/Button';
 import Typography from '@mui/material/Typography';
-import { UserSimpleDTO, LaboratoryInstanceSimpleDTO} from "@infrastructure/apis/client";
+import {UserSimpleDTO, LaboratoryInstanceSimpleDTO, UserRoleEnum} from "@infrastructure/apis/client";
 import AddLaboratoryUserButton from '@presentation/components/ui/Buttons/LaboratoryUserAddButton';
 import { LaboratoryInstanceAddDialog } from '@presentation/components/ui/Dialogs/LaboratoryInstanceDialog';
 import DeleteLaboratoryUserButton from '@presentation/components/ui/Buttons/LaboratoryUserDeleteButton';
 import InfoIcon from "@mui/icons-material/Info";
-import {useOwnUser} from "@infrastructure/hooks/useOwnUser";
+import {useOwnUser, useOwnUserHasRole} from "@infrastructure/hooks/useOwnUser";
 import { toast } from "react-toastify";
 
 const useUserHeader = (): { key: keyof UserSimpleDTO, name: string }[] => {
@@ -132,6 +132,8 @@ export const SingleLaboratoryPage = memo(() => {
     const laboratoryUsers = laboratory?.laboratoryUsers;
     const laboratoryLaboratoryInstances = laboratory?.laboratoryInstances;
     const userHeader = useUserHeader();
+    const isAdmin = useOwnUserHasRole(UserRoleEnum.Admin);
+    const isStudent = useOwnUserHasRole(UserRoleEnum.Student);
     const laboratoryInstanceHeader = useLaboratoryInstanceHeader();
     const orderUserMap = userHeader.reduce((acc, e, i) => { return { ...acc, [e.key]: i } }, {}) as { [key: string]: number }; // Get the header column order.
     const orderLaboratoryInstanceMap = laboratoryInstanceHeader.reduce((acc, e, i) => { return { ...acc, [e.key]: i } }, {}) as { [key: string]: number }; // Get the header column order.
@@ -201,13 +203,15 @@ export const SingleLaboratoryPage = memo(() => {
                         <Typography variant="h4" align="center" fontWeight ="bold">
                             Instante de Laborator
                         </Typography>
-                        <LaboratoryInstanceAddDialog
-                            laboratoryId = {laboratoryId ?? ""}
-                            onAddButtonPress={() => {
-                                tryReload();
-                                handleAddButtonPress();
-                            }}
-                        />
+                        {!isStudent &&
+                            <LaboratoryInstanceAddDialog
+                                laboratoryId = {laboratoryId ?? ""}
+                                onAddButtonPress={() => {
+                                    tryReload();
+                                    handleAddButtonPress();
+                                }}
+                            />
+                        }
                         <br/>
 
                         <TableContainer component={Paper}>
@@ -243,7 +247,7 @@ export const SingleLaboratoryPage = memo(() => {
                         <Typography variant="h4" align="center" fontWeight ="bold">
                             Studenti
                         </Typography>
-                        {laboratory.id && (
+                        {laboratory.id && isAdmin &&(
                             <AddLaboratoryUserButton
                                 laboratoryId={laboratory.id}
                                 onAddButtonPress={handleAddButtonPress}>
@@ -257,8 +261,8 @@ export const SingleLaboratoryPage = memo(() => {
                                 <TableHead>
                                     <TableRow sx={{ backgroundColor: "#024180" }}>
                                         {userHeader.map(e => <TableCell sx={{color: "#FFFFFF"}}  key={`header_${String(e.key)}`}>{e.name}</TableCell>)}
-                                        <TableCell sx={{ backgroundColor: "#024180", color:"#FFFFFF"}}>{formatMessage({ id: "labels.actions" })}</TableCell>
-                                    </TableRow>
+                                        {isAdmin && <TableCell sx={{ backgroundColor: "#024180", color:"#FFFFFF"}}>{formatMessage({ id: "labels.actions" })}</TableCell> }
+                                        {!isAdmin && <TableCell sx={{ backgroundColor: "#024180", color:"#FFFFFF"}}></TableCell> }                                    </TableRow>
                                 </TableHead>
                                 <TableBody>
                                     {userRowValues?.map(({ data, entry }, rowIndex) => (
@@ -269,7 +273,7 @@ export const SingleLaboratoryPage = memo(() => {
                                                 </TableCell>
                                             ))}
                                             <TableCell>
-                                                {entry.id && (
+                                                {entry.id && isAdmin &&(
                                                     <DeleteLaboratoryUserButton
                                                         laboratoryUserId={entry.id}
                                                         onDeleteButtonPress={handleDeleteButtonPress}/>

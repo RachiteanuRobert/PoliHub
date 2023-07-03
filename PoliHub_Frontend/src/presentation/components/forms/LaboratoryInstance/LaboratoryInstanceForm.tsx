@@ -7,12 +7,10 @@ import {
     Grid,
     Stack,
     OutlinedInput,
-    Select,
-    MenuItem
 } from "@mui/material";
 import { FormattedMessage, useIntl } from "react-intl";
 import { useLaboratoryInstanceFormController } from "./LaboratoryInstanceForm.controller";
-import { isEmpty, isUndefined } from "lodash"
+import { isUndefined } from "lodash"
 import { DatePicker, LocalizationProvider, deDE } from "@mui/x-date-pickers";
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import {FormActions} from "@infrastructure/utils/formUtils";
@@ -96,6 +94,34 @@ export const LaboratoryInstanceForm = (props: {
                                 autoComplete="none"
                             />
                             <FormHelperText hidden={isUndefined(state.errors.laboratoryId)}>
+                                {state.errors.laboratoryId?.message}
+                            </FormHelperText>
+                        </FormControl>
+                    </Grid>
+                }
+                { props.propLaboratoryId == "" &&
+                    <Grid container item direction="column" xs={6} md={6}>
+                        <FormControl
+                            fullWidth
+                            error={!isUndefined(state.errors.laboratoryId)}
+                        >
+                            <FormLabel required>
+                                <FormattedMessage id="globals.laboratoryId" />
+                            </FormLabel>
+                            <OutlinedInput
+                                {...actions.register("laboratoryId")}
+                                placeholder={formatMessage(
+                                    { id: "globals.placeholders.textInput" },
+                                    {
+                                        fieldName: formatMessage({
+                                            id: "globals.laboratoryId",
+                                        }),
+                                    })}
+                                autoComplete="none"
+                            />
+                            <FormHelperText
+                                hidden={isUndefined(state.errors.laboratoryId)}
+                            >
                                 {state.errors.laboratoryId?.message}
                             </FormHelperText>
                         </FormControl>
