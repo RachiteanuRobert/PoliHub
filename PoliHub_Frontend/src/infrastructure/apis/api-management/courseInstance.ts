@@ -1,5 +1,11 @@
 import { useAppSelector } from "@application/store";
-import { ApiCourseInstanceGetPageGetRequest, CourseInstanceAddDTO, CourseInstanceApi, CourseInstanceUpdateDTO } from "../client";
+import {
+    ApiCourseInstanceGetPageGetRequest,
+    CourseInstanceAddDTO,
+    CourseInstanceApi,
+    CourseInstanceUpdateDTO,
+    UserToCourseInstanceAddDTO
+} from "../client";
 import { getAuthenticationConfiguration } from "@infrastructure/utils/userUtils";
 
 /**
@@ -7,6 +13,8 @@ import { getAuthenticationConfiguration } from "@infrastructure/utils/userUtils"
  */
 const getCourseInstancesQueryKey = "getCourseInstancesQuery";
 const getCourseInstanceQueryKey = "getCourseInstanceQuery";
+const getIsUserInCourseInstanceQueryKey = "getIsUserInCourseInstanceQuery"
+const addUserToCourseInstanceMutationKey = "addUserToCourseInstanceMutation";
 const addCourseInstanceMutationKey = "addCourseInstanceMutation";
 const deleteCourseInstanceMutationKey = "deleteCourseInstanceMutation";
 const updateCourseInstanceMutationKey = "updateCourseInstanceMutation";
@@ -20,6 +28,9 @@ export const useCourseInstanceApi = () => {
 
     const getCourseInstances = (page: ApiCourseInstanceGetPageGetRequest) => new CourseInstanceApi(config).apiCourseInstanceGetPageGet(page); // Use the generated client code and adapt it.
     const getCourseInstance = (id: string) => new CourseInstanceApi(config).apiCourseInstanceGetByIdIdGet({ id });
+    const getIsUserInCourseInstance = (courseInstanceId: string) => new CourseInstanceApi(config).apiCourseInstanceGetIsUserInCourseInstanceCourseInstanceIdGet({courseInstanceId});
+    const addUserToCourseInstance = (courseInstanceUserIds: UserToCourseInstanceAddDTO) => new  CourseInstanceApi(config).apiCourseInstanceAddUserToCourseInstancePost({userToCourseInstanceAddDTO: courseInstanceUserIds});
+
     const addCourseInstance = (courseInstance: CourseInstanceAddDTO) => new CourseInstanceApi(config).apiCourseInstanceAddPost({ courseInstanceAddDTO: courseInstance });
     const updateCourseInstance = (courseInstance: CourseInstanceUpdateDTO) => new CourseInstanceApi(config).apiCourseInstanceUpdatePut({ courseInstanceUpdateDTO: courseInstance });
 
@@ -33,6 +44,14 @@ export const useCourseInstanceApi = () => {
         getCourseInstance: {
             key: getCourseInstanceQueryKey,
             query: getCourseInstance
+        },
+        getIsUserInCourseInstance: {
+            key: getIsUserInCourseInstanceQueryKey,
+            query: getIsUserInCourseInstance
+        },
+        addUserToCourseInstance: { // Return the mutation object.
+            key: addUserToCourseInstanceMutationKey, // Add the key to identify the mutation.
+            mutation: addUserToCourseInstance // Add the mutation callback.
         },
         addCourseInstance: { // Return the mutation object.
             key: addCourseInstanceMutationKey, // Add the key to identify the mutation.

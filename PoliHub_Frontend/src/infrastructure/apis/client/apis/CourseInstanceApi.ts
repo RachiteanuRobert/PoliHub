@@ -15,6 +15,7 @@
 
 import * as runtime from '../runtime';
 import type {
+  BooleanRequestResponse,
   CourseInstanceAddDTO,
   CourseInstanceDTOPagedResponseRequestResponse,
   CourseInstanceDTORequestResponse,
@@ -23,6 +24,8 @@ import type {
   UserToCourseInstanceAddDTO,
 } from '../models';
 import {
+    BooleanRequestResponseFromJSON,
+    BooleanRequestResponseToJSON,
     CourseInstanceAddDTOFromJSON,
     CourseInstanceAddDTOToJSON,
     CourseInstanceDTOPagedResponseRequestResponseFromJSON,
@@ -51,6 +54,10 @@ export interface ApiCourseInstanceDeleteIdDeleteRequest {
 
 export interface ApiCourseInstanceGetByIdIdGetRequest {
     id: string;
+}
+
+export interface ApiCourseInstanceGetIsUserInCourseInstanceCourseInstanceIdGetRequest {
+    courseInstanceId: string;
 }
 
 export interface ApiCourseInstanceGetPageGetRequest {
@@ -191,6 +198,38 @@ export class CourseInstanceApi extends runtime.BaseAPI {
      */
     async apiCourseInstanceGetByIdIdGet(requestParameters: ApiCourseInstanceGetByIdIdGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<CourseInstanceDTORequestResponse> {
         const response = await this.apiCourseInstanceGetByIdIdGetRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     */
+    async apiCourseInstanceGetIsUserInCourseInstanceCourseInstanceIdGetRaw(requestParameters: ApiCourseInstanceGetIsUserInCourseInstanceCourseInstanceIdGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<BooleanRequestResponse>> {
+        if (requestParameters.courseInstanceId === null || requestParameters.courseInstanceId === undefined) {
+            throw new runtime.RequiredError('courseInstanceId','Required parameter requestParameters.courseInstanceId was null or undefined when calling apiCourseInstanceGetIsUserInCourseInstanceCourseInstanceIdGet.');
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["Authorization"] = this.configuration.apiKey("Authorization"); // Bearer authentication
+        }
+
+        const response = await this.request({
+            path: `/api/CourseInstance/GetIsUserInCourseInstance/{courseInstanceId}`.replace(`{${"courseInstanceId"}}`, encodeURIComponent(String(requestParameters.courseInstanceId))),
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => BooleanRequestResponseFromJSON(jsonValue));
+    }
+
+    /**
+     */
+    async apiCourseInstanceGetIsUserInCourseInstanceCourseInstanceIdGet(requestParameters: ApiCourseInstanceGetIsUserInCourseInstanceCourseInstanceIdGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<BooleanRequestResponse> {
+        const response = await this.apiCourseInstanceGetIsUserInCourseInstanceCourseInstanceIdGetRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

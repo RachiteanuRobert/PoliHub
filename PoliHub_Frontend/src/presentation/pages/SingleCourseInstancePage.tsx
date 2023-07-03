@@ -72,7 +72,6 @@ const BlueBackground = styled(Box)`
 
 export const SingleCourseInstancePage = memo(() => {
     const { courseInstanceId } = useParams();
-    const { redirectToLogin } = useAppRouter();
     const { getCourseInstance: { key: getCourseInstanceQueryKey, query: getCourseInstance } } = useCourseInstanceApi();
     const { data, isError, isLoading } = useQuery(
         [getCourseInstanceQueryKey],
