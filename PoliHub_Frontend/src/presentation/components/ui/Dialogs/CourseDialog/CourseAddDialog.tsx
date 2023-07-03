@@ -12,7 +12,12 @@ export const CourseAddDialog = () => {
     const { formatMessage } = useIntl();
 
     return <div>
-        <Button variant="outlined" onClick={open}>
+        <Button
+            variant="contained"
+            className="add-button"
+            onClick={open}
+            style={{ color: '#FFFFFF', borderColor: '#1976d2', backgroundColor: '#024180'}}
+        >
             {formatMessage({ id: "labels.addCourse" })}
         </Button>
         <Dialog

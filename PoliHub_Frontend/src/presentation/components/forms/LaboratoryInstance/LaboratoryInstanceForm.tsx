@@ -84,21 +84,23 @@ export const LaboratoryInstanceForm = (props: {
                         </FormHelperText>
                     </FormControl>
                 </Grid>
-                <Grid container item direction="column" xs={6} md={6}>
-                    <FormControl fullWidth error={!isUndefined(state.errors.laboratoryId)}>
-                        <FormLabel required>
-                            <FormattedMessage id="globals.laboratoryId" />
-                        </FormLabel>
-                        <OutlinedInput
-                            {...actions.register("laboratoryId")}
-                            value={props.propLaboratoryId}
-                            autoComplete="none"
-                        />
-                        <FormHelperText hidden={isUndefined(state.errors.laboratoryId)}>
-                            {state.errors.laboratoryId?.message}
-                        </FormHelperText>
-                    </FormControl>
-                </Grid>
+                { props.propLaboratoryId != "" &&
+                    <Grid container item direction="column" xs={6} md={6}>
+                        <FormControl fullWidth error={!isUndefined(state.errors.laboratoryId)}>
+                            <FormLabel required>
+                                <FormattedMessage id="globals.laboratoryId" />
+                            </FormLabel>
+                            <OutlinedInput
+                                {...actions.register("laboratoryId")}
+                                value={props.propLaboratoryId}
+                                autoComplete="none"
+                            />
+                            <FormHelperText hidden={isUndefined(state.errors.laboratoryId)}>
+                                {state.errors.laboratoryId?.message}
+                            </FormHelperText>
+                        </FormControl>
+                    </Grid>
+                }
                 <Grid container item direction="column" xs={6} md={6}>
                     <FormControl
                         fullWidth

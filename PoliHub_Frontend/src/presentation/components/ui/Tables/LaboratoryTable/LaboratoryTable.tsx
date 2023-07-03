@@ -62,7 +62,7 @@ export const LaboratoryTable = () => {
 
 
     return <DataLoadingContainer isError={isError} isLoading={isLoading} tryReload={tryReload}>
-        <LaboratoryAddDialog />
+        <LaboratoryAddDialog courseId = "" onAddButtonPress={() => {}}/>
         <p>
             <Input value={search} onChange={(e: any) => {
                 setSearch(e.target.value);
@@ -89,9 +89,10 @@ export const LaboratoryTable = () => {
         <TableContainer component={Paper}>
             <Table>
                 <TableHead>
-                    <TableRow>
-                        {header.map(e => <TableCell key={`header_${String(e.key)}`}>{e.name}</TableCell>)}
-                        <TableCell>{formatMessage({ id: "labels.actions" })}</TableCell>
+                    <TableRow sx={{ backgroundColor: "#024180" }}>
+                        {header.map(e => <TableCell sx={{color: "#FFFFFF"}} key={`header_${String(e.key)}`}>{e.name}</TableCell>)}
+                        <TableCell sx={{ backgroundColor: "#024180", color:"#FFFFFF"}}>{formatMessage({ id: "labels.actions" })}</TableCell>
+                        <TableCell sx={{ backgroundColor: "#024180", color:"#FFFFFF"}}></TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
@@ -102,14 +103,13 @@ export const LaboratoryTable = () => {
                                     {formatValue(keyValue.value)}
                                 </TableCell>)}
                             <TableCell>
+                                <Link to={`/laboratories/${entry.id}`}><InfoIcon />
+                                </Link>
+                            </TableCell>
+                            <TableCell>
                                 {entry.id !== ownUserId && <IconButton color="error" onClick={() => remove(entry.id || '')}>
                                     <DeleteIcon color="error" fontSize='small' />
                                 </IconButton>}
-                            </TableCell>
-                            <TableCell>
-
-                                <Link to={`/laboratories/${entry.id}`}><InfoIcon />
-                                </Link>
                             </TableCell>
                         </TableRow>)
                     }

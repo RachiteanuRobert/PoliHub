@@ -84,21 +84,51 @@ export const CourseInstanceForm = (props: {
                         </FormHelperText>
                     </FormControl>
                 </Grid>
-                <Grid container item direction="column" xs={6} md={6}>
-                    <FormControl fullWidth error={!isUndefined(state.errors.courseId)}>
-                        <FormLabel required>
-                            <FormattedMessage id="globals.courseId" />
-                        </FormLabel>
-                        <OutlinedInput
-                            {...actions.register("courseId")}
-                            value={props.propCourseId}
-                            autoComplete="none"
-                        />
-                        <FormHelperText hidden={isUndefined(state.errors.courseId)}>
-                            {state.errors.courseId?.message}
-                        </FormHelperText>
-                    </FormControl>
-                </Grid>
+                { props.propCourseId != "" &&
+                    <Grid container item direction="column" xs={6} md={6}>
+                        <FormControl fullWidth error={!isUndefined(state.errors.courseId)}>
+                            <FormLabel required>
+                                <FormattedMessage id="globals.courseId" />
+                            </FormLabel>
+                            <OutlinedInput
+                                {...actions.register("courseId")}
+                                value={props.propCourseId}
+                                autoComplete="none"
+                            />
+                            <FormHelperText hidden={isUndefined(state.errors.courseId)}>
+                                {state.errors.courseId?.message}
+                            </FormHelperText>
+                        </FormControl>
+                    </Grid>
+                }
+                { props.propCourseId == "" &&
+                    <Grid container item direction="column" xs={6} md={6}>
+                        <FormControl
+                            fullWidth
+                            error={!isUndefined(state.errors.courseId)}
+                        >
+                            <FormLabel required>
+                                <FormattedMessage id="globals.courseId" />
+                            </FormLabel>
+                            <OutlinedInput
+                                {...actions.register("courseId")}
+                                placeholder={formatMessage(
+                                    { id: "globals.placeholders.textInput" },
+                                    {
+                                        fieldName: formatMessage({
+                                            id: "globals.courseId",
+                                        }),
+                                    })}
+                                autoComplete="none"
+                            />
+                            <FormHelperText
+                                hidden={isUndefined(state.errors.courseId)}
+                            >
+                                {state.errors.courseId?.message}
+                            </FormHelperText>
+                        </FormControl>
+                    </Grid>
+                }
                 <Grid container item direction="column" xs={6} md={6}>
                     <FormControl
                         fullWidth

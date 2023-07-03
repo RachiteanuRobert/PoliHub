@@ -235,12 +235,6 @@ public class SubjectService : ISubjectService
             entity.Department = subject.Department ?? entity.Department;
             entity.CreditsNo = subject.CreditsNo ?? entity.CreditsNo;
             entity.Description = subject.Description ?? entity.Description;
-            entity.SubjectUsers = subject.SubjectUsers ?? entity.SubjectUsers;
-            //entity.Users = Users ?? entity.Users;
-            /*
-            
-            entity.Course = subject.Course ?? entity.Course;
-            entity.Laboratories = subject.Laboratories == null ? entity.Laboratories : Laboratories;*/
 
             await _repository.UpdateAsync(entity, cancellationToken);
         }

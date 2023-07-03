@@ -13,15 +13,16 @@ import { setCourseInstanceToUpdate } from "@application/state-slices/courseInsta
 import { CourseInstance } from "@application/state-slices/courseInstance/courseInstanceSlice.types";
 import SearchIcon from '@mui/icons-material/Search';
 import {Link} from "react-router-dom";
+import InfoIcon from "@mui/icons-material/Info";
 
 const useHeader = (): { key: keyof CourseInstanceDTO; name: string }[] => {
     const { formatMessage } = useIntl();
 
     return [
-        { key: "courseId", name: formatMessage({ id: "globals.courseId" }) },
+        { key: "name", name: formatMessage({ id: "globals.name" }) },
         { key: "courseInstanceDate", name: formatMessage({ id: "globals.courseInstanceDate" }) },
         { key: "description", name: formatMessage({ id: "globals.description" }) },
-        { key: "name", name: formatMessage({ id: "globals.name" }) },
+        { key: "courseId", name: formatMessage({ id: "globals.courseId" }) },
     ];
 };
 
@@ -60,7 +61,7 @@ export const CourseInstanceTable = () => {
 
 
     return <DataLoadingContainer isError={isError} isLoading={isLoading} tryReload={tryReload}>
-        <CourseInstanceAddDialog courseId =""/>
+        <CourseInstanceAddDialog courseId ="" onAddButtonPress={() => {}}/>
         <p>
             <Input value={search} onChange={(e: any) => {
                 setSearch(e.target.value);
@@ -87,9 +88,10 @@ export const CourseInstanceTable = () => {
         <TableContainer component={Paper}>
             <Table>
                 <TableHead>
-                    <TableRow>
-                        {header.map(e => <TableCell key={`header_${String(e.key)}`}>{e.name}</TableCell>)}
-                        <TableCell>{formatMessage({ id: "labels.actions" })}</TableCell>
+                    <TableRow sx={{ backgroundColor: "#024180" }}>
+                        {header.map(e => <TableCell sx={{color: "#FFFFFF"}} key={`header_${String(e.key)}`}>{e.name}</TableCell>)}
+                        <TableCell sx={{ backgroundColor: "#024180", color:"#FFFFFF"}}>{formatMessage({ id: "labels.actions" })}</TableCell>
+                        <TableCell sx={{ backgroundColor: "#024180", color:"#FFFFFF"}}></TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
@@ -100,13 +102,13 @@ export const CourseInstanceTable = () => {
                                     {formatValue(keyValue.value)}
                                 </TableCell>)}
                             <TableCell>
+                                <Link to={`/courseInstances/${entry.id}`}><InfoIcon />
+                                </Link>
+                            </TableCell>
+                            <TableCell>
                                 {entry.id !== ownUserId && <IconButton color="error" onClick={() => remove(entry.id || '')}>
                                     <DeleteIcon color="error" fontSize='small' />
                                 </IconButton>}
-                            </TableCell>
-                            <TableCell>
-                                <Link to={`/courseInstances/${entry.id}`}>Info
-                                </Link>
                             </TableCell>
                         </TableRow>)
                     }

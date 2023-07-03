@@ -113,27 +113,12 @@ public class LaboratoryService : ILaboratoryService
         }
 
         
-        var courseResult = await _repository.GetAsync(new CourseProjectionSpec(laboratory.CourseId), cancellationToken);
+        var courseResult = await _repository.GetAsync(new CourseSpec(laboratory.CourseId), cancellationToken);
         if (courseResult == null)
         {
             return ServiceResponse.FromError(new(HttpStatusCode.NotFound, "Course already exists!", ErrorCodes.EntityNotFound));
         }
 
-        var subjectResult = await _repository.GetAsync(new SubjectProjectionSpec(courseResult.SubjectId), cancellationToken);
-        if (subjectResult == null)
-        {
-            return ServiceResponse.FromError(new(HttpStatusCode.NotFound, "Subject does not exist!", ErrorCodes.EntityNotFound));
-        }
-
-        var subject = new Subject
-        {
-            Name = subjectResult.Name
-        };
-
-        var course = new Course
-        {
-            Subject = subject
-        };
 
         await _repository.AddAsync(new Laboratory
         {
@@ -143,7 +128,7 @@ public class LaboratoryService : ILaboratoryService
             AssistantName = laboratory.AssistantName,
             DayOfWeek = laboratory.DayOfWeek,
             CourseId = laboratory.CourseId,
-            Course = course
+            Course = courseResult
         });
 
         return ServiceResponse.ForSuccess();

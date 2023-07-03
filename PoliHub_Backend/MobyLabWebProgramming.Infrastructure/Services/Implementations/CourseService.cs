@@ -120,16 +120,11 @@ public class CourseService : ICourseService
             return ServiceResponse.FromError(new(HttpStatusCode.Forbidden, "Course already exists!", ErrorCodes.CannotAdd));
         }
 
-        var subjectResult = await _repository.GetAsync(new SubjectProjectionSpec(course.SubjectId), cancellationToken);
+        var subjectResult = await _repository.GetAsync(new SubjectSpec(course.SubjectId), cancellationToken);
         if (subjectResult == null)
         {
             return ServiceResponse.FromError(new(HttpStatusCode.Forbidden, "Subject does not exist!", ErrorCodes.EntityNotFound));
         }
-
-        var subject = new Subject
-        {
-            Name = subjectResult.Name
-        };
 
         await _repository.AddAsync(new Course
         {
@@ -140,7 +135,7 @@ public class CourseService : ICourseService
             Series = course.Series,
             DayOfWeek = course.DayOfWeek,
             SubjectId = course.SubjectId,
-            Subject = subject
+            Subject = subjectResult
         });
 
         return ServiceResponse.ForSuccess();
