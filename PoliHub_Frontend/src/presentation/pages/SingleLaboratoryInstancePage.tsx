@@ -7,7 +7,7 @@ import { useQuery } from "@tanstack/react-query";
 import { isUndefined } from "lodash";
 import { ContentCard } from "@presentation/components/ui/ContentCard";
 import { Link, useParams } from 'react-router-dom';
-import {useState} from "react";
+import {useState, useEffect} from "react";
 import { useIntl } from "react-intl";
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -58,23 +58,6 @@ const getRowValues = (entries: UserSimpleDTO[] | null | undefined, orderMap: { [
                 .map(([key, value]) => { return { key, value } })
         }
     });
-var checkedIfUserInLaboratoryInstance = false;
-const addUserToLabInst = (userToAdd: UserToLaboratoryInstanceAddDTO) =>{
-    (async () => {
-        const {
-            addUserToLaboratoryInstance: {
-                key: addUserToLaboratoryInstanceMutation,
-                mutation: addUserToLaboratoryInstance
-            }
-        } = useLaboratoryInstanceApi();
-        try {
-            await addUserToLaboratoryInstance(userToAdd);
-            // Handle successful addition of user to laboratory instance
-        } catch (error) {
-            // Handle error
-        }
-    })();
-}
 
 const BlueBackground = styled(Box)`
   background-color: #024180;
@@ -107,6 +90,7 @@ export const SingleLaboratoryInstancePage = memo(() => {
     const { formatMessage } = useIntl();
     const laboratoryInstance = data?.response;
     const laboratoryInstanceUsers = laboratoryInstance?.laboratoryInstanceUsers;
+    const backLink = "/laboratories/" + (laboratoryInstance?.laboratoryId ?? "");
     const header = useHeader();
     const orderMap = header.reduce((acc, e, i) => { return { ...acc, [e.key]: i } }, {}) as { [key: string]: number }; // Get the header column order.
     const rowValues = getRowValues(laboratoryInstanceUsers, orderMap);
@@ -114,8 +98,13 @@ export const SingleLaboratoryInstancePage = memo(() => {
     const qrValue = `http://${ipAddr}:3000/laboratoryinstances/${laboratoryInstanceId}`;
     const isAdmin = useOwnUserHasRole(UserRoleEnum.Admin);
     const {loggedIn, hasExpired} = useTokenHasExpired();
+    const [checkedIfUserInLaboratoryInstance, setCheckedIfUserInLaboratoryInstance] = useState(false);
     const { getIsUserInLaboratoryInstance: { key: getIsUserInLaboratoryInstanceQueryKey, query: getIsUserInLaboratoryInstance } } = useLaboratoryInstanceApi();
-    const [userToAdd, setUserToAdd] = useState<UserToLaboratoryInstanceAddDTO>({userId: undefined, laboratoryInstanceId: undefined});
+    const [userToAdd, setUserToAdd] = useState<UserToLaboratoryInstanceAddDTO>({
+        userId: userId,
+        laboratoryInstanceId: laboratoryInstanceId,
+    });
+
     const {
         data: isUserInLabInsData,
         isLoading: isUserInLabInsLoading,
@@ -129,19 +118,27 @@ export const SingleLaboratoryInstancePage = memo(() => {
     );
     const isUserInLaboratoryInstance = isUserInLabInsData?.response;
 
-    if (!checkedIfUserInLaboratoryInstance && loggedIn &&
-        !isUndefined(isUserInLaboratoryInstance)) {
-        checkedIfUserInLaboratoryInstance = true;
-        if (isUserInLaboratoryInstance == false && !isAdmin) {
-            setUserToAdd({
-                userId: userId,
-                laboratoryInstanceId: laboratoryInstanceId,
-            });
-            addUserToLabInst(userToAdd);
+    const {
+        addUserToLaboratoryInstance: {
+            key: addUserToLaboratoryInstanceMutation,
+            mutation: addUserToLaboratoryInstance
         }
-    }
+    } = useLaboratoryInstanceApi();
 
-
+    useEffect(() => {
+        if (loggedIn && !hasExpired && !isUndefined(laboratoryInstanceId) &&
+            checkedIfUserInLaboratoryInstance == false &&
+            !isUndefined(isUserInLaboratoryInstance)) {
+            setCheckedIfUserInLaboratoryInstance(true);
+            if (!isUserInLaboratoryInstance && !isAdmin) {
+                setUserToAdd({
+                    userId: userId,
+                    laboratoryInstanceId: laboratoryInstanceId,
+                });
+                addUserToLaboratoryInstance(userToAdd);
+            }
+        }
+    }, [loggedIn, hasExpired, laboratoryInstanceId, isUserInLaboratoryInstance, isAdmin, userId]);
 
     if (isError || isUndefined(laboratoryInstance)) {
         return <>Loading</>
@@ -158,7 +155,7 @@ export const SingleLaboratoryInstancePage = memo(() => {
                 <Box sx={{ padding: "0px 10px" }}>
                     <ContentCard>
                         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                            <Link to="/laboratoryInstances" style={{ textDecoration: 'none', marginBottom: '1rem' }}>
+                            <Link to={backLink} style={{ textDecoration: 'none', marginBottom: '1rem' }}>
                                 <Button variant="outlined" style={{ background: '#024180', color: 'white' }}>
                                     Inapoi
                                 </Button>

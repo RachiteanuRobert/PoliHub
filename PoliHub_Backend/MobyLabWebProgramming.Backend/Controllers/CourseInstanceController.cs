@@ -38,6 +38,16 @@ public class CourseInstanceController : AuthorizedController
         return this.FromServiceResponse(await _courseInstanceService.GetCourseInstances(pagination));
     }
 
+    [HttpGet("{courseInstanceId:guid}")]
+    public async Task<ActionResult<RequestResponse<Boolean>>> GetIsUserInCourseInstance([FromRoute] Guid courseInstanceId)
+    {
+        var currentUser = await GetCurrentUser();
+
+        return currentUser.Result != null ?
+            this.FromServiceResponse(await _courseInstanceService.GetIsUserInCourseInstance(courseInstanceId, currentUser.Result.Id)) :
+            this.ErrorMessageResult<Boolean>(currentUser.Error);
+    }
+
     [Authorize]
     [HttpPost]
     public async Task<ActionResult<RequestResponse>> AddUserToCourseInstance([FromBody] UserToCourseInstanceAddDTO userCourseInstanceIds)

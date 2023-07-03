@@ -37,18 +37,28 @@ public class CourseInstanceService : ICourseInstanceService
         return ServiceResponse<PagedResponse<CourseInstanceDTO>>.ForSuccess(result);
     }
 
-    public async Task<ServiceResponse> AddUserToCourseInstance(UserToCourseInstanceAddDTO userCourseInstanceIds, UserDTO? requestingUser, CancellationToken cancellationToken)
+    public async Task<ServiceResponse<Boolean>> GetIsUserInCourseInstance(Guid courseInstanceId, Guid userId, CancellationToken cancellationToken = default)
     {
-
-        if (requestingUser != null && requestingUser.Role != UserRoleEnum.Admin)
+        var resultCourseInstance = await _repository.GetAsync(new CourseInstanceSpec(courseInstanceId), cancellationToken);
+        if (resultCourseInstance == null)
         {
-            return ServiceResponse.FromError(new(HttpStatusCode.Forbidden, "Only the admin can add users!", ErrorCodes.CannotAdd));
+            return ServiceResponse<Boolean>.FromError(new(HttpStatusCode.NotFound, "Course Instance not found!", ErrorCodes.EntityNotFound));
         }
 
+        var resultCourseInstanceUser = await _repository.GetAsync(new CourseInstanceUserProjectionSpec(userId, courseInstanceId), cancellationToken);
+        if (resultCourseInstanceUser != null)
+        {
+            return ServiceResponse<Boolean>.ForSuccess(true);
+        }
+        return ServiceResponse<Boolean>.ForSuccess(false);
+    }
+
+    public async Task<ServiceResponse> AddUserToCourseInstance(UserToCourseInstanceAddDTO userCourseInstanceIds, UserDTO? requestingUser, CancellationToken cancellationToken)
+    {
         var courseInstance = await _repository.GetAsync(new CourseInstanceSpec(userCourseInstanceIds.CourseInstanceId), cancellationToken);
         if (courseInstance == null)
         {
-            return ServiceResponse.FromError(new(HttpStatusCode.Forbidden, "Bad course instance id provided!", ErrorCodes.EntityNotFound));
+            return ServiceResponse.FromError(new(HttpStatusCode.NotFound, "Bad course instance id provided!", ErrorCodes.EntityNotFound));
         }
 
         var user = await _repository.GetAsync(new UserSpec(userCourseInstanceIds.UserId), cancellationToken);
@@ -87,40 +97,18 @@ public class CourseInstanceService : ICourseInstanceService
         var result = await _repository.GetAsync(new CourseInstanceProjectionSpec(courseInstance.Name), cancellationToken);
         if (result != null)
         {
-            return ServiceResponse.FromError(new(HttpStatusCode.Forbidden, "Course Instance already exists!", ErrorCodes.CannotAdd));
+            return ServiceResponse.FromError(new(HttpStatusCode.NotFound, "Course Instance already exists!", ErrorCodes.CannotAdd));
         }
 
-        var courseInstanceResult = await _repository.GetAsync(new CourseInstanceProjectionSpec(courseInstance.Name), cancellationToken);
-        if (courseInstanceResult != null)
-        {
-            return ServiceResponse.FromError(new(HttpStatusCode.Forbidden, "Course Instance already exists!", ErrorCodes.CannotAdd));
-        }
 
-        CourseInstance newCourseInstance = new CourseInstance
+        await _repository.AddAsync(new CourseInstance
         {
             CourseId = courseInstance.CourseId,
             Name = courseInstance.Name,
             Description = courseInstance.Description,
             CourseInstanceDate = courseInstance.CourseInstanceDate,
-        };
-        await _repository.AddAsync(newCourseInstance);
+        });
 
-        CourseInstanceSimpleDTO newCourseInstanceSimpleDTO = new CourseInstanceSimpleDTO
-        {
-            CourseId = courseInstance.CourseId,
-            Name = courseInstance.Name,
-            Description = courseInstance.Description,
-            CourseInstanceDate = courseInstance.CourseInstanceDate,
-        };
-
-        /*
-        courseInstanceResult = await _repository.GetAsync(new CourseInstanceProjectionSpec(courseInstance.Name), cancellationToken);
-        var courseResult = await _repository.GetAsync(new CourseProjectionSpec(courseInstance.Name), cancellationToken);
-        if (courseResult != null)
-        {
-            courseResult.CourseInstances.Add(newCourseInstanceSimpleDTO);
-        }
-        */
 
         return ServiceResponse.ForSuccess();
     }

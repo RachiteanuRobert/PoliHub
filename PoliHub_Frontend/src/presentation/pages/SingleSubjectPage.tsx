@@ -100,10 +100,12 @@ export const SingleSubjectPage = memo(() => {
     const [search, setSearch] = useState("");
     const handleAddButtonPress = () => {
         setAddButtonPressed(true);
+        tryReload()
         // Perform any additional logic here
     };
     const handleDeleteButtonPress = () => {
         setDeleteButtonPressed(true);
+        tryReload()
         // Perform any additional logic here
     };
 
