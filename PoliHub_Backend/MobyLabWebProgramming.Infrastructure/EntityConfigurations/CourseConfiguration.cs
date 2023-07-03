@@ -43,6 +43,6 @@ public class CourseConfiguration : IEntityTypeConfiguration<Course>
              .HasForeignKey(s => s.SubjectId)
              .HasPrincipalKey(e => e.Id) 
             .IsRequired()
-            .OnDelete(DeleteBehavior.NoAction);
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }

@@ -35,6 +35,6 @@ public class CourseInstanceConfiguration : IEntityTypeConfiguration<CourseInstan
             .HasForeignKey(e => e.CourseId) // Here the foreign key column is specified.
             .HasPrincipalKey(e => e.Id) // This specifies the referenced key in the referenced table.
             .IsRequired()
-            .OnDelete(DeleteBehavior.NoAction); // This specifies the delete behavior when the referenced entity is removed.
+            .OnDelete(DeleteBehavior.Cascade); // This specifies the delete behavior when the referenced entity is removed.
     }
 }

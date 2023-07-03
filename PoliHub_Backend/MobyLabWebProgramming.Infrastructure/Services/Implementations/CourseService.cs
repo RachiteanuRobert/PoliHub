@@ -1,4 +1,5 @@
 ﻿using System.Net;
+using Microsoft.AspNetCore.Cors.Infrastructure;
 using MobyLabWebProgramming.Core.DataTransferObjects;
 using MobyLabWebProgramming.Core.Entities;
 using MobyLabWebProgramming.Core.Enums;
@@ -120,7 +121,7 @@ public class CourseService : ICourseService
         }
 
         var subjectResult = await _repository.GetAsync(new SubjectProjectionSpec(course.SubjectId), cancellationToken);
-        if (subjectResult != null)
+        if (subjectResult == null)
         {
             return ServiceResponse.FromError(new(HttpStatusCode.Forbidden, "Subject does not exist!", ErrorCodes.EntityNotFound));
         }
@@ -177,8 +178,63 @@ public class CourseService : ICourseService
         {
             return ServiceResponse.FromError(new(HttpStatusCode.Forbidden, "Only the admin can delete a course!", ErrorCodes.CannotDelete));
         }
+
+        var resultCourse = await _repository.GetAsync(new CourseSpec(id), cancellationToken);
+        if(resultCourse == null)
+        {
+            return ServiceResponse.FromError(new(HttpStatusCode.NotFound, "Course not Found!", ErrorCodes.CannotDelete));
+        }
+
+        //Delete Course Users
+        if (resultCourse.CourseUsers != null){
+            foreach (CourseUser eachUser in resultCourse.CourseUsers)
+            {
+                await _repository.DeleteAsync<CourseUser>(eachUser.Id, cancellationToken);
+            }
+        }
+
+        //Delete Course Instances
+        if (resultCourse.CourseInstances != null)
+        {
+            foreach (CourseInstance eachCourseIns in resultCourse.CourseInstances)
+            {
+                if (eachCourseIns.CourseInstanceUsers != null)
+                {
+                    foreach (CourseInstanceUser eachUser in eachCourseIns.CourseInstanceUsers)
+                    {
+                        await _repository.DeleteAsync<CourseInstanceUser>(eachUser.Id, cancellationToken);
+                    }
+                }
+
+                await _repository.DeleteAsync<CourseInstance>(eachCourseIns.Id, cancellationToken);
+            }
+        }
+
+        //Delete Laboratories
+        if (resultCourse.Laboratories != null)
+        {
+            foreach (Laboratory eachLaboratory in resultCourse.Laboratories)
+            {
+                //Delete Laboratory Instances
+                if (resultCourse.Laboratories != null) { 
+                    foreach (LaboratoryInstance eachLaboratoryIns in eachLaboratory.LaboratoryInstances)
+                    {
+                        foreach (LaboratoryInstanceUser eachUser in eachLaboratoryIns.LaboratoryInstanceUsers)
+                        {
+                            await _repository.DeleteAsync<LaboratoryInstanceUser>(eachUser.Id, cancellationToken);
+                        }
+
+                        await _repository.DeleteAsync<LaboratoryInstance>(eachLaboratory.Id, cancellationToken);
+                    }
+                }
+
+                await _repository.DeleteAsync<Laboratory>(eachLaboratory.Id, cancellationToken);
+            }
+        }
+
         await _repository.DeleteAsync<Course>(id, cancellationToken);
 
         return ServiceResponse.ForSuccess();
     }
 }
+

@@ -11,12 +11,12 @@ export const UserAddDialog = () => {
   const { formatMessage } = useIntl();
 
   return <div>
-    <Button variant="outlined" onClick={open}>
+    <Button variant="outlined" style={{ background: '#024180', color: 'white' }} onClick={open}>
       {formatMessage({ id: "labels.addUser" })}
     </Button>
     <Dialog
-      open={isOpen}
-      onClose={close}>
+        open={isOpen}
+        onClose={close}>
       <DialogTitle>
         {formatMessage({ id: "labels.addUser" })}
       </DialogTitle>

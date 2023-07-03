@@ -13,6 +13,7 @@ import { setCourseToUpdate } from "@application/state-slices/course";
 import { Course } from "@application/state-slices/course/courseSlice.types";
 import SearchIcon from '@mui/icons-material/Search';
 import {Link} from "react-router-dom";
+import InfoIcon from "@mui/icons-material/Info";
 
 const useHeader = (): { key: keyof CourseDTO; name: string }[] => {
     const { formatMessage } = useIntl();
@@ -24,7 +25,7 @@ const useHeader = (): { key: keyof CourseDTO; name: string }[] => {
         { key: "location", name: formatMessage({ id: "globals.location" }) },
         { key: "series", name: formatMessage({ id: "globals.series" }) },
         { key: "dayOfWeek", name: formatMessage({ id: "globals.dayOfWeek" }) },
-        { key: "subjectId", name: formatMessage({ id: "globals.subjectId" }) },
+        { key: "id", name: formatMessage({ id: "globals.id" }) },
     ];
 };
 
@@ -90,9 +91,10 @@ export const CourseTable = () => {
         <TableContainer component={Paper}>
             <Table>
                 <TableHead>
-                    <TableRow>
-                        {header.map(e => <TableCell key={`header_${String(e.key)}`}>{e.name}</TableCell>)}
-                        <TableCell>{formatMessage({ id: "labels.actions" })}</TableCell>
+                    <TableRow sx={{ backgroundColor: "#024180" }}>
+                        {header.map(e => <TableCell sx={{color: "#FFFFFF"}} key={`header_${String(e.key)}`}>{e.name}</TableCell>)}
+                        <TableCell sx={{ backgroundColor: "#024180", color:"#FFFFFF"}}>{formatMessage({ id: "labels.actions" })}</TableCell>
+                        <TableCell sx={{ backgroundColor: "#024180", color:"#FFFFFF"}}></TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
@@ -103,13 +105,13 @@ export const CourseTable = () => {
                                     {formatValue(keyValue.value)}
                                 </TableCell>)}
                             <TableCell>
+                                <Link to={`/courses/${entry.id}`}><InfoIcon />
+                                </Link>
+                            </TableCell>
+                            <TableCell>
                                 {entry.id !== ownUserId && <IconButton color="error" onClick={() => remove(entry.id || '')}>
                                     <DeleteIcon color="error" fontSize='small' />
                                 </IconButton>}
-                            </TableCell>
-                            <TableCell>
-                                <Link to={`/courses/${entry.id}`}>Info
-                                </Link>
                             </TableCell>
                         </TableRow>)
                     }

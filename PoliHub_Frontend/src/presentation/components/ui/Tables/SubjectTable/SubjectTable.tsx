@@ -26,6 +26,8 @@ const useHeader = (): { key: keyof SubjectDTO; name: string }[] => {
         { key: "department", name: formatMessage({ id: "globals.department" }) },
         { key: "creditsNo", name: formatMessage({ id: "globals.creditsNo" }) },
         { key: "description", name: formatMessage({ id: "globals.description" }) },
+        { key: "id", name: formatMessage({ id: "globals.id" }) }
+
     ];
 };
 

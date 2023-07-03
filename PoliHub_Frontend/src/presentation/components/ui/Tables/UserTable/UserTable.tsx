@@ -1,12 +1,25 @@
 import { useIntl } from "react-intl";
 import { isUndefined } from "lodash";
-import { IconButton, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow } from "@mui/material";
+import {
+    IconButton,
+    Input,
+    Paper,
+    Table,
+    TableBody,
+    TableCell,
+    TableContainer,
+    TableHead,
+    TablePagination,
+    TableRow
+} from "@mui/material";
 import { DataLoadingContainer } from "../../LoadingDisplay";
 import { useUserTableController } from "./UserTable.controller";
 import { UserDTO } from "@infrastructure/apis/client";
 import DeleteIcon from '@mui/icons-material/Delete';
 import { UserAddDialog } from "../../Dialogs/UserAddDialog";
 import { useAppSelector } from "@application/store";
+import SearchIcon from '@mui/icons-material/Search';
+import React, {useState} from "react";
 
 /**
  * This hook returns a header for the table with translated columns.
@@ -18,7 +31,8 @@ const useHeader = (): { key: keyof UserDTO, name: string }[] => {
         { key: "name", name: formatMessage({ id: "globals.name" }) },
         { key: "email", name: formatMessage({ id: "globals.email" }) },
         { key: "role", name: formatMessage({ id: "globals.role" }) },
-        { key: "group", name: formatMessage({ id: "globals.group" }) }
+        { key: "group", name: formatMessage({ id: "globals.group" }) },
+        { key: "id", name: formatMessage({ id: "globals.id" }) }
     ]
 };
 
@@ -41,12 +55,20 @@ export const UserTable = () => {
     const { userId: ownUserId } = useAppSelector(x => x.profileReducer);
     const { formatMessage } = useIntl();
     const header = useHeader();
+    const [search, setSearch] = useState("");
     const orderMap = header.reduce((acc, e, i) => { return { ...acc, [e.key]: i } }, {}) as { [key: string]: number }; // Get the header column order.
-    const { handleChangePage, handleChangePageSize, pagedData, isError, isLoading, tryReload, labelDisplay, remove } = useUserTableController(); // Use the controller hook.
+    const { handleChangePage, handleChangePageSize, pagedData, isError, isLoading, tryReload, labelDisplay, remove } = useUserTableController(search); // Use the controller hook.
     const rowValues = getRowValues(pagedData?.data, orderMap); // Get the row values.
 
     return <DataLoadingContainer isError={isError} isLoading={isLoading} tryReload={tryReload}> {/* Wrap the table into the loading container because data will be fetched from the backend and is not immediately available.*/}
         <UserAddDialog /> {/* Add the button to open the user add modal. */}
+        <p>
+            <Input value={search} onChange={(e: any) => {
+                setSearch(e.target.value);
+                tryReload();
+            }} />
+            <SearchIcon />
+        </p>
         {!isUndefined(pagedData) && !isUndefined(pagedData?.totalCount) && !isUndefined(pagedData?.page) && !isUndefined(pagedData?.pageSize) &&
             <TablePagination // Use the table pagination to add the navigation between the table pages.
                 component="div"
@@ -64,11 +86,11 @@ export const UserTable = () => {
         <TableContainer component={Paper}>
             <Table>
                 <TableHead>
-                    <TableRow>
+                    <TableRow sx={{ backgroundColor: "#024180" }}>
                         {
-                            header.map(e => <TableCell key={`header_${String(e.key)}`}>{e.name}</TableCell>) // Add the table header.
+                            header.map(e => <TableCell sx={{color: "#FFFFFF"}} key={`header_${String(e.key)}`}>{e.name}</TableCell>) // Add the table header.
                         }
-                        <TableCell>{formatMessage({ id: "labels.actions" })}</TableCell> {/* Add additional header columns if needed. */}
+                        <TableCell sx={{ backgroundColor: "#024180", color:"#FFFFFF"}}>{formatMessage({ id: "labels.actions" })}</TableCell> {/* Add additional header columns if needed. */}
                     </TableRow>
                 </TableHead>
                 <TableBody>
