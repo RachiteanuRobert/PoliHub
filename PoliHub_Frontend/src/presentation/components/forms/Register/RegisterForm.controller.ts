@@ -112,7 +112,6 @@ export const useRegisterFormController = (): RegisterFormController => {
     const submit = useCallback((data: RegisterFormModel) =>
         signUp(data).then((result) => {
             toast(formatMessage({ id: "notifications.messages.registerSuccess" }));
-            redirectToLogin();
         }), [signUp, queryClient, redirectToLogin, dispatch]);
 
     const {

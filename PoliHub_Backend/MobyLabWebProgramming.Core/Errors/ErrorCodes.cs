@@ -13,9 +13,18 @@ public enum ErrorCodes
     EntityNotFound,
     PhysicalFileNotFound,
     UserAlreadyExists,
+    CourseAlreadyExists,
+    SubjectAlreadyExists,
+    LaboratoryAlreadyExists,
+    CourseInstanceAlreadyExists,
+    LaboratoryInstanceAlreadyExists,
     WrongPassword,
     CannotAdd,
     CannotUpdate,
     CannotDelete,
+    BadUserId,
+    BadCourseId,
+    BadSubjectId,
+    BadLaboratoryId,
     MailSendFailed
 }

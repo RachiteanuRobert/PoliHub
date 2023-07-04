@@ -100,7 +100,7 @@ public class LaboratoryInstanceService : ILaboratoryInstanceService
         var result = await _repository.GetAsync(new LaboratoryInstanceProjectionSpec(laboratoryInstance.LaboratoryId), cancellationToken);
         if (result != null)
         {
-            return ServiceResponse.FromError(new(HttpStatusCode.Forbidden, "Laboratory Instance already exists!", ErrorCodes.CannotAdd));
+            return ServiceResponse.FromError(new(HttpStatusCode.Forbidden, "Laboratory Instance already exists!", ErrorCodes.LaboratoryInstanceAlreadyExists));
         }
 
         await _repository.AddAsync(new LaboratoryInstance

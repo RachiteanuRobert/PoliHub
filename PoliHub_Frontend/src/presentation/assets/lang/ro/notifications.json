@@ -1,5 +1,11 @@
 {
     "notifications.messages.authenticationSuccess": "V-ati autentificat cu succes!",
+    "notifications.messages.registerSuccess": "Utilizatorul a fost inregistrat cu succes!",
+    "notifications.messages.courseAddSuccess": "Cursul a fost adaugat cu succes!",
+    "notifications.messages.subjectAddSuccess": "Materia a fost adaugata cu succes!",
+    "notifications.messages.laboratoryAddSuccess": "Laboratorul a fost adaugat cu succes!",
+    "notifications.messages.laboratoryInstanceAddSuccess": "Instanta de laborator a fost adaugata cu succes!",
+    "notifications.messages.courseInstanceAddSuccess": "Instanta de curs a fost adaugata cu succes!",
     "notifications.errors.sessionExpired": "Sesiunea a expirat, vă rugăm să vă conectați din nou!",
     "notifications.errors.accessDenied": "Acces Interzis! Permisiuni insuficiente.",
     "notifications.errors.unknownHappened": "A apărut o eroare necunoscută!",
@@ -13,6 +19,10 @@
     "notifications.errors.physicalFileNotFound": "Fișierul nu a fost găsit!",
     "notifications.errors.technicalError": "A apărut o eroare tehnică, vă rugăm să contactați asistența!",
     "notifications.errors.userAlreadyExists": "Utilizatorul există deja!",
+    "notifications.errors.courseAlreadyExists": "Cursul există deja!",
+    "notifications.errors.subjectAlreadyExists": "Materia există deja!",
+    "notifications.errors.laboratoryAlreadyExists": "Laboratorul există deja!",
     "notifications.errors.courseInstanceAlreadyExists": "Instanta de curs există deja!",
+    "notifications.errors.laboratoryInstanceAlreadyExists": "Instanta de laborator există deja!",
     "notifications.errors.wrongPassword": "Ați introdus o parolă greșită!"
 }

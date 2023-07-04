@@ -28,7 +28,7 @@ public class CourseService : ICourseService
 
         return result != null ?
             ServiceResponse<CourseDTO>.ForSuccess(result) :
-            ServiceResponse<CourseDTO>.FromError(new(HttpStatusCode.Forbidden, "Course not found!", ErrorCodes.EntityNotFound));
+            ServiceResponse<CourseDTO>.FromError(new(HttpStatusCode.Forbidden, "Course not found!", ErrorCodes.BadCourseId));
     }
 
     public async Task<ServiceResponse<PagedResponse<CourseDTO>>> GetCourses(PaginationSearchQueryParams pagination, CancellationToken cancellationToken)
@@ -58,13 +58,13 @@ public class CourseService : ICourseService
         var course = await _repository.GetAsync(new CourseSpec(userCourseIds.CourseId), cancellationToken);
         if (course == null)
         {
-            return ServiceResponse.FromError(new(HttpStatusCode.NotFound, "Bad course Id provided!", ErrorCodes.EntityNotFound));
+            return ServiceResponse.FromError(new(HttpStatusCode.NotFound, "Bad course Id provided!", ErrorCodes.BadCourseId));
         }
 
         var user = await _repository.GetAsync(new UserSpec(userCourseIds.UserId), cancellationToken);
         if (user == null)
         {
-            return ServiceResponse.FromError(new(HttpStatusCode.NotFound, "Bad user id provided!", ErrorCodes.EntityNotFound));
+            return ServiceResponse.FromError(new(HttpStatusCode.NotFound, "Bad user id provided!", ErrorCodes.BadUserId));
         }
 
         // Verify if user is enrolled
@@ -117,13 +117,13 @@ public class CourseService : ICourseService
         var courseResult = await _repository.GetAsync(new CourseProjectionSpec(course.ProfessorName), cancellationToken);
         if (courseResult != null)
         {
-            return ServiceResponse.FromError(new(HttpStatusCode.Forbidden, "Course already exists!", ErrorCodes.CannotAdd));
+            return ServiceResponse.FromError(new(HttpStatusCode.Forbidden, "Course already exists!", ErrorCodes.CourseAlreadyExists));
         }
 
         var subjectResult = await _repository.GetAsync(new SubjectSpec(course.SubjectId), cancellationToken);
         if (subjectResult == null)
         {
-            return ServiceResponse.FromError(new(HttpStatusCode.Forbidden, "Subject does not exist!", ErrorCodes.EntityNotFound));
+            return ServiceResponse.FromError(new(HttpStatusCode.Forbidden, "Subject does not exist!", ErrorCodes.BadSubjectId));
         }
 
         await _repository.AddAsync(new Course
@@ -177,7 +177,7 @@ public class CourseService : ICourseService
         var resultCourse = await _repository.GetAsync(new CourseSpec(id), cancellationToken);
         if(resultCourse == null)
         {
-            return ServiceResponse.FromError(new(HttpStatusCode.NotFound, "Course not Found!", ErrorCodes.CannotDelete));
+            return ServiceResponse.FromError(new(HttpStatusCode.NotFound, "Course not Found!", ErrorCodes.BadCourseId));
         }
 
         //Delete Course Users

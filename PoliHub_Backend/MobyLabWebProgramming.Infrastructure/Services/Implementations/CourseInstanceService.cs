@@ -64,7 +64,7 @@ public class CourseInstanceService : ICourseInstanceService
         var user = await _repository.GetAsync(new UserSpec(userCourseInstanceIds.UserId), cancellationToken);
         if (user == null)
         {
-            return ServiceResponse.FromError(new(HttpStatusCode.NotFound, "Bad user id provided!", ErrorCodes.EntityNotFound));
+            return ServiceResponse.FromError(new(HttpStatusCode.NotFound, "Bad user id provided!", ErrorCodes.BadUserId));
         }
 
         // Verify if user is enrolled
@@ -97,7 +97,7 @@ public class CourseInstanceService : ICourseInstanceService
         var result = await _repository.GetAsync(new CourseInstanceProjectionSpec(courseInstance.Name), cancellationToken);
         if (result != null)
         {
-            return ServiceResponse.FromError(new(HttpStatusCode.NotFound, "Course Instance already exists!", ErrorCodes.CannotAdd));
+            return ServiceResponse.FromError(new(HttpStatusCode.NotFound, "Course Instance already exists!", ErrorCodes.CourseInstanceAlreadyExists));
         }
 
 

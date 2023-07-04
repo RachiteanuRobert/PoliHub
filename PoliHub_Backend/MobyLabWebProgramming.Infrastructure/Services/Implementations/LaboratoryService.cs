@@ -28,7 +28,7 @@ public class LaboratoryService : ILaboratoryService
 
         return result != null ?
             ServiceResponse<LaboratoryDTO>.ForSuccess(result) :
-            ServiceResponse<LaboratoryDTO>.FromError(new(HttpStatusCode.Forbidden, "Laboratory not found!", ErrorCodes.EntityNotFound));
+            ServiceResponse<LaboratoryDTO>.FromError(new(HttpStatusCode.Forbidden, "Laboratory not found!", ErrorCodes.BadLaboratoryId));
     }
     public async Task<ServiceResponse<PagedResponse<LaboratoryDTO>>> GetLaboratories(PaginationSearchQueryParams pagination, CancellationToken cancellationToken)
     {
@@ -48,13 +48,13 @@ public class LaboratoryService : ILaboratoryService
         var laboratory = await _repository.GetAsync(new LaboratorySpec(userLaboratoryIds.LaboratoryId), cancellationToken);
         if (laboratory == null)
         {
-            return ServiceResponse.FromError(new(HttpStatusCode.Forbidden, "Bad Laboratory Id provided!", ErrorCodes.EntityNotFound));
+            return ServiceResponse.FromError(new(HttpStatusCode.Forbidden, "Bad Laboratory Id provided!", ErrorCodes.BadLaboratoryId));
         }
 
         var user = await _repository.GetAsync(new UserSpec(userLaboratoryIds.UserId), cancellationToken);
         if (user == null)
         {
-            return ServiceResponse.FromError(new(HttpStatusCode.NotFound, "Bad user id provided!", ErrorCodes.EntityNotFound));
+            return ServiceResponse.FromError(new(HttpStatusCode.NotFound, "Bad user id provided!", ErrorCodes.BadUserId));
         }
 
         // Verify if user is enrolled
@@ -109,14 +109,14 @@ public class LaboratoryService : ILaboratoryService
         var result = await _repository.GetAsync(new LaboratoryProjectionSpec(laboratory.AssistantName), cancellationToken);
         if (result != null)
         {
-            return ServiceResponse.FromError(new(HttpStatusCode.NotFound, "Laboratory already exists!", ErrorCodes.CannotAdd));
+            return ServiceResponse.FromError(new(HttpStatusCode.NotFound, "Laboratory already exists!", ErrorCodes.LaboratoryAlreadyExists));
         }
 
         
         var courseResult = await _repository.GetAsync(new CourseSpec(laboratory.CourseId), cancellationToken);
         if (courseResult == null)
         {
-            return ServiceResponse.FromError(new(HttpStatusCode.NotFound, "Course already exists!", ErrorCodes.EntityNotFound));
+            return ServiceResponse.FromError(new(HttpStatusCode.NotFound, "Course doesn't exist!", ErrorCodes.BadCourseId));
         }
 
 

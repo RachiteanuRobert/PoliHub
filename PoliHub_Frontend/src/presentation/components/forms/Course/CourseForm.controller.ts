@@ -9,6 +9,7 @@ import { useCourseApi } from "@infrastructure/apis/api-management";
 import { useCallback } from "react";
 import { useAppSelector } from "@application/store";
 import { FormActions } from "@infrastructure/utils/formUtils";
+import {toast} from "react-toastify";
 
 /**
  * Use a function to return the default values of the form and the validation schema.
@@ -146,6 +147,7 @@ const useInitCourseForm = (action: FormActions) => {
     return { defaultValues, resolver };
 }
 export const useCourseFormController = (action: FormActions, onSubmit?: () => void): CourseFormController => {
+    const { formatMessage } = useIntl();
     const { defaultValues, resolver } = useInitCourseForm(action);
     const {
         addCourse: {
@@ -164,6 +166,7 @@ export const useCourseFormController = (action: FormActions, onSubmit?: () => vo
     const queryClient = useQueryClient();
     const submit = useCallback((data: CourseFormModel) => // Create a submit callback to send the form data to the backend.
         mutate(data).then(() => {
+            toast(formatMessage({ id: "notifications.messages.courseAddSuccess" }));
             queryClient.invalidateQueries([queryKey]); // If the form submission succeeds then some other queries need to be refresh so invalidate them to do a refresh.
 
             if (onSubmit) {
@@ -175,7 +178,6 @@ export const useCourseFormController = (action: FormActions, onSubmit?: () => vo
         register,
         handleSubmit,
         watch,
-        setValue,
         formState: { errors }
     } = useForm<CourseFormModel>({ // Use the useForm hook to get callbacks and variables to work with the form.
         defaultValues, // Initialize the form with the default values.
