@@ -36,8 +36,32 @@ const getTranslationIdForKey = (code?: ErrorCodes) => {
         case ErrorCodes.UserAlreadyExists:
             return { id: "notifications.errors.userAlreadyExists" };
 
+        case ErrorCodes.CourseAlreadyExists:
+            return { id: "notifications.errors.courseAlreadyExists" };
+
+        case ErrorCodes.SubjectAlreadyExists:
+            return { id: "notifications.errors.subjectAlreadyExists" };
+
+        case ErrorCodes.LaboratoryAlreadyExists:
+            return { id: "notifications.errors.laboratoryAlreadyExists" };
+
+        case ErrorCodes.LaboratoryInstanceAlreadyExists:
+            return { id: "notifications.errors.laboratoryInstanceAlreadyExists" };
+
         case ErrorCodes.CourseInstanceAlreadyExists:
             return { id: "notifications.errors.courseInstanceAlreadyExists" };
+
+        case ErrorCodes.BadUserId:
+            return { id: "notifications.errors.badUserId" };
+
+        case ErrorCodes.BadSubjectId:
+            return { id: "notifications.errors.badSubjectId" };
+
+        case ErrorCodes.BadCourseId:
+            return { id: "notifications.errors.badCourseId" };
+
+        case ErrorCodes.BadLaboratoryId:
+            return { id: "notifications.errors.badLaboratoryId" };
 
         case ErrorCodes.WrongPassword:
             return { id: "notifications.errors.wrongPassword" };

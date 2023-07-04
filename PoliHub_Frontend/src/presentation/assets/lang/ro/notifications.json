@@ -24,5 +24,9 @@
     "notifications.errors.laboratoryAlreadyExists": "Laboratorul există deja!",
     "notifications.errors.courseInstanceAlreadyExists": "Instanta de curs există deja!",
     "notifications.errors.laboratoryInstanceAlreadyExists": "Instanta de laborator există deja!",
+    "notifications.errors.badUserId": "Id-ul utilizatorului nu este corect!",
+    "notifications.errors.badSubjectId": "Id-ul materiei nu este corect!",
+    "notifications.errors.baCoursedId": "Id-ul cursului nu este corect!",
+    "notifications.errors.badLaboratoryId": "Id-ul laboratorului nu este corect!",
     "notifications.errors.wrongPassword": "Ați introdus o parolă greșită!"
 }

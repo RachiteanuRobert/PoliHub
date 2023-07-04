@@ -13,13 +13,6 @@
  */
 
 import { exists, mapValues } from '../runtime';
-import type { SubjectUser } from './SubjectUser';
-import {
-    SubjectUserFromJSON,
-    SubjectUserFromJSONTyped,
-    SubjectUserToJSON,
-} from './SubjectUser';
-
 /**
  * 
  * @export
@@ -68,12 +61,6 @@ export interface SubjectUpdateDTO {
      * @memberof SubjectUpdateDTO
      */
     creditsNo?: string | null;
-    /**
-     * 
-     * @type {Array<SubjectUser>}
-     * @memberof SubjectUpdateDTO
-     */
-    subjectUsers?: Array<SubjectUser> | null;
 }
 
 /**
@@ -102,7 +89,6 @@ export function SubjectUpdateDTOFromJSONTyped(json: any, ignoreDiscriminator: bo
         'department': !exists(json, 'department') ? undefined : json['department'],
         'description': !exists(json, 'description') ? undefined : json['description'],
         'creditsNo': !exists(json, 'creditsNo') ? undefined : json['creditsNo'],
-        'subjectUsers': !exists(json, 'subjectUsers') ? undefined : (json['subjectUsers'] === null ? null : (json['subjectUsers'] as Array<any>).map(SubjectUserFromJSON)),
     };
 }
 
@@ -122,7 +108,6 @@ export function SubjectUpdateDTOToJSON(value?: SubjectUpdateDTO | null): any {
         'department': value.department,
         'description': value.description,
         'creditsNo': value.creditsNo,
-        'subjectUsers': value.subjectUsers === undefined ? undefined : (value.subjectUsers === null ? null : (value.subjectUsers as Array<any>).map(SubjectUserToJSON)),
     };
 }
 

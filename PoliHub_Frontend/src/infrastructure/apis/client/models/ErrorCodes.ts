@@ -23,10 +23,19 @@ export const ErrorCodes = {
     EntityNotFound: 'EntityNotFound',
     PhysicalFileNotFound: 'PhysicalFileNotFound',
     UserAlreadyExists: 'UserAlreadyExists',
+    CourseAlreadyExists: 'CourseAlreadyExists',
+    SubjectAlreadyExists: 'SubjectAlreadyExists',
+    LaboratoryAlreadyExists: 'LaboratoryAlreadyExists',
+    CourseInstanceAlreadyExists: 'CourseInstanceAlreadyExists',
+    LaboratoryInstanceAlreadyExists: 'LaboratoryInstanceAlreadyExists',
     WrongPassword: 'WrongPassword',
     CannotAdd: 'CannotAdd',
     CannotUpdate: 'CannotUpdate',
     CannotDelete: 'CannotDelete',
+    BadUserId: 'BadUserId',
+    BadCourseId: 'BadCourseId',
+    BadSubjectId: 'BadSubjectId',
+    BadLaboratoryId: 'BadLaboratoryId',
     MailSendFailed: 'MailSendFailed'
 } as const;
 export type ErrorCodes = typeof ErrorCodes[keyof typeof ErrorCodes];
